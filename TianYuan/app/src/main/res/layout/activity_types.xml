@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y92"
+        android:background="@color/color_market"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textsize_sp_20"
+        android:text="二手书交易"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="@dimen/y10"
+        />
+    <TextView
+        android:id="@+id/choice_type"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y60"
+        android:text="筛选"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textsize_sp_16"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/y32"
+        android:gravity="center"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/books"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/y95"
+        />
+
+</RelativeLayout>

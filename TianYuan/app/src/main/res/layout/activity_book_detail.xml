@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_reg"
+    android:fitsSystemWindows="true"
+    >
+
+    <include layout="@layout/block_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/y54"
+        android:layout_marginBottom="@dimen/y66"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/book_pic"
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y200"
+            android:layout_marginTop="@dimen/x40"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_setting_btn"
+            />
+
+        <TextView
+            android:id="@+id/book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_pic"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:maxLines="1"
+            android:text="这是一本书"
+            android:textColor="@color/grey_color1"
+            android:textSize="@dimen/textsize_sp_18"
+            />
+
+        <TextView
+            android:id="@+id/book_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_name"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_marginLeft="@dimen/x22"
+            android:text="12.00元"
+            android:textColor="@color/warn_bg"
+            android:textSize="@dimen/textsize_sp_14"
+            />
+
+        <TextView
+            android:id="@+id/book_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_price"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:text="这是书本的表述"
+            android:textColor="@color/grey_color2"
+            android:textSize="@dimen/textsize_sp_16"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_marginLeft="@dimen/x22"
+            android:textColor="@color/grey_color1"
+            android:textSize="@dimen/textsize_sp_18"
+            android:text="评价"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/book_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/y20"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:layout_marginBottom="@dimen/y5"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/book_op_block"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y66"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_warn"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:divider="@drawable/linearlayout_divder_alpha_15"
+        >
+        <TextView
+            android:id="@+id/fravite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_sp_16"
+            android:background="@drawable/list_item_ripple"
+            android:clickable="true"
+            android:text="收藏"
+            />
+        <TextView
+            android:id="@+id/add_to_car"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_sp_16"
+            android:text="加入购物车"
+            android:background="@drawable/list_item_ripple"
+            android:clickable="true"
+            />
+        <TextView
+            android:id="@+id/buy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_sp_16"
+            android:text="直接购买"
+            android:background="@drawable/list_item_ripple"
+            android:clickable="true"
+            />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

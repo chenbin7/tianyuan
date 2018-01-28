@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--common-->
+    <color name="color_white">#FFFFFF</color>
+
+    <color name="color_text_v2">#C9F4FC</color>
+    <color name="color_text">#B6E2EA</color>
+    <color name="color_text_blue">#438BB0</color>
+    <color name="color_text_hint">#CCB6E2EA</color>
+    <color name="color_text_hint_20">#3DB6E2EA</color>
+    <color name="color_text_warn">#50E3C2</color>
+    <color name="color_detail_warn">#48E3FF</color>
+
+    <color name="color_shine">#82F5EF</color>
+    <color name="color_shine_dim">#A0B0BE</color>
+
+    <color name="color_btn_normal">#B6E2EA</color>
+    <color name="color_btn_preseed">#80B6E2EA</color>
+    <color name="color_btn_unenable">#4DB6E2EA</color>
+    <color name="color_btn_text">#166575</color>
+
+    <color name="door_info_warning">#50E3C2</color>
+    <color name="user_shine_text_color">#50E3C2</color>
+
+    <color name="alpha_3">#08FFFFFF</color>
+    <color name="alpha_5">#0CFFFFFF</color>
+    <color name="alpha_10">#1AFFFFFF</color>
+    <color name="alpha_15">#26FFFFFF</color>
+    <color name="alpha_20">#3DFFFFFF</color>
+    <color name="alpha_25">#40FFFFFF</color>
+    <color name="alpha_80">#CCFFFFFF</color>
+
+    <color name="warn_shine">#FFFF00</color>
+    <color name="warn_dim">#99FFFF00</color>
+    <color name="warn_bg">#CC4240</color>
+    <color name="warn_bg_pressed">#99CC4240</color>
+
+    <color name="color_experience_text">#B6E2EA</color>
+    <color name="color_experience_text_dim">#8CB6E2EA</color>
+
+    <color name="color_normal">#50E3C2</color>
+    <color name="color_warn">#F4923A</color>
+    <color name="color_last">#1C8FF7</color>
+    <color name="color_line_mark">#C9F4FC</color>
+
+    <color name="color_pm25_in">#20CC19</color>
+    <color name="color_pm25_out">#E6D54F</color>
+
+    <color name="separate_color">#d7d7d7</color>
+    <color name="broder">#a0a0a0</color>
+    <color name="select_broder">#898787</color>
+    <color name="color_market">#e55f24</color>
+    <color name="ic_taobao">#ea8010</color>
+    <color name="ic_yellow">#f4c600</color>
+    <color name="ic_red">#eb4f38</color>
+    <color name="white">#ffffff</color>
+    <color name="light_white">#fcfcfc</color>
+
+    <!-- 灰色 -->
+    <color name="gray">#808080</color>
+    <color name="grey_color1">#333333</color>
+    <color name="grey_color2">#666666</color>
+    <color name="grey_color3">#999999</color>
+
+</resources>

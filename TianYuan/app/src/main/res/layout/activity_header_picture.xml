@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/bg_login_reg"
+    tools:context=".user.headerpic.HeaderPictureActivity">
+
+    <include layout="@layout/block_toolbar"/>
+
+    <cn.tianyuan.user.headerpic.cropper.CropImageView
+        android:visibility="gone"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/x78"
+        />
+
+    <ImageView
+        android:id="@+id/show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/selector"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y300"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:textSize="@dimen/textsize_sp_18"
+            android:text="本地上传"
+            android:onClick="getPictureFromPhoto"
+            />
+
+        <Button
+            android:id="@+id/btn_camera"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:textSize="@dimen/textsize_sp_18"
+            android:text="拍照上传"
+            android:onClick="getPictureFromCamera"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"
+            android:layout_marginLeft="@dimen/x22"
+            android:layout_marginRight="@dimen/x22"
+            android:layout_marginTop="@dimen/y30"
+            android:textSize="@dimen/textsize_sp_18"
+            android:text="取消"
+            android:onClick="cancel"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

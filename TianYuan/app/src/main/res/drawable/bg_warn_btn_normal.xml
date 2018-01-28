@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/warn_bg"/>
+    <size
+        android:width="@dimen/x242"
+        android:height="@dimen/y76" />
+    <corners android:radius="@dimen/y38"/>
+</shape>

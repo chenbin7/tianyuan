@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_reg"
+    android:fitsSystemWindows="true"
+    tools:context=".user.addr.MyAddrActivity">
+
+    <include layout="@layout/block_toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/addr_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/y56"
+        android:onClick="addNewAddr">
+
+        <ImageView
+            android:layout_width="@dimen/x84"
+            android:layout_height="@dimen/y84"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/add1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y105"
+            android:text="点击添加"
+            android:textColor="@color/color_text_hint"
+            android:textSize="@dimen/textsize_sp_16" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/addr_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/addr_add"
+        android:layout_marginBottom="@dimen/y22"
+        android:layout_marginTop="@dimen/y77" />
+
+
+    <RelativeLayout
+        android:id="@+id/no_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y270">
+
+        <ImageView
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/y158"
+            android:src="@drawable/not_installed" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y194"
+            android:text="暂未添加地址"
+            android:textColor="@color/color_text_hint"
+            android:textSize="@dimen/textsize_sp_16" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

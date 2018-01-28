@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y92"
+        android:background="@color/color_market"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/textsize_sp_20"
+        android:text="二手书交易"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="@dimen/y10"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/y92"
+        android:layout_marginBottom="50dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FF55AA"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="畅销书榜"
+                android:textSize="@dimen/textsize_sp_24"
+                android:textColor="@color/grey_color1"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_marginLeft="@dimen/x22"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/changxiao"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y200"
+                android:layout_marginTop="@dimen/y10"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y1"
+                android:background="@color/grey_color3"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_marginBottom="@dimen/y10"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="限时特价"
+                android:textSize="@dimen/textsize_sp_24"
+                android:textColor="@color/grey_color1"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_marginLeft="@dimen/x22"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tejia"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y200"
+                android:layout_marginTop="@dimen/y10"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbtn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawablePadding="@dimen/padding_tab_bottom_drawable"
+            android:drawableTop="@drawable/tab_item_home_selector"
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal"
+            android:text="@string/tab_item_home_"
+            android:textSize="@dimen/font_size_tab_item" />
+
+        <RadioButton
+            android:id="@+id/rbtn_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/padding_tab_bottom_drawable"
+            android:drawableTop="@drawable/tab_item_category_selector"
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal"
+            android:text="@string/tab_item_category_"
+            android:textSize="@dimen/font_size_tab_item" />
+
+        <RadioButton
+            android:id="@+id/rbtn_shopcart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/padding_tab_bottom_drawable"
+            android:drawableTop="@drawable/tab_item_shopcart_selector"
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal"
+            android:text="@string/tab_item_shopcart_"
+            android:textSize="@dimen/font_size_tab_item" />
+
+        <RadioButton
+            android:id="@+id/rbtn_mine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/padding_tab_bottom_drawable"
+            android:drawableTop="@drawable/tab_item_mine_selector"
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal"
+            android:text="@string/tab_item_mine_"
+            android:textSize="@dimen/font_size_tab_item" />
+    </RadioGroup>
+
+
+</RelativeLayout>

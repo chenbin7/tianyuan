@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.tianyuan">
+
+    <!--network-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!--相机-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--高德地图-->
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <application
+        android:name=".TYApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".common.login.LoginActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".common.register.RegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".common.forget.ForgetPwdActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name=".home.HomeActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>
+        <activity android:name=".search.SerachBookActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
+        <activity android:name=".detail.BookDetailActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
+
+        <activity android:name=".shopcar.ShopCarActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.UserActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
+        <activity android:name=".user.account.modifypwd.ModifyPwdActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.account.AccountActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.addr.MyAddrActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.addr.update.UpdateAddrActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.headerpic.HeaderPictureActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".map.MapActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".mart.sell.SellBookActivity" android:screenOrientation="portrait"/>
+
+
+        <!-- *******  AMapLocation  *********************************************************************-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="19812015c5aaf608e181eff298e3f05e"/>
+        <service android:name="com.amap.api.location.APSService"/>
+        <!-- *******  AMapLocation  *********************************************************************-->
+
+    </application>
+
+</manifest>
