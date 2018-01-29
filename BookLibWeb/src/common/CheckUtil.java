@@ -33,29 +33,29 @@ public class CheckUtil {
         return true;
     }
 
-    public static JSON getResponseBody(int code){
+    public static String getResponseBody(int code){
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", "err_msg");
         System.out.println(json.toString());
-        return json;
+        return json.toString();
     }
 
-    public static JSONObject getResponseBody(int code, JSONObject data){
+    public static String getResponseBody(int code, JSONObject data){
     	JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", "err_msg");
         json.put("data", data);
         System.out.println(json);
-        return json;
+        return json.toString();
     }
 
-    public static JSONObject getResponseBody(int code, JSONArray data){
+    public static String getResponseBody(int code, JSONArray data){
     	JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", "err_msg");
         json.put("data", data);
         System.out.println(json);
-        return json;
+        return json.toString();
     }
 }

@@ -15,6 +15,7 @@ import com.mysql.jdbc.Connection;
 import common.CheckUtil;
 import common.UUID;
 import jdbc.JdbcUtil;
+import net.sf.json.JSONObject;
 
 /**
  * Servlet implementation class register
@@ -47,41 +48,41 @@ public class getInfo extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("doPost");
 		String userid = request.getParameter("userId");
-		String oldPasswd = request.getParameter("oldPasswd");
-		String passwd = request.getParameter("newPasswd");
-		System.out.println("userid:"+userid+"  oldPasswd:"+oldPasswd);
-		if(!CheckUtil.checkParamsNotNull(3, userid, oldPasswd, passwd)) {
+		System.out.println("userid:"+userid);
+		if(!CheckUtil.checkParamsNotNull(1, userid)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}
 		if(!hasAccount(userid)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_USER_NO_REG).toString());
 		} else {			
-			doModify(userid, oldPasswd, passwd, response);
+			doGetInfo(userid, response);
 		}
 	}
 	
-	private void doModify(String userid, String oldpasswd , String passwd, HttpServletResponse response) {
+	private void doGetInfo(String userid,HttpServletResponse response) {
 		System.out.println("doRegister");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update user set passwd = ? where id = ? and passwd = ?";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, passwd);		
-			statement.setObject(2, userid);
-			statement.setObject(3, oldpasswd);
-	        int result = statement.executeUpdate();
-	        System.out.println("result = "+result);
-	        if(result > 0) {
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC).toString());
+			String sql = "select * from user where id = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);		
+			statement.setObject(1, userid);
+	        ResultSet set = statement.executeQuery();
+	        if(set.next()) {
+	        	JSONObject json = new JSONObject(); 
+	        	json.put("userId", userid);
+                json.put("userName", set.getString("name"));
+                json.put("userHeadPic", set.getString("picture"));
+                json.put("telephone", set.getString("phone"));
+                System.out.println("result = "+json);
+                response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC, json));
 	        } else {
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON));
 			}
+	        //todo
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		
 	}
 	
 	private boolean hasAccount(String userid) {
