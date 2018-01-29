@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BookLibWeb</display-name>
+  <!-- ******************************** -->
+   <servlet>
+    <servlet-name>findback</servlet-name>
+    <servlet-class>logic.findback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>findback</servlet-name>
+    <url-pattern>/logic/findback</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>getAuthSms</servlet-name>
+    <servlet-class>logic.user.getAuthSms</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAuthSms</servlet-name>
+    <url-pattern>/logic/user/getAuthSms</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>getSmsCode</servlet-name>
+    <servlet-class>logic.sms.getSmsCode</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getSmsCode</servlet-name>
+    <url-pattern>/logic/sms/getSmsCode</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>register</servlet-name>
+    <servlet-class>logic.register</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/logic/register</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>sms</servlet-name>
+    <servlet-class>logic.login.sms</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>sms</servlet-name>
+    <url-pattern>/logic/login/sms</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>passwd</servlet-name>
+    <servlet-class>logic.login.passwd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>passwd</servlet-name>
+    <url-pattern>/logic/login/passwd</url-pattern>
+  </servlet-mapping>
+  <!-- ******************************** -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

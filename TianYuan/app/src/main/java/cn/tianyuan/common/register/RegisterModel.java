@@ -10,6 +10,7 @@ import cn.tianyuan.common.util.CheckSum;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 /**
  * Created by Administrator on 2017/8/29.
@@ -57,6 +58,7 @@ public class RegisterModel {
                            }, new Consumer<Throwable>() {
                                @Override
                                public void accept(Throwable throwable) throws Exception {
+                                   Log.e(TAG, "accept: " + ((HttpException)throwable));
                                    if(listener != null){
                                        listener.check(throwable);
                                    }

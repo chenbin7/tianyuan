@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface IRegister {
 
     @FormUrlEncoded
-    @POST("/logic/register")
+    @POST("/BookLibWeb/logic/register")
     Observable<SimpleResponse> register(
             @Field("smsCode") String smsCode,
             @Field("telephone") String telephone,

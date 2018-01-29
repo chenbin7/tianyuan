@@ -27,7 +27,7 @@ public class CommentDao extends AbstractDao<Comment, String> {
         public final static Property Id = new Property(0, String.class, "id", true, "ID");
         public final static Property BookId = new Property(1, String.class, "bookId", false, "BOOK_ID");
         public final static Property UserId = new Property(2, String.class, "userId", false, "USER_ID");
-        public final static Property Content = new Property(3, String.class, "content", false, "CONTENT");
+        public final static Property Comment = new Property(3, String.class, "comment", false, "COMMENT");
     }
 
 
@@ -46,7 +46,7 @@ public class CommentDao extends AbstractDao<Comment, String> {
                 "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: id
                 "\"BOOK_ID\" TEXT," + // 1: bookId
                 "\"USER_ID\" TEXT," + // 2: userId
-                "\"CONTENT\" TEXT);"); // 3: content
+                "\"COMMENT\" TEXT);"); // 3: comment
     }
 
     /** Drops the underlying database table. */
@@ -74,9 +74,9 @@ public class CommentDao extends AbstractDao<Comment, String> {
             stmt.bindString(3, userId);
         }
  
-        String content = entity.getContent();
-        if (content != null) {
-            stmt.bindString(4, content);
+        String comment = entity.getComment();
+        if (comment != null) {
+            stmt.bindString(4, comment);
         }
     }
 
@@ -99,9 +99,9 @@ public class CommentDao extends AbstractDao<Comment, String> {
             stmt.bindString(3, userId);
         }
  
-        String content = entity.getContent();
-        if (content != null) {
-            stmt.bindString(4, content);
+        String comment = entity.getComment();
+        if (comment != null) {
+            stmt.bindString(4, comment);
         }
     }
 
@@ -116,7 +116,7 @@ public class CommentDao extends AbstractDao<Comment, String> {
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // bookId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userId
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // content
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // comment
         );
         return entity;
     }
@@ -126,7 +126,7 @@ public class CommentDao extends AbstractDao<Comment, String> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setBookId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setUserId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setContent(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setComment(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override
