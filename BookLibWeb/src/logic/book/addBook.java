@@ -1,11 +1,10 @@
-package logic.user;
+package logic.book;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,16 +16,16 @@ import common.UUID;
 import jdbc.JdbcUtil;
 
 /**
- * Servlet implementation class register
+ * Servlet implementation class addBook
  */
-
-public class modifyPasswd extends HttpServlet {
+@WebServlet("/addBook")
+public class addBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public modifyPasswd() {
+    public addBook() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,7 +35,6 @@ public class modifyPasswd extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doGet");
 		response.getWriter().append("none");
 	}
 
@@ -45,31 +43,41 @@ public class modifyPasswd extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  modifyPasswd");
-		String userid = request.getParameter("userId");
-		String oldPasswd = request.getParameter("oldPasswd");
-		String passwd = request.getParameter("newPasswd");
-		System.out.println("userid:"+userid+"  oldPasswd:"+oldPasswd);
-		if(!CheckUtil.checkParamsNotNull(3, userid, oldPasswd, passwd)) {
+		System.out.println("doPost  addBook");
+		String userId = request.getParameter("userId");
+        String type = request.getParameter("bookType");
+        String name = request.getParameter("bookName");
+        String priceStr = request.getParameter("bookPrice");
+        String sellSum = request.getParameter("sellSum");
+        String desc = request.getParameter("bookDesc");
+        String uri = request.getParameter("bookUri");
+		System.out.println("userid:"+userId+"  "+type+"  :"+name+"  "+priceStr+"  "+desc+"  "+uri);
+		if(!CheckUtil.checkParamsNotNull(6, userId, type, name, priceStr, desc, uri)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
-		}
-		if(!hasAccount(userid)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_USER_NO_REG).toString());
-		} else {			
-			doModify(userid, oldPasswd, passwd, response);
-		}
+		}		
+		int price = Integer.parseInt(priceStr);
+		int sell = Integer.parseInt(sellSum);
+		doAddAddress(userId, type, name, price, sell, desc, uri,response);
 	}
 	
-	private void doModify(String userid, String oldpasswd , String passwd, HttpServletResponse response) {
-		System.out.println("doRegister");
+	private void doAddAddress(String userId, String type, String name, int price, int sell, String desc, String uri, HttpServletResponse response) {
+		System.out.println("doAddBook");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update user set passwd = ? where id = ? and passwd = ?";
+			String sql = "insert into book(id,userid,typeid,name,descriptor,price,sellsum,storesum,addtime,picture) VALUES(?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, passwd);		
-			statement.setObject(2, userid);
-			statement.setObject(3, oldpasswd);
+			String bookId = UUID.getID();
+			statement.setString(1, bookId);
+			statement.setString(2, userId);		
+			statement.setObject(3, type);
+			statement.setObject(4, name);
+			statement.setObject(5, desc);
+			statement.setObject(6, price);
+			statement.setObject(7, sell);
+			statement.setObject(8, 0);
+			statement.setObject(9, System.currentTimeMillis());
+			statement.setObject(10, uri);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {
@@ -80,22 +88,6 @@ public class modifyPasswd extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private boolean hasAccount(String userid) {
-		Connection connection = JdbcUtil.getConnect();
-		String sql = "select * from user where id = "+userid;
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet set = statement.executeQuery(sql);
-			if(set != null && set.next()) {
-				return true;
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 }

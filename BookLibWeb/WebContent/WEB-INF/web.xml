@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BookLibWeb</display-name>
-  <!-- ******************************** -->
-   <servlet>
-    <servlet-name>findback</servlet-name>
-    <servlet-class>logic.findback</servlet-class>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>addBook</servlet-name>
+    <servlet-class>logic.book.addBook</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>findback</servlet-name>
-    <url-pattern>/logic/findback</url-pattern>
+    <servlet-name>addBook</servlet-name>
+    <url-pattern>/logic/book/addBook</url-pattern>
   </servlet-mapping>
-  <!-- ******************************** -->
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>addAddress</servlet-name>
+    <servlet-class>logic.addr.addAddress</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addAddress</servlet-name>
+    <url-pattern>/logic/addr/addAddress</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>delAddress</servlet-name>
+    <servlet-class>logic.addr.delAddress</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>delAddress</servlet-name>
+    <url-pattern>/logic/addr/delAddress</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>editAddress</servlet-name>
+    <servlet-class>logic.addr.editAddress</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>editAddress</servlet-name>
+    <url-pattern>/logic/addr/editAddress</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getAddressList</servlet-name>
+    <servlet-class>logic.addr.getAddressList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAddressList</servlet-name>
+    <url-pattern>/logic/addr/getAddressList</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>getAuthSms</servlet-name>
     <servlet-class>logic.user.getAuthSms</servlet-class>
@@ -19,7 +53,31 @@
     <servlet-name>getAuthSms</servlet-name>
     <url-pattern>/logic/user/getAuthSms</url-pattern>
   </servlet-mapping>
-  <!-- ******************************** -->
+  <servlet>
+    <servlet-name>modifyPasswd</servlet-name>
+    <servlet-class>logic.user.modifyPasswd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modifyPasswd</servlet-name>
+    <url-pattern>/logic/user/modifyPasswd</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>editHeadPic</servlet-name>
+    <servlet-class>logic.user.editHeadPic</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>editHeadPic</servlet-name>
+    <url-pattern>/logic/user/editHeadPic</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getInfo</servlet-name>
+    <servlet-class>logic.user.getInfo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getInfo</servlet-name>
+    <url-pattern>/logic/user/getInfo</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>getSmsCode</servlet-name>
     <servlet-class>logic.sms.getSmsCode</servlet-class>
@@ -28,25 +86,15 @@
     <servlet-name>getSmsCode</servlet-name>
     <url-pattern>/logic/sms/getSmsCode</url-pattern>
   </servlet-mapping>
-  <!-- ******************************** -->
-  <servlet>
-    <servlet-name>register</servlet-name>
-    <servlet-class>logic.register</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>register</servlet-name>
-    <url-pattern>/logic/register</url-pattern>
-  </servlet-mapping>
-  <!-- ******************************** -->
   <servlet>
     <servlet-name>sms</servlet-name>
     <servlet-class>logic.login.sms</servlet-class>
   </servlet>
+  
   <servlet-mapping>
     <servlet-name>sms</servlet-name>
     <url-pattern>/logic/login/sms</url-pattern>
   </servlet-mapping>
-  <!-- ******************************** -->
   <servlet>
     <servlet-name>passwd</servlet-name>
     <servlet-class>logic.login.passwd</servlet-class>
@@ -55,7 +103,24 @@
     <servlet-name>passwd</servlet-name>
     <url-pattern>/logic/login/passwd</url-pattern>
   </servlet-mapping>
-  <!-- ******************************** -->
+  
+  <servlet>
+    <servlet-name>register</servlet-name>
+    <servlet-class>logic.register</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/logic/register</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>findback</servlet-name>
+    <servlet-class>logic.findback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>findback</servlet-name>
+    <url-pattern>/logic/findback</url-pattern>
+  </servlet-mapping>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

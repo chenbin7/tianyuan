@@ -1,11 +1,11 @@
-package logic;
+package logic.addr;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,18 +15,20 @@ import com.mysql.jdbc.Connection;
 import common.CheckUtil;
 import common.UUID;
 import jdbc.JdbcUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class register
+ * Servlet implementation class getAddressList
  */
-
-public class register extends HttpServlet {
+@WebServlet("/addAddress")
+public class addAddress extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public register() {
+    public addAddress() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,7 +38,6 @@ public class register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doGet");
 		response.getWriter().append("none");
 	}
 
@@ -45,37 +46,33 @@ public class register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost register");
-		String sms = request.getParameter("smsCode");
-		String phone = request.getParameter("telephone");
-		String passwd = request.getParameter("passwd");
-		System.out.println("sms:"+sms+"  phone:"+phone);
-		if(!CheckUtil.checkParamsNotNull(3, sms, phone, passwd)) {
+		System.out.println("doPost  addAddress");
+		String userId = request.getParameter("userId");
+        String address = request.getParameter("address");
+        String communityName = request.getParameter("communityName");
+        String detail = request.getParameter("detail");
+        String fullAddress = request.getParameter("fullAddress");
+		System.out.println("userid:"+userId+"   addrid:"+addressId+"  :"+address+"  "+communityName+"  "+detail+"  "+fullAddress);
+		if(!CheckUtil.checkParamsNotNull(5, userId, address, communityName, detail, fullAddress)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
-		}
-		if(!checkSms(sms)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
-			return;
-		}
-		if(hasAccount(phone)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_ACCOUNT_EXIT).toString());
-		} else {			
-			doRegister(phone, passwd, response);
-		}
+		}		
+		doAddAddress(userId, address, communityName, detail, fullAddress, response);
 	}
 	
-	private void doRegister(String phone, String passwd, HttpServletResponse response) {
-		System.out.println("doRegister");
+	private void doAddAddress(String userid, String address, String communityName, String detail, String fullAddress, HttpServletResponse response) {
+		System.out.println("doAddAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "insert into user(id,name,phone, passwd) VALUES(?,?,?,?)";
+			String sql = "insert into addr(id,userid,address, communityname, addrdetail, fulladdr) VALUES(?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
-	        
-			statement.setString(1, UUID.getID());
-			statement.setString(2, phone);		
-			statement.setObject(3, phone);
-			statement.setObject(4, passwd);
+			String addressId = UUID.getID();
+			statement.setString(1, addressId);
+			statement.setString(2, userid);		
+			statement.setObject(3, address);
+			statement.setObject(4, communityName);
+			statement.setObject(5, detail);
+			statement.setObject(6, fullAddress);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {
@@ -86,33 +83,6 @@ public class register extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-	}
-
-	private boolean checkSms(String sms) {
-		System.out.println("checkSms:"+sms);
-		if(sms.equals("1234")) {
-			return true;
-		}
-		return false;
-	}
-	
-	
-	private boolean hasAccount(String phone) {
-		Connection connection = JdbcUtil.getConnect();
-		String sql = "select * from user where phone = "+phone;
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet set = statement.executeQuery(sql);
-			if(set != null && set.next()) {
-				return true;
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 }

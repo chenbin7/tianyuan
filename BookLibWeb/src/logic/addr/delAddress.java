@@ -1,4 +1,4 @@
-package logic.login;
+package logic.addr;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -13,21 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 
 import common.CheckUtil;
-import common.UUID;
 import jdbc.JdbcUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class passwd
+ * Servlet implementation class getAddressList
  */
-
-public class passwd extends HttpServlet {
+@WebServlet("/delAddress")
+public class delAddress extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public passwd() {
+    public delAddress() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,36 +45,32 @@ public class passwd extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  passwd");
-		String phone = request.getParameter("telephone");
-        String passwd = request.getParameter("passwd");
-		System.out.println("telephone:"+phone+"   passwd:"+passwd);
-		if(!CheckUtil.checkParamsNotNull(2, phone, passwd)) {
+		System.out.println("doPost delAddress");
+		String userid = request.getParameter("userId");
+		String addrid = request.getParameter("addressId");
+		System.out.println("userid:"+userid+"   addrid:"+addrid);
+		if(!CheckUtil.checkParamsNotNull(2, userid, addrid)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}		
-		doLogin(phone, passwd, response);
+		doDelAddress(userid, addrid, response);
 	}
 	
-	private void doLogin(String phone, String passwd, HttpServletResponse response) {
-		System.out.println("doLogin");
+	private void doDelAddress(String userid,String addrid, HttpServletResponse response) {
+		System.out.println("doDelAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "Select * form user where phone=? and passwd=?";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, phone);
-			statement.setString(2, passwd);		
-	        ResultSet set = statement.executeQuery();
-	        System.out.println("result = "+set);
-	        if(set.next()) {
-	        	String id = set.getString("id");
-	        	JSONObject json = new JSONObject();
-	        	json.put("id", id);
-	        	json.put("token", UUID.getID());
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC, json).toString());
+			String sql = "delete from addr where userid = ? and id = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);		
+			statement.setObject(1, userid);
+			statement.setObject(2, addrid);
+	        boolean result = statement.execute();
+	        if(result) {
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC));
 	        } else {
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
+				response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON));
 			}
+	        //todo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

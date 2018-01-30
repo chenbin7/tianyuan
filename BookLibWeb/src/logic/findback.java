@@ -45,7 +45,7 @@ public class findback extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost");
+		System.out.println("doPost  findback");
 		String sms = request.getParameter("smsCode");
 		String phone = request.getParameter("telephone");
 		String passwd = request.getParameter("passwd");
@@ -66,10 +66,10 @@ public class findback extends HttpServlet {
 	}
 	
 	private void doFindBack(String phone, String passwd, HttpServletResponse response) {
-		System.out.println("doRegister");
+		System.out.println("doFindBack");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update user set passwd = ? where phone = ?";
+			String sql = "update user set passwd=? where phone=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, phone);		
 			statement.setObject(2, passwd);
@@ -81,7 +81,7 @@ public class findback extends HttpServlet {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		
@@ -106,7 +106,6 @@ public class findback extends HttpServlet {
 				return true;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return false;
