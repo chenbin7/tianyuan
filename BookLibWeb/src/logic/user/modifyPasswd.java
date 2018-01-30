@@ -62,10 +62,10 @@ public class modifyPasswd extends HttpServlet {
 	}
 	
 	private void doModify(String userid, String oldpasswd , String passwd, HttpServletResponse response) {
-		System.out.println("doRegister");
+		System.out.println("doModify");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update user set passwd = ? where id = ? and passwd = ?";
+			String sql = "update user set passwd=? where id=? and passwd=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, passwd);		
 			statement.setObject(2, userid);
@@ -84,9 +84,10 @@ public class modifyPasswd extends HttpServlet {
 	
 	private boolean hasAccount(String userid) {
 		Connection connection = JdbcUtil.getConnect();
-		String sql = "select * from user where id = "+userid;
+		String sql = "select * from user where id=?";
 		try {
-			Statement statement = connection.createStatement();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, userid);		
 			ResultSet set = statement.executeQuery(sql);
 			if(set != null && set.next()) {
 				return true;

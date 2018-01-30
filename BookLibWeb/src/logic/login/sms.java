@@ -63,7 +63,7 @@ public class sms extends HttpServlet {
 				return;
 			}
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "Select * form user where phone=?";
+			String sql = "Select * from user where phone=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, phone);	
 	        ResultSet set = statement.executeQuery();

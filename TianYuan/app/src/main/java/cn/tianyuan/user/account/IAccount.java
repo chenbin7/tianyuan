@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface IAccount {
 
     @FormUrlEncoded
-    @POST("/logic/user/logout")
+    @POST("/BookLibWeb/logic/user/logout")
     Observable<SimpleResponse> logout(
             @Field("userId") String userID,
             @Field("checkSum") String checkSum,
@@ -22,7 +22,7 @@ public interface IAccount {
     );
 
     @FormUrlEncoded
-    @POST("/logic/pwd/modify")
+    @POST("/BookLibWeb/logic/pwd/modify")
     Observable<SimpleResponse> modifyPwd(
             @Field("userId") String userId,
             @Field("oldPasswd") String oldPwd,

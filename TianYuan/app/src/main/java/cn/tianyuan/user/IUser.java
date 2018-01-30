@@ -16,7 +16,7 @@ public interface IUser {
 
 
     @FormUrlEncoded
-    @POST("/logic/user/modifyPasswd")
+    @POST("/BookLibWeb/logic/user/modifyPasswd")
     Observable<SimpleResponse> modifyPwd(
             @Field("userId") String userID,
             @Field("oldPasswd") String oldPasswd,
@@ -26,7 +26,7 @@ public interface IUser {
     );
 
     @FormUrlEncoded
-    @POST("/logic/user/getInfo")
+    @POST("/BookLibWeb/logic/user/getInfo")
     Observable<UserInfoResponse> pullUserInfo(
             @Field("userId") String userID,
             @Field("checkSum") String checkSum,

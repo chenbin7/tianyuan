@@ -60,7 +60,7 @@ public class passwd extends HttpServlet {
 		System.out.println("doLogin");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "Select * form user where phone=? and passwd=?";
+			String sql = "Select * from user where phone=? and passwd=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, phone);
 			statement.setString(2, passwd);		

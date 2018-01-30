@@ -9,7 +9,7 @@ import java.util.List;
 public class BookData {
     public String id;
     public String userName;
-    public String typeName;
+    public String typeId;
     public String name;
     public int price;
     public String desc;

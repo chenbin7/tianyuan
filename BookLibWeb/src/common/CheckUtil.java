@@ -46,7 +46,7 @@ public class CheckUtil {
         json.put("code", code);
         json.put("msg", "err_msg");
         json.put("data", data);
-        System.out.println(json);
+        System.out.println("json = "+json.toString());
         return json.toString();
     }
 
@@ -58,4 +58,14 @@ public class CheckUtil {
         System.out.println(json);
         return json.toString();
     }
+    
+    public static void main(String[] args) {
+    	JSONObject json = new JSONObject(); 
+    	json.put("userId", "532de969-04bc-4911-b4ca-5900fe3afc68");
+        json.put("userName", "13641983451");
+        json.put("telephone", "13641983451");
+        System.out.println("result = "+json);
+        String jString = getResponseBody(SUCC, json);
+        System.out.println(jString);
+	}
 }

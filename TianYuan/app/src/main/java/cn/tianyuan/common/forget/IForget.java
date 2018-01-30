@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface IForget {
 
     @FormUrlEncoded
-    @POST("/logic/findback")
+    @POST("/BookLibWeb/logic/findback")
     Observable<SimpleResponse> findBackPasswd(
             @Field("smsCode") String smsCode,
             @Field("telephone") String telephone,

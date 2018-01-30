@@ -19,7 +19,7 @@ public class LoginResponse extends Response {
         if(data != null){
             return code+","+msg+","+data.id+","+data.token;
         } else {
-            return code+","+msg;
+            return code+","+msg+"   no data";
         }
     }
 

@@ -52,7 +52,7 @@ public class addAddress extends HttpServlet {
         String communityName = request.getParameter("communityName");
         String detail = request.getParameter("detail");
         String fullAddress = request.getParameter("fullAddress");
-		System.out.println("userid:"+userId+"   addrid:"+addressId+"  :"+address+"  "+communityName+"  "+detail+"  "+fullAddress);
+		System.out.println("userid:"+userId+"  :"+address+"  "+communityName+"  "+detail+"  "+fullAddress);
 		if(!CheckUtil.checkParamsNotNull(5, userId, address, communityName, detail, fullAddress)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;

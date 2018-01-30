@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface IHeader {
 
     @FormUrlEncoded
-    @POST("/logic/user/editHeadPic")
+    @POST("/BookLibWeb/logic/user/editHeadPic")
     Observable<HeaderResponse> pushHeaderPicture(
             @Field("userId") String userId,
             @Field("fileUri") String fileUri,

@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface ISmsCode {
 
     @FormUrlEncoded
-    @POST("/logic/sms/getSmsCode")
+    @POST("/BookLibWeb/logic/sms/getSmsCode")
     Observable<SimpleResponse> apply(
             @Field("type") int type,
             @Field("telephone") String telephone,
@@ -21,7 +21,7 @@ public interface ISmsCode {
     );
 
     @FormUrlEncoded
-    @POST("/logic/user/getSmsCode")
+    @POST("/BookLibWeb/logic/user/getSmsCode")
     Observable<AuthResponse> auth(
             @Field("telephone") String telephone,
             @Field("smsCode") String smsCode,

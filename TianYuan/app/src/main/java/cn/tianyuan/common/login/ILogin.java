@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 public interface ILogin {
 
     @FormUrlEncoded
-    @POST("/logic/login/sms")
+    @POST("/BookLibWeb/logic/login/sms")
     Observable<LoginResponse> loginBySms(
             @Field("smsCode") String smsCode,
             @Field("telephone") String telephone,
@@ -20,7 +20,7 @@ public interface ILogin {
     );
 
     @FormUrlEncoded
-    @POST("/logic/login/passwd")
+    @POST("/BookLibWeb/logic/login/passwd")
     Observable<LoginResponse> loginByPasswd(
             @Field("telephone") String telephone,
             @Field("passwd") String passwd,

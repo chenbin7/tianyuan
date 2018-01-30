@@ -3,6 +3,15 @@
   <display-name>BookLibWeb</display-name>
   <!-- servlet -->
   <servlet>
+    <servlet-name>getBookTypes</servlet-name>
+    <servlet-class>logic.book.getBookTypes</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getBookTypes</servlet-name>
+    <url-pattern>/logic/book/getBookTypes</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
     <servlet-name>addBook</servlet-name>
     <servlet-class>logic.book.addBook</servlet-class>
   </servlet>
@@ -61,6 +70,7 @@
     <servlet-name>modifyPasswd</servlet-name>
     <url-pattern>/logic/user/modifyPasswd</url-pattern>
   </servlet-mapping>
+
   <servlet>
     <servlet-name>editHeadPic</servlet-name>
     <servlet-class>logic.user.editHeadPic</servlet-class>
@@ -86,11 +96,11 @@
     <servlet-name>getSmsCode</servlet-name>
     <url-pattern>/logic/sms/getSmsCode</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <servlet-name>sms</servlet-name>
     <servlet-class>logic.login.sms</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>sms</servlet-name>
     <url-pattern>/logic/login/sms</url-pattern>
@@ -103,6 +113,7 @@
     <servlet-name>passwd</servlet-name>
     <url-pattern>/logic/login/passwd</url-pattern>
   </servlet-mapping>
+  
   
   <servlet>
     <servlet-name>register</servlet-name>

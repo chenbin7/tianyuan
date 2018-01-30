@@ -60,7 +60,7 @@ public class delAddress extends HttpServlet {
 		System.out.println("doDelAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "delete from addr where userid = ? and id = ?";
+			String sql = "delete from addr where userid=? and id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 			statement.setObject(1, userid);
 			statement.setObject(2, addrid);

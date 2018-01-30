@@ -35,6 +35,7 @@ import cn.tianyuan.R;
 import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.mart.BookModel;
 import cn.tianyuan.mart.been.BookData;
+import cn.tianyuan.mart.been.TypeResponse;
 import cn.tianyuan.serverlib.server.UUIDUtil;
 import cn.tianyuan.common.util.PermissionUtils;
 import cn.tianyuan.common.util.StrUtils;
@@ -117,7 +118,7 @@ public class SellBookActivity extends BaseActivity {
         book.desc = desc;
         book.name = name;
         book.price = price;
-        book.typeName = type;
+        book.typeId = typeId;
         book.pathBase64 = StrUtils.encodeBase64(savePath);
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
@@ -159,14 +160,26 @@ public class SellBookActivity extends BaseActivity {
 
     private void init(){
         types = new ArrayList<>();
-        String[] typeArr = getResources().getStringArray(R.array.book_type);
-        Log.d(TAG, "init: typeArr:"+typeArr.length);
-        if(typeArr != null && typeArr.length > 0){
-            Log.d(TAG, "init: relations:");
-            for (int i = 0; i < typeArr.length; i++) {
-                types.add(typeArr[i]);
-            }
-        }
+        Observable.just(0)
+                .subscribeOn(Schedulers.io())
+                .subscribe(i -> {
+                    BookModel.getInstance().pullAllBookTypes(new HttpResultListener() {
+                        @Override
+                        public void onSucc() {
+                            booksTypes = BookModel.getInstance().getTypes();
+                            if(booksTypes != null && booksTypes.size() > 0){
+                                for (int i = 0; i < booksTypes.size(); i++) {
+                                    types.add(booksTypes.get(i).name);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(int error, String msg) {
+
+                        }
+                    });
+                });
     }
 
     PermissionUtils permissionUtils;
@@ -192,6 +205,8 @@ public class SellBookActivity extends BaseActivity {
 
 
     List<String> types = null;
+    List<TypeResponse.Type> booksTypes;
+    String typeId = "";
     public void onSelectotType(View v){
         PickerUtils.onStringArray(this, types, new PickerUtils.PickerResultListener() {
             @Override
@@ -200,6 +215,12 @@ public class SellBookActivity extends BaseActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {
                             mType.setText(result);
+                            if(detailedParms.length > 0) {
+                                int position = (int) detailedParms[0];
+                                if(position > 0 && position < booksTypes.size()){
+                                    typeId = booksTypes.get(position).id;
+                                }
+                            }
                         });
             }
         });

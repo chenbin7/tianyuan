@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface IAddr {
     @FormUrlEncoded
-    @POST("/logic/addr/getAddressList")
+    @POST("/BookLibWeb/logic/addr/getAddressList")
     Observable<AddrResponse> pullAllAddr(
             @Field("userId") String userID,
             @Field("checkSum") String checkSum,
@@ -22,7 +22,7 @@ public interface IAddr {
     );
 
     @FormUrlEncoded
-    @POST("/logic/addr/delAddress")
+    @POST("/BookLibWeb/logic/addr/delAddress")
     Observable<SimpleResponse> deleteAddr(
             @Field("userId") String userID,
             @Field("addressId") String addressId,
@@ -31,7 +31,7 @@ public interface IAddr {
     );
 
     @FormUrlEncoded
-    @POST("/logic/addr/addAddress")
+    @POST("/BookLibWeb/logic/addr/addAddress")
     Observable<AddAddrResponse> addAddr(
             @Field("userId") String userID,
             @Field("address") String address,
@@ -43,7 +43,7 @@ public interface IAddr {
     );
 
     @FormUrlEncoded
-    @POST("/logic/addr/editAddress")
+    @POST("/BookLibWeb/logic/addr/editAddress")
     Observable<SimpleResponse> modifyAddr(
             @Field("userId") String userID,
             @Field("addressId") String addressId,

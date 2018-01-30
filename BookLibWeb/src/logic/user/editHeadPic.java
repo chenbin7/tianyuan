@@ -48,12 +48,34 @@ public class editHeadPic extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("doPost editHeadPic");
 		String userid = request.getParameter("userId");
-		System.out.println("userid:"+userid);
-		if(!CheckUtil.checkParamsNotNull(1, userid)) {
+		String fileUri = request.getParameter("fileUri");
+		System.out.println("userid:"+userid+"   "+fileUri);
+		if(!CheckUtil.checkParamsNotNull(2, userid, fileUri)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}
-		
+		updateFileUri(userid, fileUri, response);
 	}
 	
+	private void updateFileUri(String userid, String fileUri, HttpServletResponse response) {
+		System.out.println("updateFileUri");
+		try {
+			Connection connection = (Connection) JdbcUtil.getConnect();	
+			String sql = "update user set header=? where id=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, fileUri);		
+			statement.setObject(2, userid);
+	        int result = statement.executeUpdate();
+	        System.out.println("result = "+result);
+	        if(result > 0) {
+	        	JSONObject jsonObject = new JSONObject();
+	        	jsonObject.put("headPicUrl", fileUri);
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC,jsonObject).toString());
+	        } else {
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
