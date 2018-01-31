@@ -1,4 +1,4 @@
-package logic.user;
+package logic.book;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,19 +20,20 @@ import com.mysql.jdbc.Connection;
 import common.CheckUtil;
 import common.UUID;
 import jdbc.JdbcUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
  * Servlet implementation class register
  */
 
-public class getInfo extends HttpServlet {
+public class tehui extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getInfo() {
+    public tehui() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,41 +52,40 @@ public class getInfo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  getInfo");
+		System.out.println("doPost  tehui");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		String userid = request.getParameter("userId");
-		System.out.println("userid:"+userid);
-		if(!CheckUtil.checkParamsNotNull(1, userid)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
-			return;
-		}	
-		doGetInfo(userid, response);
+		doGetChangxiaoBooks(response);
 	}
 	
-	private void doGetInfo(String userid,HttpServletResponse response) {
-		System.out.println("doGetInfo X");
+	private void doGetChangxiaoBooks(HttpServletResponse response) {
+		System.out.println("tehui X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select * from user where id=?";
-			PreparedStatement statement = connection.prepareStatement(sql);		
-			statement.setObject(1, userid);
-	        ResultSet set = statement.executeQuery();
+			String sql = "select * from book order by price asc limit 0,10";
+			Statement statement = connection.prepareStatement(sql);		
+	        ResultSet set = statement.executeQuery(sql);
 	        System.out.println("result = "+set);
-	        if(set.next()) {
+	        JSONArray jsonArray = new JSONArray();
+	        while(set.next()) {
 	        	JSONObject json = new JSONObject(); 
-	        	json.put("userId", userid);
-                json.put("userName", set.getString("name"));
-                try {
-                	json.put("userHeadPic", set.getString("picture"));
-				} catch (Exception e) {
-					System.out.println("no picture");
-				}
-                json.put("telephone", set.getString("phone"));
-                System.out.println("result = "+json);
-                response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC, json));
-	        } else {
+	        	json.put("id", set.getString("id"));
+	        	json.put("userid", set.getString("userid"));
+	        	json.put("typeid", set.getString("typeid"));
+                json.put("name", set.getString("name"));
+                json.put("descriptor", set.getString("descriptor"));
+                json.put("price", set.getInt("price"));
+                json.put("sellsum", set.getInt("sellsum"));
+                json.put("storesum", set.getInt("storesum"));
+                json.put("addtime", set.getLong("addtime"));
+                json.put("picture", set.getString("picture"));
+                jsonArray.add(json);
+                System.out.println("result = "+json.toString());
+	        } 
+	        if(jsonArray.isEmpty()) {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON));
+	        } else {				
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC, jsonArray));
 			}
 	        //todo
 		} catch (Exception e) {

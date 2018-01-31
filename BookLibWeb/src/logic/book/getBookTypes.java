@@ -53,6 +53,8 @@ public class getBookTypes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("doPost  getBookTypes");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		String userid = request.getParameter("userId");
 		System.out.println("userid:"+userid);
 		doGetTypes(response);

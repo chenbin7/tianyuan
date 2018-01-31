@@ -3,6 +3,78 @@
   <display-name>BookLibWeb</display-name>
   <!-- servlet -->
   <servlet>
+    <servlet-name>tehui</servlet-name>
+    <servlet-class>logic.book.tehui</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>tehui</servlet-name>
+    <url-pattern>/logic/book/tehui</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>getAllComments</servlet-name>
+    <servlet-class>logic.book.getAllComments</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAllComments</servlet-name>
+    <url-pattern>/logic/book/getAllComments</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>getAllBooks</servlet-name>
+    <servlet-class>logic.book.getAllBooks</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAllBooks</servlet-name>
+    <url-pattern>/logic/book/getAllBooks</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>fraviteBooks</servlet-name>
+    <servlet-class>logic.book.fraviteBooks</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>fraviteBooks</servlet-name>
+    <url-pattern>/logic/book/fraviteBooks</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>deleteFrvaite</servlet-name>
+    <servlet-class>logic.book.deleteFrvaite</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteFrvaite</servlet-name>
+    <url-pattern>/logic/book/deleteFrvaite</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>changxiao</servlet-name>
+    <servlet-class>logic.book.changxiao</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>changxiao</servlet-name>
+    <url-pattern>/logic/book/changxiao</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>booksByType</servlet-name>
+    <servlet-class>logic.book.booksByType</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>booksByType</servlet-name>
+    <url-pattern>/logic/book/booksByType</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
+    <servlet-name>addFravite</servlet-name>
+    <servlet-class>logic.book.addFravite</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addFravite</servlet-name>
+    <url-pattern>/logic/book/addFravite</url-pattern>
+  </servlet-mapping>
+  <!-- servlet -->
+  <servlet>
     <servlet-name>getBookTypes</servlet-name>
     <servlet-class>logic.book.getBookTypes</servlet-class>
   </servlet>

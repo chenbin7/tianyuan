@@ -14,20 +14,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
-import cn.tianyuan.bookmodel.BookBeen;
+import cn.tianyuan.bookmodel.response.BookBeen;
+import cn.tianyuan.bookmodel.response.TypeListResponse;
 import cn.tianyuan.common.view.picker.PickerUtils;
 
 /**
  * Created by chenbin on 2018/1/27.
  */
 
-public class SerachBookActivity extends BaseActivity {
-    private static final String TAG = SerachBookActivity.class.getSimpleName();
+public class SearchBookActivity extends BaseActivity implements ISearchUI {
+    private static final String TAG = SearchBookActivity.class.getSimpleName();
 
     @BindView(R.id.books)
     RecyclerView mBookList;
 
     TypeBookAdapter mAdapter = new TypeBookAdapter();
+    SearchPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +50,10 @@ public class SerachBookActivity extends BaseActivity {
                 goBookDetailActivity(item);
             }
         });
-
-        types = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            types.add("types_"+i);
-        }
+        typeNames = new ArrayList<>();
+        mPresenter = new SearchPresenter(this);
+        mPresenter.pullAllTypes();
+        mPresenter.pullAllBooks();
     }
 
     private List<BookBeen> initData(){
@@ -74,14 +75,40 @@ public class SerachBookActivity extends BaseActivity {
 
     @OnClick(R.id.choice_type)
     public void onChoice(){
-        PickerUtils.onStringArray(this, types, new PickerUtils.PickerResultListener() {
+        PickerUtils.onStringArray(this, typeNames, new PickerUtils.PickerResultListener() {
             @Override
             public void onResult(String result, Object... detailedParms) {
                 Log.d(TAG, "onResult: "+detailedParms);
+                if(detailedParms != null && detailedParms.length > 0){
+                    int position = (int) detailedParms[0];
+                    if(position >= 0 && position < types.size())
+                    mPresenter.pullTypeBooks(types.get(position).id);
+                }
             }
         });
     }
 
-    private List<String> types;
+    @Override
+    public void OnAllBooksList(List<BookBeen> books) {
+        mAdapter.setData(books);
+    }
 
+    @Override
+    public void OnTypeBooksList(List<BookBeen> books) {
+        mAdapter.setData(books);
+    }
+
+
+    private List<String> typeNames;
+    private List<TypeListResponse.Type> types;
+    @Override
+    public void onTypes(List<TypeListResponse.Type> allTypes) {
+        if(allTypes != null && allTypes.size() > 0) {
+            typeNames.clear();
+            types = allTypes;
+            for (int i = 0; i < allTypes.size(); i++) {
+                typeNames.add(allTypes.get(i).name);
+            }
+        }
+    }
 }

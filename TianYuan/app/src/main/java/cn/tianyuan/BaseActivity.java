@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.tianyuan.bookmodel.BookBeen;
+import cn.tianyuan.bookmodel.response.BookBeen;
 import cn.tianyuan.detail.BookDetailActivity;
 import cn.tianyuan.home.HomeActivity;
 import io.reactivex.Observable;

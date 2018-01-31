@@ -2,7 +2,6 @@ package cn.tianyuan.bookmodel.response;
 
 import java.util.List;
 
-import cn.tianyuan.bookmodel.BookBeen;
 import cn.tianyuan.common.http.Response;
 
 /**

@@ -1,4 +1,4 @@
-package logic.addr;
+package logic.book;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -20,14 +20,14 @@ import net.sf.json.JSONObject;
 /**
  * Servlet implementation class getAddressList
  */
-@WebServlet("/getAddressList")
-public class getAddressList extends HttpServlet {
+@WebServlet("/deleteFrvaite")
+public class deleteFrvaite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAddressList() {
+    public deleteFrvaite() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,41 +45,29 @@ public class getAddressList extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  getAddressList");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		String userid = request.getParameter("userId");
-		System.out.println("userid:"+userid);
-		if(!CheckUtil.checkParamsNotNull(1, userid)) {
+		System.out.println("doPost deleteFrvaite");
+		String fraviteId = request.getParameter("fraviteId");
+		System.out.println("fraviteId:"+fraviteId);
+		if(!CheckUtil.checkParamsNotNull(1, fraviteId)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}		
-		doGetAddress(userid, response);
+		doDelFravite(fraviteId, response);
 	}
 	
-	private void doGetAddress(String userid,HttpServletResponse response) {
-		System.out.println("doGetAddress");
+	private void doDelFravite(String userid, HttpServletResponse response) {
+		System.out.println("doDelAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select * from addr where userid=?";
+			String sql = "delete from favorite where id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 			statement.setObject(1, userid);
-	        ResultSet set = statement.executeQuery();
-	        JSONArray ja = new JSONArray();
-	        while(set.next()) {
-	        	JSONObject json = new JSONObject(); 
-	        	json.put("addressId", set.getString("id"));
-                json.put("address", set.getString("address"));
-                json.put("pName", set.getString("pname"));
-                json.put("cityName", set.getString("cityname"));
-                json.put("adName", set.getString("adname"));
-                json.put("communityName", set.getString("communityname"));
-                json.put("detail", set.getString("addrdetail"));
-                json.put("fullAddress", set.getString("fulladdr"));
-                System.out.println("result = "+json.toString());
-                ja.add(json);
-	        } 
-	        response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC, ja));
+	        boolean result = statement.execute();
+	        if(result) {
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC));
+	        } else {
+				response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON));
+			}
 	        //todo
 		} catch (Exception e) {
 			e.printStackTrace();

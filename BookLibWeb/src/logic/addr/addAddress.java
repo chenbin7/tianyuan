@@ -47,36 +47,46 @@ public class addAddress extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("doPost  addAddress");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		String userId = request.getParameter("userId");
         String address = request.getParameter("address");
+        String pName = request.getParameter("pName");
+        String cityName = request.getParameter("cityName");
+        String adName = request.getParameter("adName");
         String communityName = request.getParameter("communityName");
         String detail = request.getParameter("detail");
         String fullAddress = request.getParameter("fullAddress");
-		System.out.println("userid:"+userId+"  :"+address+"  "+communityName+"  "+detail+"  "+fullAddress);
+		System.out.println("userid:"+userId+"  :"+address+"  "+communityName+"  "+detail+"  "+fullAddress+"  "+pName+"  "+cityName+"  "+adName);
 		if(!CheckUtil.checkParamsNotNull(5, userId, address, communityName, detail, fullAddress)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}		
-		doAddAddress(userId, address, communityName, detail, fullAddress, response);
+		doAddAddress(userId, address,pName,cityName,adName, communityName, detail, fullAddress, response);
 	}
 	
-	private void doAddAddress(String userid, String address, String communityName, String detail, String fullAddress, HttpServletResponse response) {
+	private void doAddAddress(String userid, String address, String pName, String cityName, String adName, String communityName, String detail, String fullAddress, HttpServletResponse response) {
 		System.out.println("doAddAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "insert into addr(id,userid,address, communityname, addrdetail, fulladdr) VALUES(?,?,?,?,?,?)";
+			String sql = "insert into addr(id,userid,address,pname, cityname, adname, communityname, addrdetail, fulladdr) VALUES(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			String addressId = UUID.getID();
 			statement.setString(1, addressId);
 			statement.setString(2, userid);		
 			statement.setObject(3, address);
-			statement.setObject(4, communityName);
-			statement.setObject(5, detail);
-			statement.setObject(6, fullAddress);
+			statement.setObject(4, pName);
+			statement.setObject(5, cityName);
+			statement.setObject(6, adName);
+			statement.setObject(7, communityName);
+			statement.setObject(8, detail);
+			statement.setObject(9, fullAddress);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC).toString());
+	        	JSONObject json = new JSONObject();
+	        	json.put("addressId", addressId);
+	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC,json).toString());
 	        } else {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
 			}

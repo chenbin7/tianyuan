@@ -59,6 +59,9 @@ create table addr(
     id nvarchar(40) primary key,
     userid nvarchar(40),
     address nvarchar(128),
+    pname nvarchar(128),
+    cityname nvarchar(128),
+    adname nvarchar(128),
     communityname nvarchar(64),
     addrdetail nvarchar(128),
     fulladdr nvarchar(128),
@@ -86,3 +89,12 @@ create table intentbook
     foreign key(bookid) references book(id),
     foreign key(orderid) references orderbook(id)
 );
+
+drop table intentbook;
+drop table orderbook;
+drop table addr;
+drop table favorite;
+drop table comment;
+drop table book;
+drop table type;
+drop table user;

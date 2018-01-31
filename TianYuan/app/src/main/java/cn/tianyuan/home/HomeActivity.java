@@ -15,8 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
-import cn.tianyuan.bookmodel.BookBeen;
-import cn.tianyuan.search.SerachBookActivity;
+import cn.tianyuan.bookmodel.response.BookBeen;
+import cn.tianyuan.search.SearchBookActivity;
 import cn.tianyuan.shopcar.ShopCarActivity;
 import cn.tianyuan.user.UserActivity;
 
@@ -24,7 +24,7 @@ import cn.tianyuan.user.UserActivity;
  * Created by Administrator on 2018/1/25.
  */
 
-public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, HomeUI {
     private static final String TAG= HomeActivity.class.getSimpleName();
 
     @BindView(R.id.radioGroup)
@@ -38,6 +38,8 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     BookAdapter mChangxiaoAdapter;
     BookAdapter mTejiaAdapter;
+
+    HomePresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mChangxiao.setAdapter(mChangxiaoAdapter);
         mChangxiaoAdapter.setOnItemClickListener(itemListener);
         mTejiaAdapter.setOnItemClickListener(itemListener);
+        mPresenter = new HomePresenter(this);
+        mPresenter.pullChangxiaoBooks();
+        mPresenter.pullTejiaBooks();
     }
 
     private BookAdapter.OnItemClickListener itemListener = new BookAdapter.OnItemClickListener() {
@@ -98,7 +103,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.rbtn_category:
                 Log.d(TAG, "onCheckedChanged: category");
-                goActivityByClass(SerachBookActivity.class);
+                goActivityByClass(SearchBookActivity.class);
                 break;
             case R.id.rbtn_shopcart:
                 Log.d(TAG, "onCheckedChanged: shopcart");
@@ -113,4 +118,13 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
+    @Override
+    public void OnChangxiaoList(List<BookBeen> books) {
+        mChangxiaoAdapter.setData(books);
+    }
+
+    @Override
+    public void OnTehuiList(List<BookBeen> books) {
+        mTejiaAdapter.setData(books);
+    }
 }

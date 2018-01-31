@@ -47,8 +47,13 @@ public class editAddress extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("doPost  editAddress");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		String addressId = request.getParameter("addressId");
         String address = request.getParameter("address");
+        String pName = request.getParameter("pName");
+        String cityName = request.getParameter("cityName");
+        String adName = request.getParameter("adName");
         String communityName = request.getParameter("communityName");
         String detail = request.getParameter("detail");
         String fullAddress = request.getParameter("fullAddress");
@@ -57,20 +62,23 @@ public class editAddress extends HttpServlet {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}		
-		doEditAddress(addressId, address, communityName, detail, fullAddress, response);
+		doEditAddress(addressId, address,pName, cityName, adName, communityName, detail, fullAddress, response);
 	}
 	
-	private void doEditAddress(String addressId, String address, String communityName, String detail, String fullAddress, HttpServletResponse response) {
+	private void doEditAddress(String addressId, String address,String pName, String cityName, String adName, String communityName, String detail, String fullAddress, HttpServletResponse response) {
 		System.out.println("doEditAddress");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update addr set address=?,communityname=?,addrdetail=?,fulladdr=? where id=?";
+			String sql = "update addr set address=?,pname=?,cityname=?,adname=?,communityname=?,addrdetail=?,fulladdr=? where id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);	
 			statement.setObject(1, address);
-			statement.setObject(2, communityName);
-			statement.setObject(3, detail);
-			statement.setObject(4, fullAddress);
-			statement.setObject(5, addressId);
+			statement.setObject(2, pName);
+			statement.setObject(3, cityName);
+			statement.setObject(4, adName);
+			statement.setObject(5, communityName);
+			statement.setObject(6, detail);
+			statement.setObject(7, fullAddress);
+			statement.setObject(8, addressId);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {

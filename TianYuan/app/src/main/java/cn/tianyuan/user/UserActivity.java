@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
-import cn.tianyuan.mart.sell.SellBookActivity;
+import cn.tianyuan.user.sell.SellBookActivity;
 import cn.tianyuan.user.account.AccountActivity;
 import cn.tianyuan.user.headerpic.HeaderPictureActivity;
 import cn.tianyuan.common.view.CircleImageView;

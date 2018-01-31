@@ -14,7 +14,7 @@ import java.util.List;
 
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
-import cn.tianyuan.bookmodel.BookBeen;
+import cn.tianyuan.bookmodel.response.BookBeen;
 
 /**
  * Created by Administrator on 2017/10/18.

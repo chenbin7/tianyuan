@@ -1,4 +1,4 @@
-package cn.tianyuan.mart.sell;
+package cn.tianyuan.user.sell;
 
 import android.Manifest;
 import android.content.ContentValues;
@@ -32,10 +32,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
+import cn.tianyuan.bookmodel.response.BookBeen;
+import cn.tianyuan.bookmodel.BookModel;
+import cn.tianyuan.bookmodel.response.TypeListResponse;
 import cn.tianyuan.common.http.HttpResultListener;
-import cn.tianyuan.mart.BookModel;
-import cn.tianyuan.mart.been.BookData;
-import cn.tianyuan.mart.been.TypeResponse;
 import cn.tianyuan.serverlib.server.UUIDUtil;
 import cn.tianyuan.common.util.PermissionUtils;
 import cn.tianyuan.common.util.StrUtils;
@@ -56,6 +56,8 @@ public class SellBookActivity extends BaseActivity {
     ImageView mBookImg;
     @BindView(R.id.book_name)
     EditText mName;
+    @BindView(R.id.book_sum)
+    EditText mSum;
     @BindView(R.id.book_price)
     EditText mPrice;
     @BindView(R.id.book_desc)
@@ -93,6 +95,11 @@ public class SellBookActivity extends BaseActivity {
             showSnackbar("请先输入书名");
             return;
         }
+        String sum = mSum.getText().toString();
+        if(TextUtils.isEmpty(name)){
+            showSnackbar("请先输入书本数量");
+            return;
+        }
         String priceStr = mPrice.getText().toString();
         if(TextUtils.isEmpty(priceStr)){
             showSnackbar("请先输入价格");
@@ -114,12 +121,13 @@ public class SellBookActivity extends BaseActivity {
             showSnackbar("请先输入图书的描述信息");
             return;
         }
-        BookData book = new BookData();
-        book.desc = desc;
+        BookBeen book = new BookBeen();
+        book.descriptor = desc;
         book.name = name;
+        book.storeSum = Integer.parseInt(sum);
         book.price = price;
         book.typeId = typeId;
-        book.pathBase64 = StrUtils.encodeBase64(savePath);
+        book.picture = StrUtils.encodeBase64(savePath);
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
                 .subscribe(i -> {
@@ -205,7 +213,7 @@ public class SellBookActivity extends BaseActivity {
 
 
     List<String> types = null;
-    List<TypeResponse.Type> booksTypes;
+    List<TypeListResponse.Type> booksTypes;
     String typeId = "";
     public void onSelectotType(View v){
         PickerUtils.onStringArray(this, types, new PickerUtils.PickerResultListener() {

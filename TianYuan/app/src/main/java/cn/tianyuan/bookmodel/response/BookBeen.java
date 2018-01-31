@@ -1,7 +1,9 @@
-package cn.tianyuan.bookmodel;
+package cn.tianyuan.bookmodel.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.List;
 
 /**
  * Created by chenbin on 2017/12/2.
@@ -18,6 +20,8 @@ public class BookBeen implements Parcelable {
     public String name;
     public String descriptor;
     public int price;
+    public int storeSum;
+    public int sellSum;
     public long addTime;
     public String picture;
 
@@ -27,9 +31,12 @@ public class BookBeen implements Parcelable {
         id = in.readString();
         userId = in.readString();
         typeId = in.readString();
+        fraviteId = in.readString();
         name = in.readString();
         descriptor = in.readString();
         price = in.readInt();
+        storeSum = in.readInt();
+        sellSum = in.readInt();
         addTime = in.readLong();
         picture = in.readString();
     }
@@ -56,9 +63,12 @@ public class BookBeen implements Parcelable {
         dest.writeString(id);
         dest.writeString(userId);
         dest.writeString(typeId);
+        dest.writeString(fraviteId);
         dest.writeString(name);
         dest.writeString(descriptor);
         dest.writeInt(price);
+        dest.writeInt(storeSum);
+        dest.writeInt(sellSum);
         dest.writeLong(addTime);
         dest.writeString(picture);
     }

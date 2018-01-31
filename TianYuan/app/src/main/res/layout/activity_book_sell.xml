@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_login_reg"
     android:fitsSystemWindows="true"
-    tools:context=".mart.sell.SellBookActivity">
+    tools:context=".user.sell.SellBookActivity">
 
     <include layout="@layout/block_toolbar"/>
 
@@ -53,6 +53,33 @@
                 android:textColor="@color/color_text"
                 android:textSize="@dimen/textsize_sp_16"
                 android:hint="请输入书名"
+                android:textColorHint="@color/color_text_hint"
+                android:background="@null"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y66">
+            <TextView
+                android:layout_width="@dimen/x80"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/textsize_sp_16"
+                android:textColor="@color/color_text"
+                android:text="数量:"
+                android:layout_marginLeft="@dimen/x20"
+                />
+            <EditText
+                android:id="@+id/book_sum"
+                android:layout_width="@dimen/x300"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/x100"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_text"
+                android:textSize="@dimen/textsize_sp_16"
+                android:inputType="number"
+                android:hint="请输入书本数量"
+                android:text="1"
                 android:textColorHint="@color/color_text_hint"
                 android:background="@null"
                 />

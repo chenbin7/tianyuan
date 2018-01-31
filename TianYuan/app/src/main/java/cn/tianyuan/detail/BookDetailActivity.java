@@ -18,7 +18,7 @@ import butterknife.OnClick;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
-import cn.tianyuan.bookmodel.BookBeen;
+import cn.tianyuan.bookmodel.response.BookBeen;
 
 /**
  * Created by chenbin on 2018/1/27.

@@ -40,7 +40,7 @@
         <activity android:name=".common.forget.ForgetPwdActivity" android:screenOrientation="portrait"/>
 
         <activity android:name=".home.HomeActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>
-        <activity android:name=".search.SerachBookActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
+        <activity android:name=".search.SearchBookActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
         <activity android:name=".detail.BookDetailActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
 
         <activity android:name=".shopcar.ShopCarActivity" android:screenOrientation="portrait"/>
@@ -51,7 +51,7 @@
         <activity android:name=".user.addr.update.UpdateAddrActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.headerpic.HeaderPictureActivity" android:screenOrientation="portrait"/>
         <activity android:name=".map.MapActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".mart.sell.SellBookActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.sell.SellBookActivity" android:screenOrientation="portrait"/>
 
 
         <!-- *******  AMapLocation  *********************************************************************-->
