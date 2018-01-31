@@ -40,28 +40,28 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/changxiao")
+    @POST("/BookLibWeb/logic/book/changxiao")
     Observable<BookListResponse> pullChangxiaoBookList(
             @Field("userId") String userID,
             @Header("token") String token
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/tehui")
+    @POST("/BookLibWeb/logic/book/tehui")
     Observable<BookListResponse> pullTehuiBookList(
             @Field("userId") String userID,
             @Header("token") String token
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/allBooks")
+    @POST("/BookLibWeb/logic/book/allBooks")
     Observable<BookListResponse> pullAllBooks(
             @Field("userId") String userID,
             @Header("token") String token
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/booksByType")
+    @POST("/BookLibWeb/logic/book/booksByType")
     Observable<BookListResponse> pullTypeBookList(
             @Field("typeId") String typeId,
             @Field("checkSum") String checkSum,
@@ -69,7 +69,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/fraviteBooks")
+    @POST("/BookLibWeb/logic/book/fraviteBooks")
     Observable<BookListResponse> pullFraviteBookList(
             @Field("userId") String userId,
             @Field("checkSum") String checkSum,
@@ -77,7 +77,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/addFravite")
+    @POST("/BookLibWeb/logic/book/addFravite")
     Observable<SimpleResponse> addFraviteBook(
             @Field("userId") String userId,
             @Field("bookId") String bookId,
@@ -86,7 +86,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/deleteFravite")
+    @POST("/BookLibWeb/logic/book/deleteFravite")
     Observable<SimpleResponse> deleteFraviteBook(
             @Field("fraviteId") String fraviteId,
             @Field("checkSum") String checkSum,
@@ -94,7 +94,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLinWeb/logic/book/getAllComments")
+    @POST("/BookLibWeb/logic/book/getAllComments")
     Observable<CommentResponse> pullBookComments(
             @Field("bookId") String bookId,
             @Field("checkSum") String checkSum,

@@ -18,7 +18,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getAddressList
+ * Servlet implementation class deleteFrvaite
  */
 @WebServlet("/deleteFrvaite")
 public class deleteFrvaite extends HttpServlet {

@@ -52,6 +52,11 @@ public class SearchBookActivity extends BaseActivity implements ISearchUI {
         });
         typeNames = new ArrayList<>();
         mPresenter = new SearchPresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.pullAllTypes();
         mPresenter.pullAllBooks();
     }

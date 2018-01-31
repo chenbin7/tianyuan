@@ -67,6 +67,11 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mChangxiaoAdapter.setOnItemClickListener(itemListener);
         mTejiaAdapter.setOnItemClickListener(itemListener);
         mPresenter = new HomePresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.pullChangxiaoBooks();
         mPresenter.pullTejiaBooks();
     }

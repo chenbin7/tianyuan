@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BookLibWeb</display-name>
-  <!-- servlet -->
+
   <servlet>
     <servlet-name>tehui</servlet-name>
     <servlet-class>logic.book.tehui</servlet-class>
@@ -10,7 +10,6 @@
     <servlet-name>tehui</servlet-name>
     <url-pattern>/logic/book/tehui</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>getAllComments</servlet-name>
     <servlet-class>logic.book.getAllComments</servlet-class>
@@ -19,7 +18,6 @@
     <servlet-name>getAllComments</servlet-name>
     <url-pattern>/logic/book/getAllComments</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>getAllBooks</servlet-name>
     <servlet-class>logic.book.getAllBooks</servlet-class>
@@ -28,7 +26,6 @@
     <servlet-name>getAllBooks</servlet-name>
     <url-pattern>/logic/book/getAllBooks</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>fraviteBooks</servlet-name>
     <servlet-class>logic.book.fraviteBooks</servlet-class>
@@ -37,7 +34,6 @@
     <servlet-name>fraviteBooks</servlet-name>
     <url-pattern>/logic/book/fraviteBooks</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>deleteFrvaite</servlet-name>
     <servlet-class>logic.book.deleteFrvaite</servlet-class>
@@ -46,7 +42,6 @@
     <servlet-name>deleteFrvaite</servlet-name>
     <url-pattern>/logic/book/deleteFrvaite</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>changxiao</servlet-name>
     <servlet-class>logic.book.changxiao</servlet-class>
@@ -55,7 +50,6 @@
     <servlet-name>changxiao</servlet-name>
     <url-pattern>/logic/book/changxiao</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>booksByType</servlet-name>
     <servlet-class>logic.book.booksByType</servlet-class>
@@ -64,7 +58,6 @@
     <servlet-name>booksByType</servlet-name>
     <url-pattern>/logic/book/booksByType</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>addFravite</servlet-name>
     <servlet-class>logic.book.addFravite</servlet-class>
@@ -73,7 +66,6 @@
     <servlet-name>addFravite</servlet-name>
     <url-pattern>/logic/book/addFravite</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>getBookTypes</servlet-name>
     <servlet-class>logic.book.getBookTypes</servlet-class>
@@ -82,7 +74,6 @@
     <servlet-name>getBookTypes</servlet-name>
     <url-pattern>/logic/book/getBookTypes</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>addBook</servlet-name>
     <servlet-class>logic.book.addBook</servlet-class>
@@ -91,7 +82,6 @@
     <servlet-name>addBook</servlet-name>
     <url-pattern>/logic/book/addBook</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>addAddress</servlet-name>
     <servlet-class>logic.addr.addAddress</servlet-class>
@@ -100,7 +90,6 @@
     <servlet-name>addAddress</servlet-name>
     <url-pattern>/logic/addr/addAddress</url-pattern>
   </servlet-mapping>
-  <!-- servlet -->
   <servlet>
     <servlet-name>delAddress</servlet-name>
     <servlet-class>logic.addr.delAddress</servlet-class>
@@ -125,7 +114,6 @@
     <servlet-name>getAddressList</servlet-name>
     <url-pattern>/logic/addr/getAddressList</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>getAuthSms</servlet-name>
     <servlet-class>logic.user.getAuthSms</servlet-class>
@@ -142,7 +130,6 @@
     <servlet-name>modifyPasswd</servlet-name>
     <url-pattern>/logic/user/modifyPasswd</url-pattern>
   </servlet-mapping>
-
   <servlet>
     <servlet-name>editHeadPic</servlet-name>
     <servlet-class>logic.user.editHeadPic</servlet-class>
@@ -159,7 +146,6 @@
     <servlet-name>getInfo</servlet-name>
     <url-pattern>/logic/user/getInfo</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>getSmsCode</servlet-name>
     <servlet-class>logic.sms.getSmsCode</servlet-class>
@@ -168,7 +154,6 @@
     <servlet-name>getSmsCode</servlet-name>
     <url-pattern>/logic/sms/getSmsCode</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>sms</servlet-name>
     <servlet-class>logic.login.sms</servlet-class>
@@ -185,8 +170,6 @@
     <servlet-name>passwd</servlet-name>
     <url-pattern>/logic/login/passwd</url-pattern>
   </servlet-mapping>
-  
-  
   <servlet>
     <servlet-name>register</servlet-name>
     <servlet-class>logic.register</servlet-class>
@@ -203,7 +186,6 @@
     <servlet-name>findback</servlet-name>
     <url-pattern>/logic/findback</url-pattern>
   </servlet-mapping>
-  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +18,9 @@ import common.UUID;
 import jdbc.JdbcUtil;
 
 /**
- * Servlet implementation class register
+ * Servlet implementation class addFravite
  */
-
+@WebServlet("/addFravite")
 public class addFravite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
