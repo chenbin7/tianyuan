@@ -85,6 +85,7 @@ create table intentbook
     userid nvarchar(40),
     bookid nvarchar(40),
     orderid nvarchar(40),
+    count int,
     foreign key(userid) references user(id),
     foreign key(bookid) references book(id),
     foreign key(orderid) references orderbook(id)

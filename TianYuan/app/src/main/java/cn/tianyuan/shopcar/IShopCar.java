@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface IShopCar {
 
     @FormUrlEncoded
-    @POST("/logic/car/list")
+    @POST("/BookLibWeb/logic/car/listIntents")
     Observable<ShopCarResponse> pullShopcarBooks(
             @Field("userId") String userID,
             @Field("checkSum") String checkSum,
@@ -22,7 +22,7 @@ public interface IShopCar {
     );
 
     @FormUrlEncoded
-    @POST("/logic/car/addBook")
+    @POST("/BookLibWeb/logic/car/addIntentBook")
     Observable<SimpleResponse> addBookToCar(
             @Field("userId") String userID,
             @Field("bookId") String bookId,
@@ -31,7 +31,7 @@ public interface IShopCar {
     );
 
     @FormUrlEncoded
-    @POST("/logic/car/deteleBook")
+    @POST("/BookLibWeb/logic/car/deteleBook")
     Observable<SimpleResponse> deteleBookFormCar(
             @Field("intentId") String intentId,
             @Field("checkSum") String checkSum,
@@ -39,7 +39,7 @@ public interface IShopCar {
     );
 
     @FormUrlEncoded
-    @POST("/logic/car/updateIntention")
+    @POST("/BookLibWeb/logic/car/updateIntention")
     Observable<SimpleResponse> updateIntent(
             @Field("intentId") String intnetId,
             @Field("bookCount") int bookCount,
@@ -48,7 +48,7 @@ public interface IShopCar {
     );
 
     @FormUrlEncoded
-    @POST("/logic/car/buyBook")
+    @POST("/BookLibWeb/logic/car/buyBook")
     Observable<SimpleResponse> buyBook(
             @Field("intentIds") String intnetIds,
             @Field("userId") String userId,

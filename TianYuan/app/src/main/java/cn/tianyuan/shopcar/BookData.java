@@ -13,6 +13,8 @@ public class BookData {
     public String name;
     public String descriptor;
     public int price;
+    public int sellsum;
+    public int storesum;
     public int count;
     public long addTime;
     public String picture;
