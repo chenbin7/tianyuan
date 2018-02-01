@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 
 import common.CheckUtil;
+import common.Const;
 import common.UUID;
 import jdbc.JdbcUtil;
 import net.sf.json.JSONObject;
@@ -54,6 +55,7 @@ public class passwd extends HttpServlet {
 			return;
 		}		
 		doLogin(phone, passwd, response);
+		Const.init(request);
 	}
 	
 	private void doLogin(String phone, String passwd, HttpServletResponse response) {

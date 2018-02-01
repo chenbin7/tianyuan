@@ -62,17 +62,19 @@ public class booksByType extends HttpServlet {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}	
-		doGetBooksByType(typeid, response);
+		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
+		System.out.println(url);
+		doGetBooksByType(typeid, url, response);
 	}
 	
-	private void doGetBooksByType(String typeId, HttpServletResponse response) {
+	private void doGetBooksByType(String typeId, String url,HttpServletResponse response) {
 		System.out.println("doGetBooksByType X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "select * from book where typeid=?";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 	        statement.setObject(1, typeId);
-			ResultSet set = statement.executeQuery(sql);
+			ResultSet set = statement.executeQuery();
 	        System.out.println("result = "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {
@@ -86,7 +88,7 @@ public class booksByType extends HttpServlet {
                 json.put("sellsum", set.getInt("sellsum"));
                 json.put("storesum", set.getInt("storesum"));
                 json.put("addtime", set.getLong("addtime"));
-                json.put("picture", set.getString("picture"));
+                json.put("picture", url+set.getString("picture"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 

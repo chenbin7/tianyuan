@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.mysql.jdbc.Connection;
 
@@ -19,12 +21,14 @@ import jdbc.JdbcUtil;
  * Servlet implementation class addBook
  */
 @WebServlet("/addBook")
+@MultipartConfig(location = "C://BookLibWeb/book")
 public class addBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
+
     public addBook() {
         super();
         // TODO Auto-generated constructor stub
@@ -46,24 +50,29 @@ public class addBook extends HttpServlet {
 		System.out.println("doPost  addBook");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		String dir = request.getServletContext().getRealPath("/");
+		String filepath = "book/book_"+UUID.getID()+".jpg";
+		String path = dir+filepath;
+		Part part = request.getPart("bookUri");
+		part.write(path);
 		String userId = request.getParameter("userId");
         String type = request.getParameter("bookType");
         String name = request.getParameter("bookName");
         String priceStr = request.getParameter("bookPrice");
-        String sellSum = request.getParameter("sellSum");
+        String storeSum = request.getParameter("storeSum");
         String desc = request.getParameter("bookDesc");
-        String uri = request.getParameter("bookUri");
-		System.out.println("userid:"+userId+"  "+type+"  :"+name+"  "+priceStr+"  "+desc+"  "+uri);
-		if(!CheckUtil.checkParamsNotNull(6, userId, type, name, priceStr, desc, uri)) {
+        
+		System.out.println("userid:"+userId+"  "+type+"  :"+name+"  "+priceStr+"  "+desc+"  "+filepath);
+		if(!CheckUtil.checkParamsNotNull(6, userId, type, name, priceStr, desc, filepath)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}		
 		int price = Integer.parseInt(priceStr);
-		int sell = Integer.parseInt(sellSum);
-		doAddAddress(userId, type, name, price, sell, desc, uri,response);
+		int store = Integer.parseInt(storeSum);
+		doAddAddress(userId, type, name, price, store, desc, filepath, response);
 	}
 	
-	private void doAddAddress(String userId, String type, String name, int price, int sell, String desc, String uri, HttpServletResponse response) {
+	private void doAddAddress(String userId, String type, String name, int price, int store, String desc, String path, HttpServletResponse response) {
 		System.out.println("doAddBook");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
@@ -76,10 +85,10 @@ public class addBook extends HttpServlet {
 			statement.setObject(4, name);
 			statement.setObject(5, desc);
 			statement.setObject(6, price);
-			statement.setObject(7, sell);
-			statement.setObject(8, 0);
+			statement.setObject(7, 0);
+			statement.setObject(8, store);
 			statement.setObject(9, System.currentTimeMillis());
-			statement.setObject(10, uri);
+			statement.setObject(10, path);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {

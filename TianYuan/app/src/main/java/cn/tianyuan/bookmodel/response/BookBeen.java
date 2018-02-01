@@ -14,30 +14,34 @@ import java.util.List;
 public class BookBeen implements Parcelable {
 
     public String id;
-    public String userId;
-    public String typeId;
-    public String fraviteId;
+    public String userid;
+    public String typeid;
+    public String fraviteid;
     public String name;
     public String descriptor;
     public int price;
-    public int storeSum;
-    public int sellSum;
-    public long addTime;
+    public int storesum;
+    public int sellsum;
+    public long addtime;
     public String picture;
 
     public BookBeen(){}
 
+    public String toString(){
+        return "book:"+name+"  "+picture+"  "+descriptor+"  "+id+"  "+userid+"  "+typeid+"  "+storesum+"  "+sellsum+"  "+fraviteid;
+    }
+
     protected BookBeen(Parcel in) {
         id = in.readString();
-        userId = in.readString();
-        typeId = in.readString();
-        fraviteId = in.readString();
+        userid = in.readString();
+        typeid = in.readString();
+        fraviteid = in.readString();
         name = in.readString();
         descriptor = in.readString();
         price = in.readInt();
-        storeSum = in.readInt();
-        sellSum = in.readInt();
-        addTime = in.readLong();
+        storesum = in.readInt();
+        sellsum = in.readInt();
+        addtime = in.readLong();
         picture = in.readString();
     }
 
@@ -61,15 +65,15 @@ public class BookBeen implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(userId);
-        dest.writeString(typeId);
-        dest.writeString(fraviteId);
+        dest.writeString(userid);
+        dest.writeString(typeid);
+        dest.writeString(fraviteid);
         dest.writeString(name);
         dest.writeString(descriptor);
         dest.writeInt(price);
-        dest.writeInt(storeSum);
-        dest.writeInt(sellSum);
-        dest.writeLong(addTime);
+        dest.writeInt(storesum);
+        dest.writeInt(sellsum);
+        dest.writeLong(addtime);
         dest.writeString(picture);
     }
 }

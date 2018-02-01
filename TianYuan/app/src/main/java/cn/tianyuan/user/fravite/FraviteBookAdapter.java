@@ -1,7 +1,6 @@
-package cn.tianyuan.home;
+package cn.tianyuan.user.fravite;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +22,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Created by Administrator on 2017/10/18.
  */
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> implements View.OnClickListener {
-    private static final String TAG = BookAdapter.class.getSimpleName();
+public class FraviteBookAdapter extends RecyclerView.Adapter<FraviteBookAdapter.BookViewHolder> implements View.OnClickListener {
 
     List<BookBeen> mBooks;
 
-    public BookAdapter() {
+    public FraviteBookAdapter() {
         mBooks = new ArrayList<>();
     }
 
@@ -36,9 +34,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         if (addrs == null)
             return;
         mBooks = addrs;
-        for (int i = 0; i < mBooks.size(); i++) {
-            Log.d(TAG, "setData: "+mBooks.get(i).toString());
-        }
         Observable.just(0)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> {
@@ -55,21 +50,20 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_book_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_fravite, parent, false);
         BookViewHolder holder = new BookViewHolder(view);
-        view.setOnClickListener(this);
+        holder.mDelete.setOnClickListener(this);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder: "+position);
-        if (position < 0 || position >= mBooks.size())
-            return;
         BookBeen item = mBooks.get(position);
-        holder.itemView.setTag(position);
+        holder.mDelete.setTag(position);
         holder.mName.setText(item.name);
         ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptions());
+        holder.mDesc.setText(item.descriptor);
+        holder.mPrice.setText("￥" + item.price / 100 + ".00");
     }
 
     @Override
@@ -91,11 +85,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         public ImageView mImg;
         public TextView mName;
+        public TextView mDesc;
+        public TextView mPrice;
+        public TextView mDelete;
 
         public BookViewHolder(View itemView) {
             super(itemView);
             mImg = (ImageView) itemView.findViewById(R.id.book_img);
             mName = (TextView) itemView.findViewById(R.id.name);
+            mDesc = (TextView) itemView.findViewById(R.id.desc);
+            mPrice = (TextView) itemView.findViewById(R.id.price);
+            mDelete = (TextView) itemView.findViewById(R.id.delete);
         }
     }
 

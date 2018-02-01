@@ -56,10 +56,12 @@ public class getAllBooks extends HttpServlet {
 		System.out.println("doPost  getAllBooks");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		doGetAllBooks(response);
+		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
+		System.out.println(url);
+		doGetAllBooks(url, response);
 	}
 	
-	private void doGetAllBooks(HttpServletResponse response) {
+	private void doGetAllBooks(String url, HttpServletResponse response) {
 		System.out.println("doGetAllBooks X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
@@ -79,7 +81,7 @@ public class getAllBooks extends HttpServlet {
                 json.put("sellsum", set.getInt("sellsum"));
                 json.put("storesum", set.getInt("storesum"));
                 json.put("addtime", set.getLong("addtime"));
-                json.put("picture", set.getString("picture"));
+                json.put("picture", url+set.getString("picture"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 

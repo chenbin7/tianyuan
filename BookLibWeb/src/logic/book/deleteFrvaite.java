@@ -55,20 +55,15 @@ public class deleteFrvaite extends HttpServlet {
 		doDelFravite(fraviteId, response);
 	}
 	
-	private void doDelFravite(String userid, HttpServletResponse response) {
-		System.out.println("doDelAddress");
+	private void doDelFravite(String fraviteId, HttpServletResponse response) {
+		System.out.println("doDelFravite");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "delete from favorite where id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);		
-			statement.setObject(1, userid);
-	        boolean result = statement.execute();
-	        if(result) {
-	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC));
-	        } else {
-				response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON));
-			}
-	        //todo
+			statement.setObject(1, fraviteId);
+	        statement.execute();
+	        response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

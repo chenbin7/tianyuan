@@ -42,7 +42,6 @@ public class SearchBookActivity extends BaseActivity implements ISearchUI {
     private void init(){
         mBookList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAdapter = new TypeBookAdapter();
-        mAdapter.setData(initData());
         mBookList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new TypeBookAdapter.OnItemClickListener() {
             @Override
@@ -59,23 +58,6 @@ public class SearchBookActivity extends BaseActivity implements ISearchUI {
         super.onResume();
         mPresenter.pullAllTypes();
         mPresenter.pullAllBooks();
-    }
-
-    private List<BookBeen> initData(){
-        List<BookBeen> books = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            BookBeen book = new BookBeen();
-            book.addTime = System.currentTimeMillis();
-            book.descriptor = "descroptor "+i;
-            book.id = "xx"+i;
-            book.name = "book_"+i;
-            book.price = 25;
-            book.typeId = "1";
-            book.userId = "1";
-            book.picture = "http://img1.cache.netease.com/f2e/www/index2017/images/yuanchuang/qingsongyike.jpg";
-            books.add(book);
-        }
-        return books;
     }
 
     @OnClick(R.id.choice_type)

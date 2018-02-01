@@ -6,10 +6,13 @@ import cn.tianyuan.bookmodel.response.TypeListResponse;
 import cn.tianyuan.common.http.SimpleResponse;
 import cn.tianyuan.user.UserInfoResponse;
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by Administrator on 2017/10/19.
@@ -17,17 +20,17 @@ import retrofit2.http.POST;
 
 public interface IBook {
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/BookLibWeb/logic/book/addBook")
     Observable<SimpleResponse> addBook(
-            @Field("userId") String userID,
-            @Field("bookType") String type,
-            @Field("bookName") String name,
-            @Field("sellSum") int sellSum,
-            @Field("bookPrice") int price,
-            @Field("bookDesc") String desc,
-            @Field("bookUri") String path,
-            @Field("checkSum") String checkSum,
+            @Part MultipartBody.Part userId,
+            @Part MultipartBody.Part bookType,
+            @Part MultipartBody.Part bookName,
+            @Part MultipartBody.Part sellSum,
+            @Part MultipartBody.Part bookPrice,
+            @Part MultipartBody.Part bookDesc,
+            @Part MultipartBody.Part bookUri,
+            @Part MultipartBody.Part checkSum,
             @Header("token") String token
     );
 
@@ -54,7 +57,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLibWeb/logic/book/allBooks")
+    @POST("/BookLibWeb/logic/book/getAllBooks")
     Observable<BookListResponse> pullAllBooks(
             @Field("userId") String userID,
             @Header("token") String token
@@ -63,7 +66,7 @@ public interface IBook {
     @FormUrlEncoded
     @POST("/BookLibWeb/logic/book/booksByType")
     Observable<BookListResponse> pullTypeBookList(
-            @Field("typeId") String typeId,
+            @Field("typeid") String typeId,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );
@@ -71,7 +74,7 @@ public interface IBook {
     @FormUrlEncoded
     @POST("/BookLibWeb/logic/book/fraviteBooks")
     Observable<BookListResponse> pullFraviteBookList(
-            @Field("userId") String userId,
+            @Field("userid") String userId,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );
@@ -86,7 +89,7 @@ public interface IBook {
     );
 
     @FormUrlEncoded
-    @POST("/BookLibWeb/logic/book/deleteFravite")
+    @POST("/BookLibWeb/logic/book/deleteFrvaite")
     Observable<SimpleResponse> deleteFraviteBook(
             @Field("fraviteId") String fraviteId,
             @Field("checkSum") String checkSum,

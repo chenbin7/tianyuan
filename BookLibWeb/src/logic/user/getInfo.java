@@ -60,11 +60,13 @@ public class getInfo extends HttpServlet {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}	
-		doGetInfo(userid, response);
+		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
+		System.out.println(url);
+		doGetInfo(userid, url, response);
 	}
 	
-	private void doGetInfo(String userid,HttpServletResponse response) {
-		System.out.println("doGetInfo X");
+	private void doGetInfo(String userid, String url, HttpServletResponse response) {
+		System.out.println("doGetInfo");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "select * from user where id=?";
@@ -77,7 +79,8 @@ public class getInfo extends HttpServlet {
 	        	json.put("userId", userid);
                 json.put("userName", set.getString("name"));
                 try {
-                	json.put("userHeadPic", set.getString("picture"));
+                	String header = url + set.getString("header");
+                	json.put("userHeadPic", header);
 				} catch (Exception e) {
 					System.out.println("no picture");
 				}

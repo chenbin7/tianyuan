@@ -62,17 +62,19 @@ public class fraviteBooks extends HttpServlet {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}	
-		doGetFavoriteBooks(userid, response);
+		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
+		System.out.println(url);
+		doGetFavoriteBooks(userid, url, response);
 	}
 	
-	private void doGetFavoriteBooks(String userId, HttpServletResponse response) {
+	private void doGetFavoriteBooks(String userId, String url, HttpServletResponse response) {
 		System.out.println("doGetBooksByType X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select * from book where id in (select bookid from favorite where userid=?)";
+			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, favorite.id as fid from book, favorite where book.id in (select bookid from favorite where userid=?)";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 	        statement.setObject(1, userId);
-			ResultSet set = statement.executeQuery(sql);
+			ResultSet set = statement.executeQuery();
 	        System.out.println("result = "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {
@@ -86,7 +88,8 @@ public class fraviteBooks extends HttpServlet {
                 json.put("sellsum", set.getInt("sellsum"));
                 json.put("storesum", set.getInt("storesum"));
                 json.put("addtime", set.getLong("addtime"));
-                json.put("picture", set.getString("picture"));
+                json.put("picture", url+set.getString("picture"));
+                json.put("fraviteid", set.getString("fid"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 
@@ -100,5 +103,6 @@ public class fraviteBooks extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	
 }

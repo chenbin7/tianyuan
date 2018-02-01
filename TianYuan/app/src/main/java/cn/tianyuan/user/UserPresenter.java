@@ -43,7 +43,8 @@ public class UserPresenter {
                             AppProperty.account = account;
                             AppProperty.userName = data.userName;
                             mUI.onGetAccount(account);
-                            String url = StrUtils.decodeBase64(data.getUserHeadPic());
+                            String url = data.getUserHeadPic();
+                            Log.d(TAG, "onSucc: url = "+url);
                             if(TextUtils.isEmpty(url)){
                                 return;
                             } else {

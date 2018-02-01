@@ -14,7 +14,10 @@ import java.util.List;
 
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
+import cn.tianyuan.bookmodel.response.CommentResponse;
 import cn.tianyuan.common.util.TimeFormatUtils;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/10/18.
@@ -22,21 +25,25 @@ import cn.tianyuan.common.util.TimeFormatUtils;
 
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.BookViewHolder> implements View.OnClickListener {
 
-    List<ContentInfo> mContents;
+    List<CommentResponse.Comment> mContents;
 
     public ContentAdapter() {
         mContents = new ArrayList<>();
     }
 
-    public void setData(List<ContentInfo> contents) {
+    public void setData(List<CommentResponse.Comment> contents) {
         if (contents == null)
             return;
         mContents = contents;
-        notifyDataSetChanged();
+        Observable.just(0)
+                .subscribeOn(Schedulers.io())
+                .subscribe(i -> {
+                    notifyDataSetChanged();
+                });
     }
 
-    public void clear(){
-        if(mContents == null)
+    public void clear() {
+        if (mContents == null)
             return;
         mContents.clear();
         notifyDataSetChanged();
@@ -54,12 +61,12 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.BookView
 
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
-        ContentInfo item = mContents.get(position);
+        CommentResponse.Comment item = mContents.get(position);
         holder.itemView.setTag(position);
-        holder.mName.setText(item.name);
+        holder.mName.setText(item.userName);
         mTempDate.setTime(item.time);
         holder.mTime.setText(TimeFormatUtils.format_yyyy_MM_dd_HH_mm(mTempDate));
-        holder.mContnet.setText(item.content);
+        holder.mContnet.setText(item.message);
 
     }
 
@@ -72,7 +79,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.BookView
 
     @Override
     public void onClick(View v) {
-        if(mOnItemClickListener != null){
+        if (mOnItemClickListener != null) {
             int position = (int) v.getTag();
             mOnItemClickListener.onRecyclerItemClick(mContents.get(position), position);
         }
@@ -94,9 +101,11 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.BookView
 
     //item click
     private OnItemClickListener mOnItemClickListener;
+
     public interface OnItemClickListener {
-        void onRecyclerItemClick(ContentInfo item, int position);
+        void onRecyclerItemClick(CommentResponse.Comment item, int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener pOnItemClickListener) {
         mOnItemClickListener = pOnItemClickListener;
     }

@@ -70,8 +70,9 @@ public class getAllComments extends HttpServlet {
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "select user.name, comment.userid, comment.writetime, comment.comment from user, comment where comment.bookid=? and comment.userid=user.id";
-			Statement statement = connection.prepareStatement(sql);		
-	        ResultSet set = statement.executeQuery(sql);
+			PreparedStatement statement = connection.prepareStatement(sql);	
+			statement.setObject(1, bookId);
+	        ResultSet set = statement.executeQuery();
 	        System.out.println("result = "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {

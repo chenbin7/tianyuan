@@ -26,7 +26,7 @@
     <servlet-name>getAllBooks</servlet-name>
     <url-pattern>/logic/book/getAllBooks</url-pattern>
   </servlet-mapping>
-  <servlet>
+<servlet>
     <servlet-name>fraviteBooks</servlet-name>
     <servlet-class>logic.book.fraviteBooks</servlet-class>
   </servlet>

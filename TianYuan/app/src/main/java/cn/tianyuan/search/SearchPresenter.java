@@ -1,5 +1,7 @@
 package cn.tianyuan.search;
 
+import android.util.Log;
+
 import cn.tianyuan.bookmodel.BookModel;
 import cn.tianyuan.common.http.HttpResultListener;
 import io.reactivex.Observable;
@@ -10,6 +12,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class SearchPresenter {
+    private static final String TAG = SearchPresenter.class.getSimpleName();
 
     private ISearchUI mUI;
     private BookModel mModel;
@@ -45,6 +48,7 @@ public class SearchPresenter {
     }
 
     public void pullTypeBooks(String typeId){
+        Log.d(TAG, "pullTypeBooks: "+typeId);
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
                 .subscribe(i -> {
@@ -66,13 +70,15 @@ public class SearchPresenter {
     }
 
     public void pullAllTypes(){
+        Log.d(TAG, "pullAllTypes: ");
         if(mModel.getTypes()!= null){
+            Log.d(TAG, "pullAllTypes: "+mModel.getTypes());
             mUI.onTypes(mModel.getTypes());
         } else {
             Observable.just(0)
                     .subscribeOn(Schedulers.io())
                     .subscribe(i -> {
-                        mModel.pullAllBooks(new HttpResultListener() {
+                        mModel.pullAllBookTypes(new HttpResultListener() {
                             @Override
                             public void onSucc() {
                                 if(mModel.getTypes()!= null){

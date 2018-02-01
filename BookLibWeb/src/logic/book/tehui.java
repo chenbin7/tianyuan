@@ -56,10 +56,12 @@ public class tehui extends HttpServlet {
 		System.out.println("doPost  tehui");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		doGetChangxiaoBooks(response);
+		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
+		System.out.println(url);
+		doGetChangxiaoBooks(url,response);
 	}
 	
-	private void doGetChangxiaoBooks(HttpServletResponse response) {
+	private void doGetChangxiaoBooks(String url,HttpServletResponse response) {
 		System.out.println("tehui X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
@@ -79,7 +81,7 @@ public class tehui extends HttpServlet {
                 json.put("sellsum", set.getInt("sellsum"));
                 json.put("storesum", set.getInt("storesum"));
                 json.put("addtime", set.getLong("addtime"));
-                json.put("picture", set.getString("picture"));
+                json.put("picture", url+set.getString("picture"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 

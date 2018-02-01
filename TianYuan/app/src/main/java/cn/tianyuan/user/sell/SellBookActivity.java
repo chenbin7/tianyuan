@@ -124,10 +124,10 @@ public class SellBookActivity extends BaseActivity {
         BookBeen book = new BookBeen();
         book.descriptor = desc;
         book.name = name;
-        book.storeSum = Integer.parseInt(sum);
+        book.storesum = Integer.parseInt(sum);
         book.price = price;
-        book.typeId = typeId;
-        book.picture = StrUtils.encodeBase64(savePath);
+        book.typeid = typeId;
+        book.picture = savePath;
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
                 .subscribe(i -> {

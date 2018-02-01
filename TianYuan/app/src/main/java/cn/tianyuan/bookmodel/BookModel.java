@@ -3,6 +3,7 @@ package cn.tianyuan.bookmodel;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.io.File;
 import java.util.List;
 
 import cn.tianyuan.AppProperty;
@@ -15,6 +16,10 @@ import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.common.http.SimpleResponse;
 import cn.tianyuan.common.util.CheckSum;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by chenbin on 2018/1/27.
@@ -33,14 +38,24 @@ public class BookModel {
     }
 
     public void addBook(@NonNull BookBeen data, @NonNull HttpResultListener listener){
-        String userId = AppProperty.userId;
+        File picture = new File(data.picture);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), picture);
+        MultipartBody.Part partFile = MultipartBody.Part.createFormData("bookUri", picture.getName(), requestFile);
+        String userid = AppProperty.userId;
         String checkSum = new CheckSum()
-                .append("userId", userId)
+                .append("userId", userid)
                 .getCheckSum();
+        MultipartBody.Part userIdPart = MultipartBody.Part.createFormData("userId", userid);
+        MultipartBody.Part bookTypePart = MultipartBody.Part.createFormData("bookType", data.typeid);
+        MultipartBody.Part bookNamePart = MultipartBody.Part.createFormData("bookName", data.name);
+        MultipartBody.Part storeSumPart = MultipartBody.Part.createFormData("storeSum", data.storesum+"");
+        MultipartBody.Part bookPricePart = MultipartBody.Part.createFormData("bookPrice", data.price+"");
+        MultipartBody.Part bookDescPart = MultipartBody.Part.createFormData("bookDesc", data.descriptor);
+        MultipartBody.Part checkSumPart = MultipartBody.Part.createFormData("checkSum", checkSum);
         HttpResource.getInstance()
                 .getRetrofit()
                 .create(IBook.class)
-                .addBook(userId, data.typeId, data.name, data.storeSum, data.price, data.descriptor, data.picture, checkSum, AppProperty.token)
+                .addBook(userIdPart, bookTypePart, bookNamePart, storeSumPart, bookPricePart, bookDescPart, partFile, checkSumPart, AppProperty.token)
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override
                     public void accept(SimpleResponse simpleResponse) throws Exception {
@@ -214,7 +229,8 @@ public class BookModel {
                 });
     }
 
-    public void pullFraviteBooks(String userId, @NonNull HttpResultListener listener){
+    public void pullFraviteBooks(@NonNull HttpResultListener listener){
+        String userId = AppProperty.userId;
         String checkSum = new CheckSum()
                 .append("userId", userId)
                 .getCheckSum();
@@ -222,6 +238,7 @@ public class BookModel {
                 .getRetrofit()
                 .create(IBook.class)
                 .pullFraviteBookList(userId, checkSum, AppProperty.token)
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<BookListResponse>() {
                     @Override
                     public void accept(BookListResponse response) throws Exception {
@@ -240,7 +257,8 @@ public class BookModel {
                 });
     }
 
-    public void addFraviteBook(String userId, String bookId, @NonNull HttpResultListener listener){
+    public void addFraviteBook(String bookId, @NonNull HttpResultListener listener){
+        String userId = AppProperty.userId;
         String checkSum = new CheckSum()
                 .append("userId", userId)
                 .append("bookId", bookId)
@@ -272,6 +290,7 @@ public class BookModel {
                 .getRetrofit()
                 .create(IBook.class)
                 .deleteFraviteBook(fraviteId, checkSum, AppProperty.token)
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override
                     public void accept(SimpleResponse response) throws Exception {

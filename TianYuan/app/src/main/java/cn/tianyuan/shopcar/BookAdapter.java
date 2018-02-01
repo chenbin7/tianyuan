@@ -22,6 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.R;
 import cn.tianyuan.common.util.UtilTool;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2018/1/24.
@@ -42,13 +44,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
 
     public void setGoods(List<BookData> goods) {
         this.goods = goods;
-        notifyDataSetChanged();
+        Observable.just(0)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(i -> {
+                    notifyDataSetChanged();
+                });
     }
 
-    public BookData getChild(int position){
-        if(goods == null)
+    public BookData getChild(int position) {
+        if (goods == null)
             return null;
-        if(position < 0 || position >= goods.size())
+        if (position < 0 || position >= goods.size())
             return null;
         return goods.get(position);
     }
@@ -132,8 +138,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
         /**
          * 子选框状态改变触发的事件
          *
-         * @param position 子元素的位置
-         * @param isChecked     子元素的选中与否
+         * @param position  子元素的位置
+         * @param isChecked 子元素的选中与否
          */
         void checkChild(int position, boolean isChecked);
     }
@@ -145,7 +151,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
         /**
          * 增加操作
          *
-         * @param position 元素的位置
+         * @param position      元素的位置
          * @param showCountView 用于展示变化后数量的View
          * @param isChecked     子元素选中与否
          */
@@ -171,6 +177,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
     }
 
     private int count = 0;
+
     private void showDialog(final int position, final View showCountView, final boolean isChecked, final BookData child) {
         final AlertDialog.Builder alertDialog_Builder = new AlertDialog.Builder(mcontext);
         View view = LayoutInflater.from(mcontext).inflate(R.layout.dialog_change_num, null);

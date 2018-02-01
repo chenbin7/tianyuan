@@ -38,6 +38,8 @@ public class getAuthSms extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO sms
 		System.out.println("doPost getAuthSms");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC).toString());
 	}
 

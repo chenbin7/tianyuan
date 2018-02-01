@@ -43,6 +43,7 @@
         <activity android:name=".search.SearchBookActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
         <activity android:name=".detail.BookDetailActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
 
+
         <activity android:name=".shopcar.ShopCarActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.UserActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
         <activity android:name=".user.account.modifypwd.ModifyPwdActivity" android:screenOrientation="portrait"/>
@@ -50,6 +51,7 @@
         <activity android:name=".user.addr.MyAddrActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.addr.update.UpdateAddrActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.headerpic.HeaderPictureActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".user.fravite.FraviteBookActivity"  android:screenOrientation="portrait"/>
         <activity android:name=".map.MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.sell.SellBookActivity" android:screenOrientation="portrait"/>
 

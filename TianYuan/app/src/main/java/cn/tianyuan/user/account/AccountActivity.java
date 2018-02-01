@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
+import cn.tianyuan.TYApplication;
 import cn.tianyuan.common.login.LoginActivity;
 import cn.tianyuan.user.UserDataBeen;
 import cn.tianyuan.user.account.modifypwd.ModifyPwdActivity;
@@ -46,7 +47,6 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
     CircleImageView mHeaderPic;
 
     UserDataBeen mUserData;
-    DisplayImageOptions options;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +55,6 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
         ButterKnife.bind(this);
         mUserData = getIntent().getParcelableExtra("userdata");
         mPresenter = new AccountPresenter(this);
-        options = initImageLoaderOptions();
         initToolabr(getString(R.string.user_account_info));
     }
 
@@ -66,7 +65,7 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
             mAccount.setText(mUserData.getAccount());
             String picUrl = mUserData.getUserHeadPic();
             if(!TextUtils.isEmpty(picUrl)){
-                ImageLoader.getInstance().displayImage(picUrl, mHeaderPic, options);
+                ImageLoader.getInstance().displayImage(picUrl.trim(), mHeaderPic, TYApplication.getInstance().getOptions());
             }
         }
     }
@@ -132,22 +131,4 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
         this.finish();
     }
 
-
-    private DisplayImageOptions initImageLoaderOptions(){
-        DisplayImageOptions options;
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.user_header) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.user_header)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.user_header)  //设置图片加载/解码过程中错误时候显示的图片
-                .cacheInMemory(true)//设置下载的图片是否缓存在内存中
-                .cacheOnDisc(true)//设置下载的图片是否缓存在SD卡中
-                .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
-                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
-                .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型//
-                .resetViewBeforeLoading(true)//设置图片在下载前是否重置，复位
-                .displayer(new RoundedBitmapDisplayer(mHeaderPic.getWidth() / 2))//是否设置为圆角，弧度为多少
-                .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-                .build();//构建完成
-        return options;
-    }
 }

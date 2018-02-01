@@ -15,6 +15,8 @@ import java.util.List;
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
 import cn.tianyuan.bookmodel.response.BookBeen;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2017/10/18.
@@ -32,11 +34,15 @@ public class TypeBookAdapter extends RecyclerView.Adapter<TypeBookAdapter.BookVi
         if (addrs == null)
             return;
         mBooks = addrs;
-        notifyDataSetChanged();
+        Observable.just(0)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(i -> {
+                    notifyDataSetChanged();
+                });
     }
 
-    public void clear(){
-        if(mBooks == null)
+    public void clear() {
+        if (mBooks == null)
             return;
         mBooks.clear();
         notifyDataSetChanged();
@@ -55,9 +61,9 @@ public class TypeBookAdapter extends RecyclerView.Adapter<TypeBookAdapter.BookVi
         BookBeen item = mBooks.get(position);
         holder.itemView.setTag(position);
         holder.mName.setText(item.name);
-        ImageLoader.getInstance().displayImage(item.picture, holder.mImg, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptions());
         holder.mDesc.setText(item.descriptor);
-        holder.mPrice.setText("￥"+item.price / 100+".00");
+        holder.mPrice.setText("￥" + item.price / 100 + ".00");
     }
 
     @Override
@@ -69,7 +75,7 @@ public class TypeBookAdapter extends RecyclerView.Adapter<TypeBookAdapter.BookVi
 
     @Override
     public void onClick(View v) {
-        if(mOnItemClickListener != null){
+        if (mOnItemClickListener != null) {
             int position = (int) v.getTag();
             mOnItemClickListener.onRecyclerItemClick(mBooks.get(position), position);
         }
@@ -93,9 +99,11 @@ public class TypeBookAdapter extends RecyclerView.Adapter<TypeBookAdapter.BookVi
 
     //item click
     private OnItemClickListener mOnItemClickListener;
+
     public interface OnItemClickListener {
         void onRecyclerItemClick(BookBeen item, int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener pOnItemClickListener) {
         mOnItemClickListener = pOnItemClickListener;
     }
