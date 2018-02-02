@@ -1,24 +1,20 @@
 package cn.tianyuan.user;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
+import cn.tianyuan.order.OrderListActivity;
 import cn.tianyuan.shopcar.ShopCarActivity;
 import cn.tianyuan.user.fravite.FraviteBookActivity;
 import cn.tianyuan.user.sell.SellBookActivity;
@@ -72,8 +68,8 @@ public class UserActivity extends BaseActivity implements IUserUI {
     }
     public void goMyOrders(View v){
         Intent intent = new Intent();
-//        intent.setClass(this, NormalQuestionActivity.class);
-//        doStartActivity(intent);
+        intent.setClass(this, OrderListActivity.class);
+        doStartActivity(intent);
     }
     public void goMyFravite(View v){
         Intent intent = new Intent();

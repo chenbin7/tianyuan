@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tianyuan.R;
 import cn.tianyuan.common.util.UtilTool;
+import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 

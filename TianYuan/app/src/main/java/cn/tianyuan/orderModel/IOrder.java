@@ -1,6 +1,8 @@
-package cn.tianyuan.shopcar;
+package cn.tianyuan.orderModel;
 
 import cn.tianyuan.common.http.SimpleResponse;
+import cn.tianyuan.orderModel.response.OrderResponse;
+import cn.tianyuan.orderModel.response.ShopCarResponse;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -11,7 +13,7 @@ import retrofit2.http.POST;
  * Created by Administrator on 2017/10/19.
  */
 
-public interface IShopCar {
+public interface IOrder {
 
     @FormUrlEncoded
     @POST("/BookLibWeb/logic/car/listIntents")
@@ -52,11 +54,20 @@ public interface IShopCar {
     Observable<SimpleResponse> buyBook(
             @Field("intentIds") String intnetIds,
             @Field("userId") String userId,
+            @Field("name") String name,
+            @Field("phone") String phone,
             @Field("addrId") String addrId,
             @Field("price") int totlePrice,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );
 
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/listOrder")
+    Observable<OrderResponse> pullOrder(
+            @Field("userId") String userID,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
 
 }

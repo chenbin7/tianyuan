@@ -2,6 +2,7 @@ package cn.tianyuan.shopcar;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,16 +13,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
+import cn.tianyuan.common.http.HttpResultListener;
+import cn.tianyuan.order.OrderActivity;
+import cn.tianyuan.orderModel.OrderModel;
+import cn.tianyuan.orderModel.response.BookData;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ShopCarActivity extends BaseActivity implements View.OnClickListener, BookAdapter.CheckInterface, BookAdapter.ModifyCountInterface {
     private static final String TAG = ShopCarActivity.class.getSimpleName();
@@ -60,7 +67,9 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     //false就是编辑，ture就是完成
     private boolean flag = false;
     private BookAdapter adapter;
-    private List<BookData> goods; //子元素的列表
+    private List<BookData> books; //子元素的列表
+
+    OrderModel mModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +87,42 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
      */
     private void initData() {
         mcontext = this;
-        goods = new ArrayList<BookData>();
-        Random random = new Random();
-        for (int j = 0; j < 10; j++) {
-            int[] img = {R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz};
-            //i-j 就是商品的id， 对应着第几个店铺的第几个商品，1-1 就是第一个店铺的第一个商品
-            goods.add(new BookData("id" + j, "user"+j, "type"+j, "书本"+(j+1),"第"+j+"本书-出头天者", random.nextInt(50), random.nextInt(5), 0, "XXX"));
-        }
+//        books = new ArrayList<BookData>();
+//        Random random = new Random();
+//        for (int j = 0; j < 10; j++) {
+//            int[] img = {R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz};
+//            //i-j 就是商品的id， 对应着第几个店铺的第几个商品，1-1 就是第一个店铺的第一个商品
+//            books.add(new BookData("id" + j, "user"+j, "type"+j, "书本"+(j+1),"第"+j+"本书-出头天者", random.nextInt(50), random.nextInt(5), 0, "XXX"));
+//        }
+        mModel = OrderModel.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mModel.pullIntentsList(new HttpResultListener() {
+            @Override
+            public void onSucc() {
+                books = mModel.getIntentBooks();
+                if(books != null){
+                    adapter.setGoods(books);
+                }
+            }
+
+            @Override
+            public void onFailed(int error, String msg) {
+                Observable.just(0)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(i -> {
+                            Toast.makeText(getApplicationContext(), "您的购物车是空的", Toast.LENGTH_LONG).show();
+                        });
+            }
+        });
     }
 
     private void initEvents() {
         actionBarEdit.setOnClickListener(this);
-        adapter = new BookAdapter(mcontext, goods);
+        adapter = new BookAdapter(mcontext, books);
         adapter.setCheckInterface(this);//关键步骤1：设置复选框的接口
         adapter.setModifyCountInterface(this); //关键步骤2:设置增删减的接口
         listView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -107,8 +140,8 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
      */
     private void setCartNum() {
         int count = 0;
-        if (goods != null) {
-            count = goods.size();
+        if (books != null) {
+            count = books.size();
         }
         //购物车已经清空
         if (count == 0) {
@@ -132,14 +165,28 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
      * 2.把将要删除的对象放进相应的容器中，待遍历完，用removeAll的方式进行删除
      */
     private void doDelete() {
+        Log.d(TAG, "doDelete: ");
         List<BookData> toBeDeleteChilds = new ArrayList<BookData>();//待删除的子元素
-        List<BookData> child = goods;
-        for (int j = 0; j < child.size(); j++) {
-            if (child.get(j).isChoosed) {
-                toBeDeleteChilds.add(child.get(j));
+        for (int j = 0; j < books.size(); j++) {
+            BookData book = books.get(j);
+            if (book.isChoosed) {
+                toBeDeleteChilds.add(book);
+                if(book.isChoosed){
+                    mModel.deleteIntentBook(book.intentId, new HttpResultListener() {
+                        @Override
+                        public void onSucc() {
+                            Log.d(TAG, "doDeleteIntent  onSucc: "+book.toString());
+                        }
+
+                        @Override
+                        public void onFailed(int error, String msg) {
+
+                        }
+                    });
+                }
             }
         }
-        child.removeAll(toBeDeleteChilds);
+        books.removeAll(toBeDeleteChilds);
         //重新设置购物车
         setCartNum();
         adapter.notifyDataSetChanged();
@@ -154,7 +201,20 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     public void checkChild(int position, boolean isChecked) {
         adapter.notifyDataSetChanged();
         calulate();
+    }
 
+    private void updateIntentBook(BookData book){
+        mModel.updateIntentBook(book.intentId, book.count, new HttpResultListener() {
+            @Override
+            public void onSucc() {
+                Log.d(TAG, "doIncrease  onSucc: ");
+            }
+
+            @Override
+            public void onFailed(int error, String msg) {
+                Log.d(TAG, "doIncrease  onFailed: "+error);
+            }
+        });
     }
 
     @Override
@@ -166,6 +226,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         ((TextView) showCountView).setText(String.valueOf(count));
         adapter.notifyDataSetChanged();
         calulate();
+        updateIntentBook(good);
     }
 
     /**
@@ -185,6 +246,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         ((TextView) showCountView).setText("" + count);
         adapter.notifyDataSetChanged();
         calulate();
+        updateIntentBook(good);
     }
 
     /**
@@ -192,7 +254,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
      */
     @Override
     public void childDelete(int position) {
-        goods.remove(position);
+        books.remove(position);
         adapter.notifyDataSetChanged();
         calulate();
     }
@@ -204,8 +266,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         ((TextView) showCountView).setText(String.valueOf(count));
         adapter.notifyDataSetChanged();
         calulate();
-
-
+        updateIntentBook(good);
     }
 
     private void setVisiable() {
@@ -240,6 +301,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, "支付", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        goPay();
                         return;
                     }
                 });
@@ -263,6 +325,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                     toast(mcontext, "请选择要收藏的商品");
                     return;
                 }
+                doAddFravite();
                 toast(mcontext, "收藏成功");
                 break;
             case R.id.del_goods:
@@ -292,12 +355,57 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void goPay(){
+        if(books == null)
+            return;
+        ArrayList<BookData> selectList = new ArrayList<>();
+        for (int i = 0; i < books.size(); i++){
+            if(books.get(i).isChoosed){
+                selectList.add(books.get(i));
+            }
+        }
+        if(selectList.size() > 0){
+            Intent intent = new Intent();
+            intent.putExtra("price", mtotalPrice);
+            intent.putParcelableArrayListExtra("books",selectList);
+            intent.setClass(this, OrderActivity.class);
+            doStartActivity(intent);
+        } else {
+            Observable.just(0)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(i -> {
+                        Toast.makeText(getApplicationContext(), "请选选择商品", Toast.LENGTH_LONG).show();
+                    });
+        }
+    }
+    
+    private void doAddFravite(){
+        if(books == null)
+            return;
+        for (int i = 0; i < books.size(); i++) {
+            BookData book = books.get(i);
+            if(book.isChoosed){
+                mModel.addIntentBook(book.id, new HttpResultListener() {
+                    @Override
+                    public void onSucc() {
+                        Log.d(TAG, "doAddFravite succ: "+book.toString());
+                    }
+
+                    @Override
+                    public void onFailed(int error, String msg) {
+
+                    }
+                });
+            }
+        }
+    }
+
     /**
      * 全选和反选
      * 错误标记：在这里出现过错误
      */
     private void doCheckAll() {
-        List<BookData> child = goods;
+        List<BookData> child = books;
         for (int j = 0; j < child.size(); j++) {
             child.get(j).isChoosed = (allCheckBox.isChecked());//这里出现过错误
         }
@@ -314,7 +422,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     private void calulate() {
         mtotalPrice = 0.00;
         mtotalCount = 0;
-        List<BookData> child = goods;
+        List<BookData> child = books;
         for (int j = 0; j < child.size(); j++) {
             BookData good = child.get(j);
             if (good.isChoosed) {
@@ -335,7 +443,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         adapter = null;
-        goods.clear();
+        books.clear();
         mtotalPrice = 0.00;
         mtotalCount = 0;
     }

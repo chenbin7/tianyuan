@@ -1,5 +1,6 @@
 package cn.tianyuan.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,8 @@ import cn.tianyuan.bookmodel.BookModel;
 import cn.tianyuan.bookmodel.response.BookBeen;
 import cn.tianyuan.bookmodel.response.CommentResponse;
 import cn.tianyuan.common.http.HttpResultListener;
+import cn.tianyuan.order.OrderActivity;
+import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -131,20 +134,30 @@ public class BookDetailActivity extends BaseActivity {
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
                 .subscribe(i -> {
-//                    mModel.a(mBook.id, new HttpResultListener() {
-//                        @Override
-//                        public void onSucc() {
-//                            showAddFraviteToast(true);
-//                        }
-//
-//                        @Override
-//                        public void onFailed(int error, String msg) {
-//                            showAddFraviteToast(false);
-//                        }
-//                    });
+                    mModel.addBook(mBook, new HttpResultListener() {
+                        @Override
+                        public void onSucc() {
+                            showAddFraviteToast(true);
+                        }
+
+                        @Override
+                        public void onFailed(int error, String msg) {
+                            showAddFraviteToast(false);
+                        }
+                    });
                 });
     }
 
     @OnClick(R.id.buy)
-    public void buyBook(){}
+    public void buyBook(){
+        BookData bookData = new BookData(mBook.id, mBook.userid,mBook.typeid, mBook.name, mBook.descriptor,mBook.price,1, System.currentTimeMillis(), mBook.picture);
+        bookData.intentId = "no";
+        Intent intent = new Intent();
+        intent.putExtra("price", mBook.price);
+        ArrayList books = new ArrayList();
+        books.add(bookData);
+        intent.putParcelableArrayListExtra("books",books);
+        intent.setClass(this, OrderActivity.class);
+        doStartActivity(intent);
+    }
 }

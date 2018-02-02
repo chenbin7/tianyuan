@@ -52,29 +52,33 @@ public class buyBook extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String intentIds = request.getParameter("intentIds");
 		String userId = request.getParameter("userId");
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
         String addrId = request.getParameter("addrId");
         String price = request.getParameter("price");
 		System.out.println("intentIds:"+intentIds+"  "+userId+"  "+addrId+"   "+price);
-		if(!CheckUtil.checkParamsNotNull(4, intentIds, userId, addrId, price)) {
+		if(!CheckUtil.checkParamsNotNull(6, intentIds, userId,name,phone, addrId, price)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}	
 		int totalPrice = Integer.parseInt(price);
-		doAddOrderBook(intentIds, userId, addrId, totalPrice, response);
+		doAddOrderBook(intentIds, userId,name,phone, addrId, totalPrice, response);
 	}
 	
-	private void doAddOrderBook(String intentIds, String userId, String addrId, int price,HttpServletResponse response) {
+	private void doAddOrderBook(String intentIds, String userId,String name,String phone, String addrId, int price,HttpServletResponse response) {
 		System.out.println("buyBook");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "insert into orderbook(id,userid,addrid,ordertime,totalprice) VALUES(?,?,?,?,?)";
+			String sql = "insert into orderbook(id,userid,name,phone,addrid,ordertime,totalprice) VALUES(?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			String orderId = UUID.getID();
 			statement.setString(1, orderId);		
 			statement.setString(2, userId);
-			statement.setString(3, addrId);
-			statement.setLong(4, System.currentTimeMillis());
-			statement.setInt(5, price);
+			statement.setString(3, name);
+			statement.setString(4, phone);
+			statement.setString(5, addrId);
+			statement.setLong(6, System.currentTimeMillis());
+			statement.setInt(7, price);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {

@@ -45,6 +45,8 @@
 
 
         <activity android:name=".shopcar.ShopCarActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".order.OrderActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".order.OrderListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.UserActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
         <activity android:name=".user.account.modifypwd.ModifyPwdActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.account.AccountActivity" android:screenOrientation="portrait"/>

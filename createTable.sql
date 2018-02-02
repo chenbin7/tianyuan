@@ -73,6 +73,8 @@ create table orderbook
     id nvarchar(40) primary key,
     userid nvarchar(40),
     addrid nvarchar(40),
+    name nvarchar(40),
+    phone nvarchar(40),
     ordertime bigint,
     totalprice int,
     foreign key(userid) references user(id),
