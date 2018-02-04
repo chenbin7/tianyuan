@@ -22,7 +22,7 @@ public class CheckUtil {
             return false;
         if(parms == null)
             return false;
-        if(parms.length != count)
+        if(parms.length < count)
             return false;
         for (int i = 0; i < parms.length; i++) {
             if(parms[i] == null )

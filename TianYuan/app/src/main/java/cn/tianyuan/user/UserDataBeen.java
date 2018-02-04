@@ -12,11 +12,12 @@ public class UserDataBeen implements Parcelable {
     public String userName;
     public String userHeadPic;
     public String telephone;
+    public String sex;
 
 
 
     public String toString(){
-        return userId+","+userName+","+userHeadPic+","+telephone;
+        return userId+","+userName+","+userHeadPic+","+telephone+","+sex;
     }
 
     public String getUserName(){
@@ -38,6 +39,7 @@ public class UserDataBeen implements Parcelable {
         userName = in.readString();
         userHeadPic = in.readString();
         telephone = in.readString();
+        sex = in.readString();
     }
 
     public static final Creator<UserDataBeen> CREATOR = new Creator<UserDataBeen>() {
@@ -63,5 +65,6 @@ public class UserDataBeen implements Parcelable {
         dest.writeString(userName);
         dest.writeString(userHeadPic);
         dest.writeString(telephone);
+        dest.writeString(sex);
     }
 }

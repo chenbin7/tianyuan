@@ -26,6 +26,7 @@ import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
 import cn.tianyuan.common.login.LoginActivity;
 import cn.tianyuan.user.UserDataBeen;
+import cn.tianyuan.user.account.modifyinfo.ModifyInfoActivity;
 import cn.tianyuan.user.account.modifypwd.ModifyPwdActivity;
 import cn.tianyuan.user.addr.MyAddrActivity;
 import cn.tianyuan.common.util.PermissionUtils;
@@ -81,7 +82,10 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
     }
 
     public void modifyInfo(View v){
-
+        Intent intent = new Intent();
+        intent.putExtra("userdata", mUserData);
+        intent.setClass(AccountActivity.this, ModifyInfoActivity.class);
+        doStartActivity(intent);
     }
 
     PermissionUtils permissionUtils;

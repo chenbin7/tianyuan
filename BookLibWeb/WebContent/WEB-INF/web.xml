@@ -185,6 +185,14 @@
     <url-pattern>/logic/user/modifyPasswd</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>modifyInfo</servlet-name>
+    <servlet-class>logic.user.modifyInfo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modifyInfo</servlet-name>
+    <url-pattern>/logic/user/modifyInfo</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>editHeadPic</servlet-name>
     <servlet-class>logic.user.editHeadPic</servlet-class>
   </servlet>

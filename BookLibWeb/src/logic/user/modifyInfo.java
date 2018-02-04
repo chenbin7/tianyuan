@@ -1,4 +1,4 @@
-package logic;
+package logic.user;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -20,13 +20,13 @@ import jdbc.JdbcUtil;
  * Servlet implementation class register
  */
 
-public class register extends HttpServlet {
+public class modifyInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public register() {
+    public modifyInfo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,38 +45,35 @@ public class register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost register");
-		String sms = request.getParameter("smsCode");
-		String phone = request.getParameter("telephone");
-		String passwd = request.getParameter("passwd");
-		System.out.println("sms:"+sms+"  phone:"+phone);
-		if(!CheckUtil.checkParamsNotNull(3, sms, phone, passwd)) {
+		System.out.println("doPost  modifyInfo");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		String userid = request.getParameter("userId");
+		String phone = request.getParameter("phone");
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
+		System.out.println("userid:"+userid+"  phone:"+phone+"  "+name+"  "+sex);
+		if(!CheckUtil.checkParamsNotNull(4, userid, phone, name, sex)) {
 			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_PARAM).toString());
 			return;
 		}
-		if(!checkSms(sms)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
-			return;
-		}
-		if(hasAccount(phone)) {
-			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_ACCOUNT_EXIT).toString());
+		if(!hasAccount(userid)) {
+			response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_USER_NO_REG).toString());
 		} else {			
-			doRegister(phone, passwd, response);
+			doModify(userid, phone, name, sex, response);
 		}
 	}
 	
-	private void doRegister(String phone, String passwd, HttpServletResponse response) {
-		System.out.println("doRegister");
+	private void doModify(String userid, String phone, String name, String sex, HttpServletResponse response) {
+		System.out.println("doModify");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "insert into user(id,name,phone,sex, passwd) VALUES(?,?,?,?)";
+			String sql = "update user set name=?, phone=?, sex=? where id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-	        
-			statement.setString(1, UUID.getID());
-			statement.setString(2, phone);		
-			statement.setString(3, phone);
-			statement.setString(4, "男");
-			statement.setString(5, passwd);
+			statement.setString(1, name);		
+			statement.setObject(2, phone);
+			statement.setObject(3, sex);
+			statement.setObject(4, userid);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 	        if(result > 0) {
@@ -87,25 +84,15 @@ public class register extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-	}
-
-	private boolean checkSms(String sms) {
-		System.out.println("checkSms:"+sms);
-		if(sms.equals("1234")) {
-			return true;
-		}
-		return false;
 	}
 	
-	
-	private boolean hasAccount(String phone) {
+	private boolean hasAccount(String userid) {
 		Connection connection = JdbcUtil.getConnect();
-		String sql = "select * from user where phone = "+phone;
+		String sql = "select * from user where id=?";
 		try {
-			Statement statement = connection.createStatement();
-			ResultSet set = statement.executeQuery(sql);
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, userid);		
+			ResultSet set = statement.executeQuery();
 			if(set != null && set.next()) {
 				return true;
 			}

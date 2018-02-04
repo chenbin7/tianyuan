@@ -81,6 +81,36 @@ public class UserModel {
                 });
     }
 
+    public void modifyInfo(String name, String phone, String sex, HttpResultListener listener){
+        String userId = AppProperty.userId;
+        String checkSum = new CheckSum()
+                .append("userId", userId)
+                .append("name", name)
+                .append("phone", phone)
+                .append("sex", sex)
+                .getCheckSum();
+        HttpResource.getInstance()
+                .getRetrofit()
+                .create(IUser.class)
+                .modifyInfo(userId,name, phone,sex, checkSum, AppProperty.token)
+                .subscribe(new Consumer<SimpleResponse>() {
+                    @Override
+                    public void accept(SimpleResponse modifyResponse) throws Exception {
+                        Log.d(TAG, "modifyPwd accept: "+modifyResponse);
+                        if(modifyResponse.code == SimpleResponse.OK){
+                            listener.onSucc();
+                        } else {
+                            listener.check(modifyResponse);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        listener.check(throwable);
+                    }
+                });
+    }
+
     public void setUserHeader(String headerUri) {
         if(mUserInfo != null){
             mUserInfo.userHeadPic = headerUri;

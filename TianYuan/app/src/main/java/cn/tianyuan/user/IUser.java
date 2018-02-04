@@ -33,5 +33,16 @@ public interface IUser {
             @Header("token") String token
     );
 
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/user/modifyInfo")
+    Observable<SimpleResponse> modifyInfo(
+            @Field("userId") String userID,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("sex") String sex,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
 
 }

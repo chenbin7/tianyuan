@@ -71,6 +71,7 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onResume();
         mPresenter.pullChangxiaoBooks();
         mPresenter.pullTejiaBooks();
+        mRadioGroup.check(R.id.rbtn_home);
     }
 
     private BookAdapter.OnItemClickListener itemListener = new BookAdapter.OnItemClickListener() {

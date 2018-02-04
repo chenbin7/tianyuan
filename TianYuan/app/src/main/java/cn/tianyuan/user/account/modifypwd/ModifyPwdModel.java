@@ -7,7 +7,6 @@ import cn.tianyuan.common.http.HttpResource;
 import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.common.http.SimpleResponse;
 import cn.tianyuan.user.IUser;
-import cn.tianyuan.user.account.IAccount;
 import cn.tianyuan.common.util.CheckSum;
 import io.reactivex.functions.Consumer;
 

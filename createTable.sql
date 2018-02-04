@@ -7,6 +7,7 @@ create database `BookLib` default character set utf8 collate utf8_general_ci;
 create table user(
     id nvarchar(40) primary key,
     name nvarchar(40),
+    sex char(2),
     phone char(11),
     passwd nvarchar(32),
     header nvarchar(256)
