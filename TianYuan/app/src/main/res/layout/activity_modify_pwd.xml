@@ -53,11 +53,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/y316"
         >
-        <ImageView
-            android:layout_width="@dimen/x29"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/y29"
-            android:src="@drawable/login_pwd"
             android:layout_centerVertical="true"
+            android:text="原密码"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/textsize_sp_16"
             android:layout_marginLeft="@dimen/x30"
             />
         <EditText
@@ -65,7 +67,7 @@
             android:layout_width="@dimen/x200"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x72"
+            android:layout_marginLeft="@dimen/x150"
             android:inputType="textPassword"
             android:maxLines="1"
             android:maxLength="20"
@@ -87,11 +89,13 @@
         android:layout_below="@id/modify_pwd_layout_phone"
         android:layout_marginTop="@dimen/y29"
         >
-        <ImageView
-            android:layout_width="@dimen/x29"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/y29"
-            android:src="@drawable/login_pwd"
             android:layout_centerVertical="true"
+            android:text="新密码"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/textsize_sp_16"
             android:layout_marginLeft="@dimen/x30"
             />
         <EditText
@@ -99,7 +103,7 @@
             android:layout_width="@dimen/x200"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x72"
+            android:layout_marginLeft="@dimen/x150"
             android:inputType="textPassword"
             android:maxLines="1"
             android:maxLength="20"
@@ -121,11 +125,13 @@
         android:layout_below="@id/modify_pwd_layout_security_code"
         android:layout_marginTop="@dimen/y29"
         >
-        <ImageView
-            android:layout_width="@dimen/x29"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/y29"
-            android:src="@drawable/login_pwd"
             android:layout_centerVertical="true"
+            android:text="重复密码"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/textsize_sp_16"
             android:layout_marginLeft="@dimen/x30"
             />
         <EditText
@@ -133,7 +139,7 @@
             android:layout_width="@dimen/x200"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x72"
+            android:layout_marginLeft="@dimen/x150"
             android:inputType="textPassword"
             android:maxLines="1"
             android:maxLength="20"

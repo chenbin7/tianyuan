@@ -90,7 +90,7 @@ public class modifyPasswd extends HttpServlet {
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);		
-			ResultSet set = statement.executeQuery(sql);
+			ResultSet set = statement.executeQuery();
 			if(set != null && set.next()) {
 				return true;
 			}

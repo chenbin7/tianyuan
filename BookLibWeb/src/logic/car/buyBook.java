@@ -83,7 +83,7 @@ public class buyBook extends HttpServlet {
 	        System.out.println("result = "+result);
 	        if(result > 0) {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC).toString());
-	        	updateIntentOrder(orderId, intentIds);
+	        	updateIntentOrder(orderId, intentIds, userId);
 	        } else {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.ERR_COMMON).toString());
 			}
@@ -92,21 +92,47 @@ public class buyBook extends HttpServlet {
 		}
 	}
 	
-	private void updateIntentOrder(String orderId, String intentIds) {
+	private void updateIntentOrder(String orderId, String intentIds, String userId) {
 		String[] ids = intentIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			updateIntentBook(orderId, ids[i]);
+			String intentId = ids[i];
+			System.out.println("updateIntentOrder  "+intentId);
+			if(intentId.contains("no")) {
+				String bookid = intentId.replace("no", "");
+				doAddIntentBook(userId, bookid, orderId);
+			} else {			
+				updateIntentBook(orderId, ids[i], userId);
+			}
 		}
 	}
 	
-	private void updateIntentBook(String orderId, String intentId) {
-		System.out.println("updateIntentBook   "+orderId+"    "+intentId);
+	private void updateIntentBook(String orderId, String intentId, String userId) {
+		System.out.println("updateIntentBook   "+orderId+"    "+intentId+"  "+userId);
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "update intentbook set orderid=? where id=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, orderId);		
 			statement.setString(2, intentId);
+	        int result = statement.executeUpdate();
+	        System.out.println("result = "+result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void doAddIntentBook(String userId, String bookId, String orderId) {
+		System.out.println("doAddIntentBook   "+orderId+"    "+bookId+"  "+userId);
+		try {
+			Connection connection = (Connection) JdbcUtil.getConnect();	
+			String sql = "insert into intentbook(id,userid,bookid,count, orderid) VALUES(?,?,?,?,?)";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			String intentId = UUID.getID();
+			statement.setString(1, intentId);		
+			statement.setString(2, userId);
+			statement.setString(3, bookId);
+			statement.setInt(4, 1);
+			statement.setString(5, orderId);
 	        int result = statement.executeUpdate();
 	        System.out.println("result = "+result);
 		} catch (Exception e) {

@@ -16,35 +16,10 @@ import retrofit2.http.POST;
 public interface IOrder {
 
     @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/listIntents")
-    Observable<ShopCarResponse> pullShopcarBooks(
-            @Field("userId") String userID,
-            @Field("checkSum") String checkSum,
-            @Header("token") String token
-    );
-
-    @FormUrlEncoded
     @POST("/BookLibWeb/logic/car/addIntentBook")
     Observable<SimpleResponse> addBookToCar(
             @Field("userId") String userID,
             @Field("bookId") String bookId,
-            @Field("checkSum") String checkSum,
-            @Header("token") String token
-    );
-
-    @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/deteleBook")
-    Observable<SimpleResponse> deteleBookFormCar(
-            @Field("intentId") String intentId,
-            @Field("checkSum") String checkSum,
-            @Header("token") String token
-    );
-
-    @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/updateIntention")
-    Observable<SimpleResponse> updateIntent(
-            @Field("intentId") String intnetId,
-            @Field("bookCount") int bookCount,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );
@@ -63,11 +38,41 @@ public interface IOrder {
     );
 
     @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/listOrder")
-    Observable<OrderResponse> pullOrder(
-            @Field("userId") String userID,
+    @POST("/BookLibWeb/logic/car/deteleBookFormCar")
+    Observable<SimpleResponse> deteleBookFormCar(
+            @Field("intentId") String intentId,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/listIntents")
+    Observable<ShopCarResponse> pullShopcarBooks(
+            @Field("userid") String userID,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/listOrder")
+    Observable<OrderResponse> pullOrder(
+            @Field("userid") String userID,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/updateIntention")
+    Observable<SimpleResponse> updateIntent(
+            @Field("intentId") String intnetId,
+            @Field("bookCount") int bookCount,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
+
+
 
 }

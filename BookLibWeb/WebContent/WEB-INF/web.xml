@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BookLibWeb</display-name>
+  
+<servlet>
+    <servlet-name>addIntentBook</servlet-name>
+    <servlet-class>logic.car.addIntentBook</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addIntentBook</servlet-name>
+    <url-pattern>/logic/car/addIntentBook</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>buyBook</servlet-name>
+    <servlet-class>logic.car.buyBook</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>buyBook</servlet-name>
+    <url-pattern>/logic/car/buyBook</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>deteleBookFormCar</servlet-name>
+    <servlet-class>logic.car.deteleBookFormCar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deteleBookFormCar</servlet-name>
+    <url-pattern>/logic/car/deteleBookFormCar</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>listIntents</servlet-name>
+    <servlet-class>logic.car.listIntents</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>listIntents</servlet-name>
+    <url-pattern>/logic/car/listIntents</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>listOrder</servlet-name>
+    <servlet-class>logic.car.listOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>listOrder</servlet-name>
+    <url-pattern>/logic/car/listOrder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>updateIntention</servlet-name>
+    <servlet-class>logic.car.updateIntention</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateIntention</servlet-name>
+    <url-pattern>/logic/car/updateIntention</url-pattern>
+  </servlet-mapping>
+  
+
+
+
+
 
   <servlet>
     <servlet-name>tehui</servlet-name>

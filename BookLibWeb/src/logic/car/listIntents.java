@@ -57,6 +57,7 @@ public class listIntents extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		String userid = request.getParameter("userid");
+		System.out.println("userid:"+userid);
 		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
 		System.out.println(url);
 		doGetAllIntents(userid, url, response);
@@ -67,9 +68,10 @@ public class listIntents extends HttpServlet {
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
 			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count from book, intentbook where book.id in (select bookid from intentbook where userid=?)";
-			Statement statement = connection.prepareStatement(sql);		
-	        ResultSet set = statement.executeQuery(sql);
-	        System.out.println("result = "+set);
+			PreparedStatement statement = connection.prepareStatement(sql);		
+			statement.setString(1, userId);
+	        ResultSet set = statement.executeQuery();
+	        System.out.println("result X= "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {
 	        	JSONObject json = new JSONObject(); 
@@ -84,7 +86,7 @@ public class listIntents extends HttpServlet {
                 json.put("addtime", set.getLong("addtime"));
                 json.put("picture", url+set.getString("picture"));
                 json.put("intentId", url+set.getString("intentid"));
-                json.put("count", url+set.getString("count"));
+                json.put("count", set.getInt("count"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 

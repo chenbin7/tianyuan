@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.tianyuan.AppProperty;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
@@ -27,6 +25,7 @@ import cn.tianyuan.bookmodel.response.BookBeen;
 import cn.tianyuan.bookmodel.response.CommentResponse;
 import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.order.OrderActivity;
+import cn.tianyuan.orderModel.OrderModel;
 import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -129,20 +128,32 @@ public class BookDetailActivity extends BaseActivity {
                 });
     }
 
+    private void showAddCarToast(boolean succ){
+        Observable.just(succ)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(b -> {
+                    if(b){
+                        Toast.makeText(getApplicationContext(), "加入购物车成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "加入购物车失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     @OnClick(R.id.add_to_car)
     public void addToCar(){
         Observable.just(0)
                 .subscribeOn(Schedulers.io())
                 .subscribe(i -> {
-                    mModel.addBook(mBook, new HttpResultListener() {
+                    OrderModel.getInstance().addIntentBook(mBook.id, new HttpResultListener() {
                         @Override
                         public void onSucc() {
-                            showAddFraviteToast(true);
+                            showAddCarToast(true);
                         }
 
                         @Override
                         public void onFailed(int error, String msg) {
-                            showAddFraviteToast(false);
+                            showAddCarToast(false);
                         }
                     });
                 });
@@ -151,7 +162,7 @@ public class BookDetailActivity extends BaseActivity {
     @OnClick(R.id.buy)
     public void buyBook(){
         BookData bookData = new BookData(mBook.id, mBook.userid,mBook.typeid, mBook.name, mBook.descriptor,mBook.price,1, System.currentTimeMillis(), mBook.picture);
-        bookData.intentId = "no";
+        bookData.intentId = mBook.id+"no";
         Intent intent = new Intent();
         intent.putExtra("price", mBook.price);
         ArrayList books = new ArrayList();

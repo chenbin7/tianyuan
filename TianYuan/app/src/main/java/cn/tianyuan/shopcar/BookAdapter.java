@@ -12,49 +12,39 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.tianyuan.R;
 import cn.tianyuan.common.util.UtilTool;
 import cn.tianyuan.orderModel.response.BookData;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2018/1/24.
  */
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderView> {
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderView> {
     private static final String TAG = BookAdapter.class.getSimpleName();
 
-    private List<BookData> goods;
+    private List<BookData> books;
     private ModifyCountInterface modifyCountInterface;
     private CheckInterface checkInterface;
     Context mcontext;
 
-    public BookAdapter(Context context, List<BookData> goods) {
+    public BookAdapter(Context context) {
         this.mcontext = context;
-        this.goods = goods;
     }
 
-    public void setGoods(List<BookData> goods) {
-        this.goods = goods;
-        Observable.just(0)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(i -> {
-                    notifyDataSetChanged();
-                });
+    public void setData(List<BookData> books) {
+        this.books = books;
+        Log.d(TAG, "setData: ");
+        notifyDataSetChanged();
     }
 
     public BookData getChild(int position) {
-        if (goods == null)
+        if (books == null)
             return null;
-        if (position < 0 || position >= goods.size())
+        if (position < 0 || position >= books.size())
             return null;
-        return goods.get(position);
+        return books.get(position);
     }
 
     public void setCheckInterface(CheckInterface checkInterface) {
@@ -66,28 +56,28 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
     }
 
     @Override
-    public GoodsHolderView onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BooksHolderView onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shopcat_product, parent, false);
-        GoodsHolderView holder = new GoodsHolderView(view);
+        BooksHolderView holder = new BooksHolderView(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final GoodsHolderView holder, final int position) {
-        final BookData child = goods.get(position);
-
-        holder.goodsName.setText(child.descriptor);
-        holder.goodsPrice.setText("￥" + child.price + "");
-        holder.goodsNum.setText(String.valueOf(child.count));
+    public void onBindViewHolder(final BooksHolderView holder, final int position) {
+        Log.d(TAG, "onBindViewHolder: ");
+        final BookData book = books.get(position);
+        holder.goodsName.setText(book.descriptor);
+        holder.goodsPrice.setText("￥" + book.price + "");
+        holder.goodsNum.setText(String.valueOf(book.count));
         holder.goodsImage.setImageResource(R.drawable.cmaz);
-        holder.goods_size.setText("类型:" + child.typeId);
-
-        holder.singleCheckBox.setChecked(child.isChoosed);
+        holder.goods_size.setText("类型:" + book.typeid);
+        holder.singleCheckBox.setChecked(book.isChoosed);
         holder.singleCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean checked = ((CheckBox) v).isChecked();
-                child.isChoosed = checked;
+                book.isChoosed = checked;
                 holder.singleCheckBox.setChecked(checked);
                 checkInterface.checkChild(position, checked);
             }
@@ -107,7 +97,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
         holder.goodsNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(position, holder.goodsNum, holder.singleCheckBox.isChecked(), child);
+                showDialog(position, holder.goodsNum, holder.singleCheckBox.isChecked(), book);
             }
         });
         holder.delGoods.setOnClickListener(new View.OnClickListener() {
@@ -169,9 +159,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
 
     @Override
     public int getItemCount() {
-        if (goods == null)
+        if (books == null)
             return 0;
-        return goods.size();
+        return books.size();
     }
 
     private int count = 0;
@@ -235,32 +225,31 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.GoodsHolderVie
         dialog.show();
     }
 
-    public class GoodsHolderView extends RecyclerView.ViewHolder {
+    public class BooksHolderView extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.single_checkBox)
         CheckBox singleCheckBox;
-        @BindView(R.id.goods_image)
         ImageView goodsImage;
-        @BindView(R.id.goods_name)
         TextView goodsName;
-        @BindView(R.id.goods_size)
         TextView goods_size;
-        @BindView(R.id.goods_price)
         TextView goodsPrice;
-        @BindView(R.id.reduce_goodsNum)
         TextView reduceGoodsNum;
-        @BindView(R.id.goods_Num)
         TextView goodsNum;
-        @BindView(R.id.increase_goods_Num)
         TextView increaseGoodsNum;
-        @BindView(R.id.goodsSize)
         TextView goodsSize;
-        @BindView(R.id.del_goods)
         TextView delGoods;
 
-        public GoodsHolderView(View itemView) {
+        public BooksHolderView(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            singleCheckBox = (CheckBox) itemView.findViewById(R.id.single_checkBox);
+            goodsImage = (ImageView) itemView.findViewById(R.id.goods_image);
+            goodsName = (TextView) itemView.findViewById(R.id.goods_name);
+            goods_size = (TextView) itemView.findViewById(R.id.goods_size);
+            goodsPrice = (TextView) itemView.findViewById(R.id.goods_price);
+            reduceGoodsNum = (TextView) itemView.findViewById(R.id.reduce_goodsNum);
+            goodsNum = (TextView) itemView.findViewById(R.id.goods_Num);
+            increaseGoodsNum = (TextView) itemView.findViewById(R.id.increase_goods_Num);
+            goodsSize = (TextView) itemView.findViewById(R.id.goodsSize);
+            delGoods = (TextView) itemView.findViewById(R.id.del_goods);
         }
     }
 }

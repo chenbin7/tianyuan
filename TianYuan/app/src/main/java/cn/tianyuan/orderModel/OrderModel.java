@@ -50,7 +50,7 @@ public class OrderModel {
     public void pullIntentsList(@NonNull HttpResultListener listener) {
         String userId = AppProperty.userId;
         String checkSum = new CheckSum()
-                .append("userId", userId)
+                .append("userid", userId)
                 .getCheckSum();
         HttpResource.getInstance()
                 .getRetrofit()
@@ -60,7 +60,7 @@ public class OrderModel {
                 .subscribe(new Consumer<ShopCarResponse>() {
                     @Override
                     public void accept(ShopCarResponse response) throws Exception {
-                        Log.d(TAG, "pullBooksByType  accept succ: " + response);
+                        Log.d(TAG, "pullIntentsList  accept succ: " + response);
                         if (response.code == HttpResultListener.SUCC) {
                             intentBooks = response.data;
                         }
@@ -69,7 +69,7 @@ public class OrderModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d(TAG, "pullBooksByType  accept:  fail");
+                        Log.d(TAG, "pullIntentsList  accept:  fail");
                         listener.check(throwable);
                     }
                 });
@@ -160,6 +160,7 @@ public class OrderModel {
                 .getRetrofit()
                 .create(IOrder.class)
                 .buyBook(intentIds, userId,name, phone, addrId, price, checkSum, AppProperty.token)
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override
                     public void accept(SimpleResponse response) throws Exception {

@@ -23,10 +23,10 @@ public interface IAccount {
 
     @FormUrlEncoded
     @POST("/BookLibWeb/logic/pwd/modify")
-    Observable<SimpleResponse> modifyPwd(
+    Observable<SimpleResponse> modifyPasswd(
             @Field("userId") String userId,
             @Field("oldPasswd") String oldPwd,
-            @Field("passwd") String newPwd,
+            @Field("newPasswd") String newPwd,
             @Field("checkSum") String checkSum
     );
 

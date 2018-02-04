@@ -80,23 +80,6 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         initEvents();
     }
 
-    /**
-     * 模拟数据<br>
-     * 遵循适配器的数据列表填充原则，组元素被放在一个list中，对应着组元素的下辖子元素被放在Map中
-     * 其Key是组元素的Id
-     */
-    private void initData() {
-        mcontext = this;
-//        books = new ArrayList<BookData>();
-//        Random random = new Random();
-//        for (int j = 0; j < 10; j++) {
-//            int[] img = {R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz, R.drawable.cmaz};
-//            //i-j 就是商品的id， 对应着第几个店铺的第几个商品，1-1 就是第一个店铺的第一个商品
-//            books.add(new BookData("id" + j, "user"+j, "type"+j, "书本"+(j+1),"第"+j+"本书-出头天者", random.nextInt(50), random.nextInt(5), 0, "XXX"));
-//        }
-        mModel = OrderModel.getInstance();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -104,8 +87,9 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onSucc() {
                 books = mModel.getIntentBooks();
+                Log.d(TAG, "onSucc: "+books.size());
                 if(books != null){
-                    adapter.setGoods(books);
+                    adapter.setData(books);
                 }
             }
 
@@ -120,9 +104,19 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    /**
+     * 模拟数据<br>
+     * 遵循适配器的数据列表填充原则，组元素被放在一个list中，对应着组元素的下辖子元素被放在Map中
+     * 其Key是组元素的Id
+     */
+    private void initData() {
+        mcontext = this;
+        mModel = OrderModel.getInstance();
+    }
+
     private void initEvents() {
         actionBarEdit.setOnClickListener(this);
-        adapter = new BookAdapter(mcontext, books);
+        adapter = new BookAdapter(mcontext);
         adapter.setCheckInterface(this);//关键步骤1：设置复选框的接口
         adapter.setModifyCountInterface(this); //关键步骤2:设置增删减的接口
         listView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -443,7 +437,9 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         adapter = null;
-        books.clear();
+        if(books != null) {
+            books.clear();
+        }
         mtotalPrice = 0.00;
         mtotalCount = 0;
     }

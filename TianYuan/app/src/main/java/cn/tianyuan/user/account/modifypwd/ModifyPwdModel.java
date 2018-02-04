@@ -6,6 +6,7 @@ import cn.tianyuan.AppProperty;
 import cn.tianyuan.common.http.HttpResource;
 import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.common.http.SimpleResponse;
+import cn.tianyuan.user.IUser;
 import cn.tianyuan.user.account.IAccount;
 import cn.tianyuan.common.util.CheckSum;
 import io.reactivex.functions.Consumer;
@@ -30,8 +31,8 @@ public class ModifyPwdModel {
                 .getCheckSum();
         HttpResource.getInstance()
                 .getRetrofit()
-                .create(IAccount.class)
-                .modifyPwd(userId, oldPwd, newPwd, checkSum)
+                .create(IUser.class)
+                .modifyPwd(userId, oldPwd, newPwd, checkSum, AppProperty.token)
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override
                     public void accept(SimpleResponse simpleResponse) throws Exception {

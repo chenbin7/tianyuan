@@ -27,7 +27,7 @@ import net.sf.json.JSONObject;
 /**
  * Servlet implementation class getAllBooks
  */
-@WebServlet("/listIntents")
+@WebServlet("/listOrder")
 public class listOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -53,38 +53,31 @@ public class listOrder extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  listIntents");
+		System.out.println("doPost  listOrder");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		String userid = request.getParameter("userid");
-		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
-		System.out.println(url);
-		doGetAllIntents(userid, url, response);
+		doGetAllOrders(userid, response);
 	}
 	
-	private void doGetAllIntents(String userId, String url, HttpServletResponse response) {
-		System.out.println("doGetAllIntents X");
+	private void doGetAllOrders(String userId, HttpServletResponse response) {
+		System.out.println("doGetAllOrders XX");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count from book, intentbook where book.id in (select bookid from intentbook where userid=?)";
-			Statement statement = connection.prepareStatement(sql);		
-	        ResultSet set = statement.executeQuery(sql);
+			String sql = "select orderbook.id, orderbook.name, orderbook.phone, orderbook.totalprice, orderbook.ordertime, addr.fulladdr from orderbook, addr where addr.id=orderbook.addrid and orderbook.userid=?";
+			PreparedStatement statement = connection.prepareStatement(sql);		
+			statement.setString(1, userId);
+	        ResultSet set = statement.executeQuery();
 	        System.out.println("result = "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {
 	        	JSONObject json = new JSONObject(); 
 	        	json.put("id", set.getString("id"));
-	        	json.put("userid", set.getString("userid"));
-	        	json.put("typeid", set.getString("typeid"));
                 json.put("name", set.getString("name"));
-                json.put("descriptor", set.getString("descriptor"));
-                json.put("price", set.getInt("price"));
-                json.put("sellsum", set.getInt("sellsum"));
-                json.put("storesum", set.getInt("storesum"));
-                json.put("addtime", set.getLong("addtime"));
-                json.put("picture", url+set.getString("picture"));
-                json.put("intentId", url+set.getString("intentid"));
-                json.put("count", url+set.getString("count"));
+                json.put("phone", set.getString("phone"));
+                json.put("price", set.getInt("totalprice"));
+                json.put("time", set.getLong("ordertime"));
+                json.put("addr", set.getString("fulladdr"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());
 	        } 

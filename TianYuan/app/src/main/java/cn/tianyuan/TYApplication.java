@@ -37,11 +37,11 @@ public class TYApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-        startLibService();
+//        startLibService();
         initImageLoader();
         AndroidSharedPreferences.getInstance().init(getApplicationContext());
         AMapLocation.getInstance().initAMap(getApplicationContext());
-        HttpResource.getInstance().setUrl("http://192.168.1.9:8080");
+        HttpResource.getInstance().setUrl("http://192.168.1.5:8080");
         this.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
 
