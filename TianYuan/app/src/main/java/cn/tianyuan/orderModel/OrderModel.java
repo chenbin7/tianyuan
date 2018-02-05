@@ -100,14 +100,15 @@ public class OrderModel {
                 });
     }
 
-    public void deleteIntentBook(String intnetId, @NonNull HttpResultListener listener){
+    public void deleteIntentBook(BookData book, @NonNull HttpResultListener listener){
+        intentBooks.remove(book);
         String checkSum = new CheckSum()
-                .append("intnetId", intnetId)
+                .append("intnetId", book.intentId)
                 .getCheckSum();
         HttpResource.getInstance()
                 .getRetrofit()
                 .create(IOrder.class)
-                .deteleBookFormCar(intnetId, checkSum, AppProperty.token)
+                .deteleBookFormCar(book.intentId, checkSum, AppProperty.token)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override

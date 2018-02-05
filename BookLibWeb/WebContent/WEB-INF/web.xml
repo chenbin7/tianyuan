@@ -52,10 +52,6 @@
   </servlet-mapping>
   
 
-
-
-
-
   <servlet>
     <servlet-name>tehui</servlet-name>
     <servlet-class>logic.book.tehui</servlet-class>

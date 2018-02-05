@@ -37,11 +37,11 @@ public class TYApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-//        startLibService();
         initImageLoader();
         AndroidSharedPreferences.getInstance().init(getApplicationContext());
         AMapLocation.getInstance().initAMap(getApplicationContext());
-        HttpResource.getInstance().setUrl("http://192.168.1.5:8080");
+//        HttpResource.getInstance().setUrl("http://192.168.1.5:8080");
+        HttpResource.getInstance().setUrl("http://192.168.1.9:8080");
         this.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
 
@@ -78,17 +78,6 @@ public class TYApplication extends Application {
 
     public static TYApplication getInstance(){
         return sApplication;
-    }
-
-    private void startLibService(){
-        Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), LibService.class);
-        startService(intent);
-        Observable.just(0)
-                .delay(1000, TimeUnit.MILLISECONDS)
-                .subscribe(i -> {
-                    DBManager.getInstance().initBookType(getResources().getStringArray(R.array.book_type));
-                });
     }
 
     private ActivityLifecycleCallbacks activityLifecycleCallbacks = new ActivityLifecycleCallbacks() {

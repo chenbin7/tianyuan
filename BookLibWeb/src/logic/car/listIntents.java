@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.function.LongToDoubleFunction;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -67,25 +68,34 @@ public class listIntents extends HttpServlet {
 		System.out.println("doGetAllIntents X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count from book, intentbook where book.id in (select bookid from intentbook where userid=?)";
+			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id in (select bookid from intentbook where userid=?)";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 			statement.setString(1, userId);
 	        ResultSet set = statement.executeQuery();
 	        System.out.println("result X= "+set);
 	        JSONArray jsonArray = new JSONArray();
 	        while(set.next()) {
+	        	try {
+					String orderId = set.getString("orderid");
+					if(orderId != null && orderId.length() > 0) {
+						System.out.println("orderid:"+orderId);
+						continue;
+					}
+	        	} catch (Exception e) {
+					// TODO: handle exception
+				}
 	        	JSONObject json = new JSONObject(); 
 	        	json.put("id", set.getString("id"));
 	        	json.put("userid", set.getString("userid"));
-	        	json.put("typeid", set.getString("typeid"));
-                json.put("name", set.getString("name"));
+	        	json.put("type", set.getString("tname"));
+                json.put("name", set.getString("bname"));
                 json.put("descriptor", set.getString("descriptor"));
                 json.put("price", set.getInt("price"));
                 json.put("sellsum", set.getInt("sellsum"));
                 json.put("storesum", set.getInt("storesum"));
                 json.put("addtime", set.getLong("addtime"));
                 json.put("picture", url+set.getString("picture"));
-                json.put("intentId", url+set.getString("intentid"));
+                json.put("intentId", set.getString("intentid"));
                 json.put("count", set.getInt("count"));
                 jsonArray.add(json);
                 System.out.println("result = "+json.toString());

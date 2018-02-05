@@ -57,6 +57,7 @@ public class UserActivity extends BaseActivity implements IUserUI {
     }
 
     public void goShopCar(View v){
+        Log.e(TAG, "goShopCar: ");
         Intent intent = new Intent();
         intent.setClass(this, ShopCarActivity.class);
         doStartActivity(intent);

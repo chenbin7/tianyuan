@@ -30,7 +30,7 @@ import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class ShopCarActivity extends BaseActivity implements View.OnClickListener, BookAdapter.CheckInterface, BookAdapter.ModifyCountInterface {
+public class ShopCarActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = ShopCarActivity.class.getSimpleName();
 
     @BindView(R.id.listView)
@@ -51,8 +51,8 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     TextView delGoods;
     @BindView(R.id.share_info)
     LinearLayout shareInfo;
-    @BindView(R.id.ll_cart)
-    LinearLayout llCart;
+    @BindView(R.id.bottom_bar)
+    LinearLayout mBottomBar;
     @BindView(R.id.shoppingcat_num)
     TextView shoppingcatNum;
     @BindView(R.id.actionBar_edit)
@@ -61,12 +61,12 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     LinearLayout empty_shopcart;
 
     private Context mcontext;
-    private double mtotalPrice = 0.00;
+    private int mtotalPrice = 0;
     private int mtotalCount = 0;
 
     //false就是编辑，ture就是完成
     private boolean flag = false;
-    private BookAdapter adapter;
+    private ShopCarAdapter adapter;
     private List<BookData> books; //子元素的列表
 
     OrderModel mModel;
@@ -76,8 +76,11 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopcar);
         ButterKnife.bind(this);
-        initData();
-        initEvents();
+        mcontext = this;
+        mModel = OrderModel.getInstance();
+        setEmpty(false);
+        initList();
+        Log.e(TAG, "onCreate: ");
     }
 
     @Override
@@ -89,8 +92,12 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                 books = mModel.getIntentBooks();
                 Log.d(TAG, "onSucc: "+books.size());
                 if(books != null){
+                    for (int i = 0; i < books.size(); i++) {
+                        Log.e(TAG, "onSucc: "+books.get(i).toString());
+                    }
                     adapter.setData(books);
                 }
+                setEmpty(false);
             }
 
             @Override
@@ -100,27 +107,62 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                         .subscribe(i -> {
                             Toast.makeText(getApplicationContext(), "您的购物车是空的", Toast.LENGTH_LONG).show();
                         });
+                setEmpty(true);
             }
         });
     }
 
-    /**
-     * 模拟数据<br>
-     * 遵循适配器的数据列表填充原则，组元素被放在一个list中，对应着组元素的下辖子元素被放在Map中
-     * 其Key是组元素的Id
-     */
-    private void initData() {
-        mcontext = this;
-        mModel = OrderModel.getInstance();
+    private void setEmpty(boolean empty){
+        Observable.just(empty)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(b -> {
+                    if(b){
+                        empty_shopcart.setVisibility(View.VISIBLE);
+                        mBottomBar.setVisibility(View.GONE);
+                        actionBarEdit.setVisibility(View.GONE);
+                    } else {
+                        empty_shopcart.setVisibility(View.GONE);
+                        mBottomBar.setVisibility(View.VISIBLE);
+                        actionBarEdit.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
-    private void initEvents() {
+    private void initList() {
         actionBarEdit.setOnClickListener(this);
-        adapter = new BookAdapter(mcontext);
-        adapter.setCheckInterface(this);//关键步骤1：设置复选框的接口
-        adapter.setModifyCountInterface(this); //关键步骤2:设置增删减的接口
+        adapter = new ShopCarAdapter(mcontext);
         listView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         listView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ShopCarAdapter.OnItemClickListener() {
+            @Override
+            public void onUpdateCount(BookData book, int position) {
+                updateIntentBook(book);
+                calulate();
+            }
+
+            @Override
+            public void onCheckedChange(BookData book, int position) {
+                setCartNum();
+                calulate();
+            }
+
+            @Override
+            public void onDelete(BookData book, int position) {
+                setCartNum();
+                calulate();
+                mModel.deleteIntentBook(book, new HttpResultListener() {
+                    @Override
+                    public void onSucc() {
+                        Log.d(TAG, "doDeleteIntent  onSucc: "+book.toString());
+                    }
+
+                    @Override
+                    public void onFailed(int error, String msg) {
+                        Log.d(TAG, "doDeleteIntent  onFailed: "+book.toString());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -135,22 +177,13 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     private void setCartNum() {
         int count = 0;
         if (books != null) {
-            count = books.size();
+            for (int i = 0; i < books.size(); i++) {
+                if(books.get(i).isChoosed){
+                    count++;
+                }
+            }
         }
-        //购物车已经清空
-        if (count == 0) {
-            clearCart();
-        } else {
-            shoppingcatNum.setText("购物车(" + count + ")");
-        }
-
-    }
-
-    private void clearCart() {
-        shoppingcatNum.setText("购物车(0)");
-        actionBarEdit.setVisibility(View.GONE);
-        llCart.setVisibility(View.GONE);
-        empty_shopcart.setVisibility(View.VISIBLE);//这里发生过错误
+        shoppingcatNum.setText("购物车(" + count + ")");
     }
 
     /**
@@ -166,7 +199,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
             if (book.isChoosed) {
                 toBeDeleteChilds.add(book);
                 if(book.isChoosed){
-                    mModel.deleteIntentBook(book.intentId, new HttpResultListener() {
+                    mModel.deleteIntentBook(book, new HttpResultListener() {
                         @Override
                         public void onSucc() {
                             Log.d(TAG, "doDeleteIntent  onSucc: "+book.toString());
@@ -187,16 +220,6 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    /**
-     * @param position  组元素的位置
-     * @param isChecked 子元素的选中与否
-     */
-    @Override
-    public void checkChild(int position, boolean isChecked) {
-        adapter.notifyDataSetChanged();
-        calulate();
-    }
-
     private void updateIntentBook(BookData book){
         mModel.updateIntentBook(book.intentId, book.count, new HttpResultListener() {
             @Override
@@ -209,58 +232,6 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                 Log.d(TAG, "doIncrease  onFailed: "+error);
             }
         });
-    }
-
-    @Override
-    public void doIncrease(int position, View showCountView, boolean isChecked) {
-        BookData good = (BookData) adapter.getChild(position);
-        int count = good.count;
-        count++;
-        good.count = count;
-        ((TextView) showCountView).setText(String.valueOf(count));
-        adapter.notifyDataSetChanged();
-        calulate();
-        updateIntentBook(good);
-    }
-
-    /**
-     * @param position
-     * @param showCountView
-     * @param isChecked
-     */
-    @Override
-    public void doDecrease(int position, View showCountView, boolean isChecked) {
-        BookData good = (BookData) adapter.getChild(position);
-        int count = good.count;
-        if (count == 1) {
-            return;
-        }
-        count--;
-        good.count = count;
-        ((TextView) showCountView).setText("" + count);
-        adapter.notifyDataSetChanged();
-        calulate();
-        updateIntentBook(good);
-    }
-
-    /**
-     * @param position
-     */
-    @Override
-    public void childDelete(int position) {
-        books.remove(position);
-        adapter.notifyDataSetChanged();
-        calulate();
-    }
-
-    public void doUpdate(int position, View showCountView, boolean isChecked) {
-        BookData good = (BookData) adapter.getChild(position);
-        int count = good.count;
-        Log.i(TAG, "进行更新数据，数量" + count + "");
-        ((TextView) showCountView).setText(String.valueOf(count));
-        adapter.notifyDataSetChanged();
-        calulate();
-        updateIntentBook(good);
     }
 
     private void setVisiable() {
@@ -291,7 +262,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                     return;
                 }
                 dialog = new AlertDialog.Builder(mcontext).create();
-                dialog.setMessage("总计:" + mtotalCount + "种商品，" + mtotalPrice + "元");
+                dialog.setMessage("总计:" + mtotalCount + "种商品，" + mtotalPrice/100 + ".00 元");
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE, "支付", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -414,7 +385,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
      * 3.给textView填充数据
      */
     private void calulate() {
-        mtotalPrice = 0.00;
+        mtotalPrice = 0;
         mtotalCount = 0;
         List<BookData> child = books;
         for (int j = 0; j < child.size(); j++) {
@@ -424,24 +395,13 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                 mtotalPrice += good.price * good.count;
             }
         }
-        totalPrice.setText("￥" + mtotalPrice + "");
+        totalPrice.setText("￥" + mtotalPrice/100 + ".00");
         goPay.setText("去支付(" + mtotalCount + ")");
         if (mtotalCount == 0) {
             setCartNum();
         } else {
             shoppingcatNum.setText("购物车(" + mtotalCount + ")");
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        adapter = null;
-        if(books != null) {
-            books.clear();
-        }
-        mtotalPrice = 0.00;
-        mtotalCount = 0;
     }
 
 }

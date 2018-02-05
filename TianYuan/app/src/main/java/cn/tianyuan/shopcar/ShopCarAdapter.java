@@ -12,47 +12,37 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
+
 import cn.tianyuan.R;
 import cn.tianyuan.common.util.UtilTool;
 import cn.tianyuan.orderModel.response.BookData;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2018/1/24.
  */
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderView> {
-    private static final String TAG = BookAdapter.class.getSimpleName();
+public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.BooksHolderView> {
+    private static final String TAG = ShopCarAdapter.class.getSimpleName();
 
     private List<BookData> books;
-    private ModifyCountInterface modifyCountInterface;
-    private CheckInterface checkInterface;
     Context mcontext;
 
-    public BookAdapter(Context context) {
+    public ShopCarAdapter(Context context) {
         this.mcontext = context;
     }
 
     public void setData(List<BookData> books) {
         this.books = books;
         Log.d(TAG, "setData: ");
-        notifyDataSetChanged();
-    }
-
-    public BookData getChild(int position) {
-        if (books == null)
-            return null;
-        if (position < 0 || position >= books.size())
-            return null;
-        return books.get(position);
-    }
-
-    public void setCheckInterface(CheckInterface checkInterface) {
-        this.checkInterface = checkInterface;
-    }
-
-    public void setModifyCountInterface(ModifyCountInterface modifyCountInterface) {
-        this.modifyCountInterface = modifyCountInterface;
+        Observable.just(0)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(i -> {
+                    notifyDataSetChanged();
+                });
     }
 
     @Override
@@ -64,109 +54,125 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderVie
     }
 
     @Override
-    public void onBindViewHolder(final BooksHolderView holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: ");
-        final BookData book = books.get(position);
-        holder.goodsName.setText(book.descriptor);
-        holder.goodsPrice.setText("￥" + book.price + "");
-        holder.goodsNum.setText(String.valueOf(book.count));
-        holder.goodsImage.setImageResource(R.drawable.cmaz);
-        holder.goods_size.setText("类型:" + book.typeid);
-        holder.singleCheckBox.setChecked(book.isChoosed);
-        holder.singleCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = ((CheckBox) v).isChecked();
-                book.isChoosed = checked;
-                holder.singleCheckBox.setChecked(checked);
-                checkInterface.checkChild(position, checked);
-            }
-        });
-        holder.increaseGoodsNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                modifyCountInterface.doIncrease(position, holder.goodsNum, holder.singleCheckBox.isChecked());
-            }
-        });
-        holder.reduceGoodsNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                modifyCountInterface.doDecrease(position, holder.goodsNum, holder.singleCheckBox.isChecked());
-            }
-        });
-        holder.goodsNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(position, holder.goodsNum, holder.singleCheckBox.isChecked(), book);
-            }
-        });
-        holder.delGoods.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(mcontext)
-                        .setMessage("确定要删除该商品吗")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                modifyCountInterface.childDelete(position);
-                            }
-                        })
-                        .create()
-                        .show();
-            }
-        });
-    }
-
-    /**
-     * 店铺的复选框
-     */
-    public interface CheckInterface {
-
-        /**
-         * 子选框状态改变触发的事件
-         *
-         * @param position  子元素的位置
-         * @param isChecked 子元素的选中与否
-         */
-        void checkChild(int position, boolean isChecked);
-    }
-
-    /**
-     * 改变数量的接口
-     */
-    public interface ModifyCountInterface {
-        /**
-         * 增加操作
-         *
-         * @param position      元素的位置
-         * @param showCountView 用于展示变化后数量的View
-         * @param isChecked     子元素选中与否
-         */
-        void doIncrease(int position, View showCountView, boolean isChecked);
-
-        void doDecrease(int position, View showCountView, boolean isChecked);
-
-        void doUpdate(int position, View showCountView, boolean isChecked);
-
-        /**
-         * 删除子Item
-         *
-         * @param position
-         */
-        void childDelete(int position);
-    }
-
-    @Override
     public int getItemCount() {
         if (books == null)
             return 0;
         return books.size();
     }
 
-    private int count = 0;
+    @Override
+    public void onBindViewHolder(final BooksHolderView holder, final int position) {
+        Log.d(TAG, "onBindViewHolder: ");
+        final BookData book = books.get(position);
+        holder.goodsName.setText(book.descriptor);
+        holder.goodsPrice.setText("￥" + book.price/100 + ".00");
+        holder.goodsNum.setText(String.valueOf(book.count));
+        holder.goodsImage.setImageResource(R.drawable.cmaz);
+        holder.goods_size.setText("类型:" + book.type);
+        holder.singleCheckBox.setChecked(book.isChoosed);
+        holder.singleCheckBox.setTag(position);
+        holder.singleCheckBox.setOnClickListener(mViewClickListener);
+        holder.increaseGoodsNum.setTag(position);
+        holder.increaseGoodsNum.setOnClickListener(mViewClickListener);
+        holder.reduceGoodsNum.setTag(position);
+        holder.reduceGoodsNum.setOnClickListener(mViewClickListener);
+        holder.goodsNum.setTag(position);
+        holder.goodsNum.setOnClickListener(mViewClickListener);
+        holder.delGoods.setTag(position);
+        holder.delGoods.setOnClickListener(mViewClickListener);
+    }
 
-    private void showDialog(final int position, final View showCountView, final boolean isChecked, final BookData child) {
+    private View.OnClickListener mViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            switch (v.getId()){
+                case R.id.increase_goods_Num:
+                    doIncrease(position);
+                    break;
+                case R.id.reduce_goodsNum:
+                    doDecrease(position);
+                    break;
+                case R.id.del_goods:
+                    doDelete(position);
+                    break;
+                case R.id.single_checkBox:
+                    doCheckItem(position, ((CheckBox) v).isChecked());
+                    break;
+                case R.id.goods_Num:
+                    BookData book = books.get(position);
+                    showDialog(position, v, book);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void doCheckItem(int position, boolean checked){
+        BookData book = books.get(position);
+        book.isChoosed = checked;
+        notifyDataSetChanged();
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onCheckedChange(book, position);
+        }
+    }
+
+    private void doIncrease(int position){
+        BookData book = books.get(position);
+        book.count++;
+        notifyDataSetChanged();
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onUpdateCount(book, position);
+        }
+    }
+
+    private void doDecrease(int position){
+        BookData book = books.get(position);
+        if(book.count <= 0){
+            book.count = 0;
+            return;
+        }
+        book.count--;
+        notifyDataSetChanged();
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onUpdateCount(book, position);
+        }
+    }
+
+    private void doSetCount(int position, int count){
+        BookData book = books.get(position);
+        if(count < 0)
+            return;
+        book.count = count;
+        notifyDataSetChanged();
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onUpdateCount(book, position);
+        }
+    }
+
+    private void doDelete(int position){
+        new AlertDialog.Builder(mcontext)
+                .setMessage("确定要删除该商品吗")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BookData book = books.remove(position);
+                        notifyDataSetChanged();
+                        if(mOnItemClickListener != null){
+                            mOnItemClickListener.onDelete(book, position);
+                        }
+                    }
+                })
+                .create()
+                .show();
+
+    }
+
+
+    private int count = 0;
+    private void showDialog(final int position, final View showCountView, final BookData child) {
         final AlertDialog.Builder alertDialog_Builder = new AlertDialog.Builder(mcontext);
         View view = LayoutInflater.from(mcontext).inflate(R.layout.dialog_change_num, null);
         final AlertDialog dialog = alertDialog_Builder.create();
@@ -195,15 +201,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderVie
             @Override
             public void onClick(View v) {
                 int number = Integer.parseInt(num.getText().toString().trim());
-                if (number == 0) {
-                    dialog.dismiss();
-                } else {
-                    Log.i(TAG, "数量=" + number + "");
-                    num.setText(String.valueOf(number));
-                    child.count = number;
-                    modifyCountInterface.doUpdate(position, showCountView, isChecked);
-                    dialog.dismiss();
-                }
+                doSetCount(position, number);
+                num.setText(String.valueOf(number));
+                dialog.dismiss();
             }
         });
         increase.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +224,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderVie
         });
         dialog.show();
     }
+
 
     public class BooksHolderView extends RecyclerView.ViewHolder {
 
@@ -251,5 +252,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksHolderVie
             goodsSize = (TextView) itemView.findViewById(R.id.goodsSize);
             delGoods = (TextView) itemView.findViewById(R.id.del_goods);
         }
+    }
+
+    //item click
+    private OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+        void onUpdateCount(BookData book, int position);
+        void onCheckedChange(BookData book,int position);
+        void onDelete(BookData book,int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener pOnItemClickListener) {
+        mOnItemClickListener = pOnItemClickListener;
     }
 }

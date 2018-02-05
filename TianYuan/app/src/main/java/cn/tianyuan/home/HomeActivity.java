@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
@@ -29,6 +30,15 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @BindView(R.id.radioGroup)
     RadioGroup mRadioGroup;
+
+    @BindView(R.id.rbtn_home)
+    RadioButton mHome;
+    @BindView(R.id.rbtn_category)
+    RadioButton mType;
+    @BindView(R.id.rbtn_shopcart)
+    RadioButton mShopcar;
+    @BindView(R.id.rbtn_mine)
+    RadioButton mMine;
 
     @BindView(R.id.changxiao)
     RecyclerView mChangxiao;
@@ -71,6 +81,11 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onResume();
         mPresenter.pullChangxiaoBooks();
         mPresenter.pullTejiaBooks();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         mRadioGroup.check(R.id.rbtn_home);
     }
 
@@ -89,15 +104,21 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.rbtn_category:
                 Log.d(TAG, "onCheckedChanged: category");
-                goActivityByClass(SearchBookActivity.class);
+                if(mType.isChecked()) {
+                    goActivityByClass(SearchBookActivity.class);
+                }
                 break;
             case R.id.rbtn_shopcart:
                 Log.d(TAG, "onCheckedChanged: shopcart");
-                goActivityByClass(ShopCarActivity.class);
+                if(mShopcar.isChecked()) {
+                    goActivityByClass(ShopCarActivity.class);
+                }
                 break;
             case R.id.rbtn_mine:
                 Log.d(TAG, "onCheckedChanged: mine");
-                goActivityByClass(UserActivity.class);
+                if(mMine.isChecked()) {
+                    goActivityByClass(UserActivity.class);
+                }
                 break;
             default:
                 break;

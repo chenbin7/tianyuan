@@ -11,7 +11,7 @@ import android.os.Parcelable;
 public class BookData implements Parcelable {
     public String id;
     public String userid;
-    public String typeid;
+    public String type;
     public String intentId;
     public String name;
     public String descriptor;
@@ -23,10 +23,10 @@ public class BookData implements Parcelable {
     public String picture;
     public boolean isChoosed;
 
-    public BookData(String id, String userId, String typeId, String name, String descriptor, int price,int count, long addTime, String picture) {
+    public BookData(String id, String userId, String type, String name, String descriptor, int price,int count, long addTime, String picture) {
         this.id = id;
         this.userid = userId;
-        this.typeid = typeId;
+        this.type = type;
         this.name = name;
         this.descriptor = descriptor;
         this.price = price;
@@ -36,10 +36,14 @@ public class BookData implements Parcelable {
         isChoosed = false;
     }
 
+    public String toString(){
+        return id+","+userid+","+type+","+intentId+","+name+"."+price+","+count+","+descriptor+","+picture;
+    }
+
     protected BookData(Parcel in) {
         id = in.readString();
         userid = in.readString();
-        typeid = in.readString();
+        type = in.readString();
         intentId = in.readString();
         name = in.readString();
         descriptor = in.readString();
@@ -73,7 +77,7 @@ public class BookData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(userid);
-        dest.writeString(typeid);
+        dest.writeString(type);
         dest.writeString(intentId);
         dest.writeString(name);
         dest.writeString(descriptor);
