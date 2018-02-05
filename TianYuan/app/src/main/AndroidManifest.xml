@@ -47,6 +47,8 @@
         <activity android:name=".shopcar.ShopCarActivity" android:screenOrientation="portrait"/>
         <activity android:name=".order.OrderActivity" android:screenOrientation="portrait"/>
         <activity android:name=".order.OrderListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".order.comment.CommentActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".order.detail.OrderDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.UserActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
         <activity android:name=".user.account.modifypwd.ModifyPwdActivity" android:screenOrientation="portrait"/>
         <activity android:name=".user.account.modifyinfo.ModifyInfoActivity" android:screenOrientation="portrait"/>

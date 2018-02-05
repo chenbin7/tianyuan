@@ -1,5 +1,6 @@
 package cn.tianyuan.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +14,9 @@ import butterknife.ButterKnife;
 import cn.tianyuan.BaseActivity;
 import cn.tianyuan.R;
 import cn.tianyuan.common.http.HttpResultListener;
+import cn.tianyuan.order.detail.OrderDetailActivity;
 import cn.tianyuan.orderModel.OrderModel;
+import cn.tianyuan.orderModel.response.OrderData;
 import cn.tianyuan.orderModel.response.OrderResponse;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,6 +33,8 @@ public class OrderListActivity extends BaseActivity {
     OrderAdapter mAdapter;
     OrderModel mModel;
 
+    List<OrderData> orders;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +48,22 @@ public class OrderListActivity extends BaseActivity {
         mRecyclerList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerList.setAdapter(mAdapter);
         mModel = OrderModel.getInstance();
+        mAdapter.setOnItemClickListener(new OrderAdapter.OnItemClickListener() {
+            @Override
+            public void onRecyclerItemClick(OrderData item, int position) {
+                goOrderDetailActivity(item);
+            }
+        });
     }
 
-    List<OrderResponse.Order> orders;
+    private void goOrderDetailActivity(OrderData item){
+        Intent intent = new Intent();
+        intent.putExtra("order", item);
+        intent.setClass(this, OrderDetailActivity.class);
+        doStartActivity(intent);
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();

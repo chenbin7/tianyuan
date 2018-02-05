@@ -332,4 +332,30 @@ public class BookModel {
                 });
     }
 
+    public void addComment(String bookId, String comment, @NonNull HttpResultListener listener){
+        String userId = AppProperty.userId;
+        String checkSum = new CheckSum()
+                .append("userId", userId)
+                .append("bookId", bookId)
+                .append("comment", comment)
+                .getCheckSum();
+        HttpResource.getInstance()
+                .getRetrofit()
+                .create(IBook.class)
+                .addComment(userId,bookId, comment, checkSum, AppProperty.token)
+                .subscribe(new Consumer<SimpleResponse>() {
+                    @Override
+                    public void accept(SimpleResponse response) throws Exception {
+                        Log.d(TAG, "addFraviteBook  accept succ: "+response);
+                        listener.check(response);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(TAG, "addFraviteBook  accept:  fail");
+                        listener.check(throwable);
+                    }
+                });
+    }
+
 }

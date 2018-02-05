@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y150"
+    android:layout_height="@dimen/y200"
     >
 
     <RelativeLayout
@@ -25,7 +25,7 @@
             android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x122"
+            android:layout_marginLeft="@dimen/x142"
             android:layout_marginTop="@dimen/y20"
             android:textColor="@color/grey_color1"
             android:textSize="@dimen/textsize_sp_20"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/y25"
+            android:layout_marginRight="@dimen/x22"
             android:textColor="@color/grey_color3"
             android:textSize="@dimen/textsize_sp_14"
             android:text="2018.1.1"
@@ -45,7 +46,7 @@
         <TextView
             android:id="@+id/addr"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y50"
+            android:layout_height="@dimen/y80"
             android:text="四川省成都市环球中心"
             android:textColor="@color/grey_color2"
             android:textSize="@dimen/textsize_sp_16"
@@ -57,7 +58,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y110"
+            android:layout_marginTop="@dimen/y150"
             android:text="￥"
             android:textColor="@color/ic_taobao"
             android:alpha="0.5"
@@ -69,7 +70,7 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y110"
+            android:layout_marginTop="@dimen/y150"
             android:text="25.00"
             android:textColor="@color/ic_taobao"
             android:alpha="0.5"

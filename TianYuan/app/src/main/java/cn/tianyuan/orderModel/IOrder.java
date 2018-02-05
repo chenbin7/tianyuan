@@ -53,6 +53,15 @@ public interface IOrder {
             @Header("token") String token
     );
 
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/listOrderDetailBooks")
+    Observable<ShopCarResponse> pullOrderDetailBooks(
+            @Field("userid") String userId,
+            @Field("orderid") String orderId,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
 
     @FormUrlEncoded
     @POST("/BookLibWeb/logic/car/listOrder")
@@ -72,7 +81,12 @@ public interface IOrder {
             @Header("token") String token
     );
 
-
-
+    @FormUrlEncoded
+    @POST("/BookLibWeb/logic/car/orderDetail")
+    Observable<ShopCarResponse> pullOrderDetailBooks(
+            @Field("orderid") String orderid,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
 
 }

@@ -11,6 +11,7 @@ import cn.tianyuan.common.http.HttpResultListener;
 import cn.tianyuan.common.http.SimpleResponse;
 import cn.tianyuan.common.util.CheckSum;
 import cn.tianyuan.orderModel.response.BookData;
+import cn.tianyuan.orderModel.response.OrderData;
 import cn.tianyuan.orderModel.response.OrderResponse;
 import cn.tianyuan.orderModel.response.ShopCarResponse;
 import io.reactivex.functions.Consumer;
@@ -36,15 +37,20 @@ public class OrderModel {
     }
 
     List<BookData> intentBooks;
-    List<OrderResponse.Order> orders;
+    List<BookData> orderDetailBooks;
+    List<OrderData> orders;
 
 
     public List<BookData> getIntentBooks() {
         return intentBooks;
     }
 
-    public List<OrderResponse.Order> getOrders() {
+    public List<OrderData> getOrders() {
         return orders;
+    }
+
+    public List<BookData> getOrderDetailBooks() {
+        return orderDetailBooks;
     }
 
     public void pullIntentsList(@NonNull HttpResultListener listener) {
@@ -63,6 +69,35 @@ public class OrderModel {
                         Log.d(TAG, "pullIntentsList  accept succ: " + response);
                         if (response.code == HttpResultListener.SUCC) {
                             intentBooks = response.data;
+                        }
+                        listener.check(response);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(TAG, "pullIntentsList  accept:  fail");
+                        listener.check(throwable);
+                    }
+                });
+    }
+
+    public void pullOrderDetailBooks(String orderId,@NonNull HttpResultListener listener) {
+        String userId = AppProperty.userId;
+        String checkSum = new CheckSum()
+                .append("userid", userId)
+                .append("orderId", orderId)
+                .getCheckSum();
+        HttpResource.getInstance()
+                .getRetrofit()
+                .create(IOrder.class)
+                .pullOrderDetailBooks(userId, orderId, checkSum, AppProperty.token)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<ShopCarResponse>() {
+                    @Override
+                    public void accept(ShopCarResponse response) throws Exception {
+                        Log.d(TAG, "pullIntentsList  accept succ: " + response);
+                        if (response.code == HttpResultListener.SUCC) {
+                            orderDetailBooks = response.data;
                         }
                         listener.check(response);
                     }

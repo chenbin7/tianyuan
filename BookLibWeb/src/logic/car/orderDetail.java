@@ -28,14 +28,14 @@ import net.sf.json.JSONObject;
 /**
  * Servlet implementation class getAllBooks
  */
-@WebServlet("/listIntents")
-public class listIntents extends HttpServlet {
+@WebServlet("/orderDetail")
+public class orderDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public listIntents() {
+    public orderDetail() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -54,23 +54,23 @@ public class listIntents extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doPost  listIntents");
+		System.out.println("doPost  orderDetail");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		String userid = request.getParameter("userid");
-		System.out.println("userid:"+userid);
+		String orderid = request.getParameter("orderid");
+		System.out.println("orderid:"+orderid);
 		String url = "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"//BookLibWeb/";
 		System.out.println(url);
-		doGetAllIntents(userid, url, response);
+		doGetAllOrderBooks(orderid, url, response);
 	}
 	
-	private void doGetAllIntents(String userId, String url, HttpServletResponse response) {
-		System.out.println("doGetAllIntents XX");
+	private void doGetAllOrderBooks(String orderid, String url, HttpServletResponse response) {
+		System.out.println("doGetAllOrderBooks XX");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id in (select bookid from intentbook where userid=?)";
+			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id=intentbook.bookid and intentbook.orderid=?";
 			PreparedStatement statement = connection.prepareStatement(sql);		
-			statement.setString(1, userId);
+			statement.setString(1, orderid);
 	        ResultSet set = statement.executeQuery();
 	        System.out.println("result X= "+set);
 	        JSONArray jsonArray = new JSONArray();

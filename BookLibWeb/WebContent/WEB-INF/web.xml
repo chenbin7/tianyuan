@@ -35,8 +35,16 @@
     <url-pattern>/logic/car/listIntents</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>listOrder</servlet-name>
-    <servlet-class>logic.car.listOrder</servlet-class>
+    <servlet-name>listOrderDetailBooks</servlet-name>
+    <servlet-class>logic.car.listOrderDetailBooks</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>orderDetail</servlet-name>
+    <url-pattern>/logic/car/orderDetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>orderDetail</servlet-name>
+    <servlet-class>logic.car.orderDetail</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>listOrder</servlet-name>
@@ -115,6 +123,14 @@
   <servlet-mapping>
     <servlet-name>addFravite</servlet-name>
     <url-pattern>/logic/book/addFravite</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>addComment</servlet-name>
+    <servlet-class>logic.book.addComment</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addComment</servlet-name>
+    <url-pattern>/logic/book/addComment</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>getBookTypes</servlet-name>

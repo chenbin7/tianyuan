@@ -104,4 +104,15 @@ public interface IBook {
             @Header("token") String token
     );
 
+    @Multipart
+    @POST("/BookLibWeb/logic/book/addComment")
+    Observable<SimpleResponse> addComment(
+            @Field("userId") String userId,
+            @Field("bookId") String bookId,
+            @Field("comment") String comment,
+            @Field("checkSum") String checkSum,
+            @Header("token") String token
+    );
+
+
 }

@@ -1,4 +1,4 @@
-package cn.tianyuan.order;
+package cn.tianyuan.order.detail;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +15,7 @@ import java.util.List;
 
 import cn.tianyuan.R;
 import cn.tianyuan.TYApplication;
-import cn.tianyuan.bookmodel.response.BookBeen;
-import cn.tianyuan.common.util.TimeFormatUtils;
-import cn.tianyuan.orderModel.response.OrderData;
-import cn.tianyuan.orderModel.response.OrderResponse;
+import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -26,18 +23,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Created by Administrator on 2017/10/18.
  */
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.BookViewHolder> implements View.OnClickListener {
+public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.BookViewHolder> implements View.OnClickListener {
 
-    List<OrderData> orders;
+    List<BookData> books;
 
-    public OrderAdapter() {
-        orders = new ArrayList<>();
+    public OrderDetailAdapter() {
+        books = new ArrayList<>();
     }
 
-    public void setData(List<OrderData> addrs) {
+    public void setData(List<BookData> addrs) {
         if (addrs == null)
             return;
-        orders = addrs;
+        books = addrs;
         Observable.just(0)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> {
@@ -45,64 +42,54 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.BookViewHold
                 });
     }
 
-    public void clear() {
-        if (orders == null)
-            return;
-        orders.clear();
-        notifyDataSetChanged();
-    }
-
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_order_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_detail_book, parent, false);
         BookViewHolder holder = new BookViewHolder(view);
         view.setOnClickListener(this);
         return holder;
     }
 
-    Date tempDate = new Date();
-
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
-        OrderData item = orders.get(position);
+        BookData item = books.get(position);
         holder.itemView.setTag(position);
+        ImageLoader.getInstance().displayImage(item.picture, holder.mImage, TYApplication.getInstance().getOptions());
         holder.mName.setText(item.name);
-        holder.mPhone.setText(item.phone);
-        tempDate.setTime(item.time);
-        holder.mTime.setText(TimeFormatUtils.format_yyyy_MM_dd(tempDate));
-        holder.mAddr.setText(item.addr);
-        holder.mPrice.setText(item.price/100 +".00");
+        holder.mType.setText(item.type);
+        holder.mCount.setText(item.count+"本");
+        holder.mPrice.setText("￥:"+item.price/100 +".00");
     }
 
     @Override
     public int getItemCount() {
-        if (orders == null)
+        if (books == null)
             return 0;
-        return orders.size();
+        return books.size();
     }
 
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             int position = (int) v.getTag();
-            mOnItemClickListener.onRecyclerItemClick(orders.get(position), position);
+            mOnItemClickListener.onRecyclerItemClick(books.get(position), position);
         }
     }
 
     public class BookViewHolder extends RecyclerView.ViewHolder {
 
+        public ImageView mImage;
         public TextView mName;
-        public TextView mPhone;
-        public TextView mTime;
-        public TextView mAddr;
+        public TextView mType;
+        public TextView mCount;
         public TextView mPrice;
 
         public BookViewHolder(View itemView) {
             super(itemView);
+            mImage = (ImageView) itemView.findViewById(R.id.image);
             mName = (TextView) itemView.findViewById(R.id.name);
-            mPhone = (TextView) itemView.findViewById(R.id.phone);
-            mTime = (TextView) itemView.findViewById(R.id.time);
-            mAddr = (TextView) itemView.findViewById(R.id.addr);
+            mType = (TextView) itemView.findViewById(R.id.type);
+            mCount = (TextView) itemView.findViewById(R.id.count);
             mPrice = (TextView) itemView.findViewById(R.id.price);
         }
     }
@@ -111,7 +98,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.BookViewHold
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onRecyclerItemClick(OrderData item, int position);
+        void onRecyclerItemClick(BookData item, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener pOnItemClickListener) {

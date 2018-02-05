@@ -10,14 +10,6 @@ import cn.tianyuan.common.http.Response;
 
 public class OrderResponse extends Response {
 
-    public List<Order> data;
+    public List<OrderData> data;
 
-    public class Order{
-        public String id;
-        public long time;
-        public int price;
-        public String addr;
-        public String name;
-        public String phone;
-    }
 }
