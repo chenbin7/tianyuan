@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BookLibWeb</display-name>
-  
-<servlet>
+  <servlet>
     <servlet-name>addIntentBook</servlet-name>
     <servlet-class>logic.car.addIntentBook</servlet-class>
   </servlet>
@@ -34,17 +33,17 @@
     <servlet-name>listIntents</servlet-name>
     <url-pattern>/logic/car/listIntents</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>listOrderDetailBooks</servlet-name>
-    <servlet-class>logic.car.listOrderDetailBooks</servlet-class>
+<servlet>
+    <servlet-name>listOrderBooks</servlet-name>
+    <servlet-class>logic.car.listOrderBooks</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>orderDetail</servlet-name>
-    <url-pattern>/logic/car/orderDetail</url-pattern>
+    <servlet-name>listOrderBooks</servlet-name>
+    <url-pattern>/logic/car/listOrderBooks</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>orderDetail</servlet-name>
-    <servlet-class>logic.car.orderDetail</servlet-class>
+    <servlet-name>listOrder</servlet-name>
+    <servlet-class>logic.car.listOrder</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>listOrder</servlet-name>
@@ -58,8 +57,6 @@
     <servlet-name>updateIntention</servlet-name>
     <url-pattern>/logic/car/updateIntention</url-pattern>
   </servlet-mapping>
-  
-
   <servlet>
     <servlet-name>tehui</servlet-name>
     <servlet-class>logic.book.tehui</servlet-class>
@@ -84,7 +81,7 @@
     <servlet-name>getAllBooks</servlet-name>
     <url-pattern>/logic/book/getAllBooks</url-pattern>
   </servlet-mapping>
-<servlet>
+  <servlet>
     <servlet-name>fraviteBooks</servlet-name>
     <servlet-class>logic.book.fraviteBooks</servlet-class>
   </servlet>
