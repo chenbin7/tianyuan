@@ -54,7 +54,7 @@ public interface IOrder {
     );
 
     @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/listOrderDetailBooks")
+    @POST("/BookLibWeb/logic/car/listOrderBooks")
     Observable<ShopCarResponse> pullOrderDetailBooks(
             @Field("userid") String userId,
             @Field("orderid") String orderId,
@@ -77,14 +77,6 @@ public interface IOrder {
     Observable<SimpleResponse> updateIntent(
             @Field("intentId") String intnetId,
             @Field("bookCount") int bookCount,
-            @Field("checkSum") String checkSum,
-            @Header("token") String token
-    );
-
-    @FormUrlEncoded
-    @POST("/BookLibWeb/logic/car/orderDetail")
-    Observable<ShopCarResponse> pullOrderDetailBooks(
-            @Field("orderid") String orderid,
             @Field("checkSum") String checkSum,
             @Header("token") String token
     );

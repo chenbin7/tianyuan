@@ -95,7 +95,7 @@ public class OrderModel {
                 .subscribe(new Consumer<ShopCarResponse>() {
                     @Override
                     public void accept(ShopCarResponse response) throws Exception {
-                        Log.d(TAG, "pullIntentsList  accept succ: " + response);
+                        Log.d(TAG, "pullOrderDetailBooks  accept succ: " + response);
                         if (response.code == HttpResultListener.SUCC) {
                             orderDetailBooks = response.data;
                         }
@@ -104,7 +104,7 @@ public class OrderModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d(TAG, "pullIntentsList  accept:  fail");
+                        Log.d(TAG, "pullOrderDetailBooks  accept:  fail");
                         listener.check(throwable);
                     }
                 });

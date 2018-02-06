@@ -60,12 +60,29 @@ public class CheckUtil {
     }
     
     public static void main(String[] args) {
-    	JSONObject json = new JSONObject(); 
-    	json.put("userId", "532de969-04bc-4911-b4ca-5900fe3afc68");
-        json.put("userName", "13641983451");
-        json.put("telephone", "13641983451");
-        System.out.println("result = "+json);
-        String jString = getResponseBody(SUCC, json);
-        System.out.println(jString);
+//    	JSONObject json = new JSONObject(); 
+//    	json.put("userId", "532de969-04bc-4911-b4ca-5900fe3afc68");
+//        json.put("userName", "13641983451");
+//        json.put("telephone", "13641983451");
+//        System.out.println("result = "+json);
+//        String jString = getResponseBody(SUCC, json);
+//        System.out.println(jString);
+    	
+    	try {
+    		System.out.println("******************");
+			Class clazz = Class.forName("logic.car.listOrderBooks");
+			Object object = clazz.newInstance();
+			System.out.println("=================="+object.getClass().getName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
 	}
 }

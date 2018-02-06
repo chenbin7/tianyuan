@@ -106,6 +106,7 @@ public class OrderActivity extends BaseActivity {
                         .delay(2, TimeUnit.SECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(i -> {
+                            mModel.getIntentBooks().removeAll(books);
                             doFinish(RESULT_OK);
                         });
             }

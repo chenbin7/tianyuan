@@ -58,7 +58,7 @@ public class listOrderBooks extends HttpServlet {
 
 	
 	private void doGetAllOrderBooks(String orderid, String url, HttpServletResponse response) {
-		System.out.println("listOrderBooks XX");
+		System.out.println("listOrderBooks QQ");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();
 			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id=intentbook.bookid and intentbook.orderid=?";
@@ -68,15 +68,6 @@ public class listOrderBooks extends HttpServlet {
 			System.out.println("result X= " + set);
 			JSONArray jsonArray = new JSONArray();
 			while (set.next()) {
-				try {
-					String orderId = set.getString("orderid");
-					if (orderId != null && orderId.length() > 0) {
-						System.out.println("orderid:" + orderId);
-						continue;
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
 				JSONObject json = new JSONObject();
 				json.put("id", set.getString("id"));
 				json.put("userid", set.getString("userid"));
