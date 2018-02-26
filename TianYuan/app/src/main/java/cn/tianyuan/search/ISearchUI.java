@@ -13,4 +13,5 @@ public interface ISearchUI {
     public void OnAllBooksList(List<BookBeen> books);
     public void OnTypeBooksList(List<BookBeen> books);
     public void onTypes(List<TypeListResponse.Type> types);
+    public void onError(String msg);
 }

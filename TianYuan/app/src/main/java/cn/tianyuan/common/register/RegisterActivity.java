@@ -160,29 +160,4 @@ public class RegisterActivity extends BaseActivity {
                 });
     }
 
-    private void onIgnore(){
-        //TODO
-        goUserActivity();
-    }
-
-    private void onGoAuthRealName(){
-        Intent intent = new Intent();
-//        intent.setClass(this, AuthActivity.class);
-        doStartActivity(intent);
-    }
-
-    private void goUserActivity(){
-        Intent intent = new Intent();
-//        intent.setClass(this, UserActivity.class);
-        doStartActivity(intent);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            doFinish(RESULT_CANCELED);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +57,7 @@ public class CommentActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ImageLoader.getInstance().displayImage(mBook.picture, mImage, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(mBook.picture, mImage, TYApplication.getInstance().getOptionsBook());
         mName.setText(mBook.name);
         mPrice.setText("￥:"+mBook.price/100+".00");
         mDescriptor.setText(mBook.descriptor);
@@ -73,9 +75,14 @@ public class CommentActivity extends BaseActivity {
             public void onSucc() {
                 Observable.just(0)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(i -> {
+                        .doOnNext(i -> {
                             Toast.makeText(getApplicationContext(), "评价成功", Toast.LENGTH_SHORT).show();
                             mComment.setText("");
+                        })
+                        .delay(2, TimeUnit.SECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(i -> {
+                            doFinish(RESULT_OK);
                         });
             }
 

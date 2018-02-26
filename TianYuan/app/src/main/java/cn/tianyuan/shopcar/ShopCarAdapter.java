@@ -13,9 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import cn.tianyuan.R;
+import cn.tianyuan.TYApplication;
 import cn.tianyuan.common.util.UtilTool;
 import cn.tianyuan.orderModel.response.BookData;
 import io.reactivex.Observable;
@@ -67,7 +70,8 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.BooksHol
         holder.goodsName.setText(book.descriptor);
         holder.goodsPrice.setText("￥" + book.price/100 + ".00");
         holder.goodsNum.setText(String.valueOf(book.count));
-        holder.goodsImage.setImageResource(R.drawable.cmaz);
+        ImageLoader.getInstance().displayImage(book.picture, holder.goodsImage, TYApplication.getInstance().getOptionsBook());
+//        holder.goodsImage.setImageResource(R.drawable.cmaz);
         holder.goods_size.setText("类型:" + book.type);
         holder.singleCheckBox.setChecked(book.isChoosed);
         holder.singleCheckBox.setTag(position);

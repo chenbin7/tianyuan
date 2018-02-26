@@ -22,7 +22,7 @@
             android:layout_height="@dimen/y200"
             android:layout_marginTop="@dimen/x40"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/icon_setting_btn"
+            android:src="@drawable/book"
             />
 
         <TextView

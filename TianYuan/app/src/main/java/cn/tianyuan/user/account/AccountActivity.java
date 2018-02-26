@@ -66,7 +66,7 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
             mAccount.setText(mUserData.getAccount());
             String picUrl = mUserData.getUserHeadPic();
             if(!TextUtils.isEmpty(picUrl)){
-                ImageLoader.getInstance().displayImage(picUrl.trim(), mHeaderPic, TYApplication.getInstance().getOptions());
+                ImageLoader.getInstance().displayImage(picUrl.trim(), mHeaderPic, TYApplication.getInstance().getOptionsHeader());
             }
         }
     }

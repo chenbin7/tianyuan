@@ -47,6 +47,8 @@ public class addComment extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("doPost addComment");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		String userId = request.getParameter("userId");
 		String bookId = request.getParameter("bookId");
 		String comment = request.getParameter("comment");

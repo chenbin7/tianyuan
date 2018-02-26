@@ -343,6 +343,7 @@ public class BookModel {
                 .getRetrofit()
                 .create(IBook.class)
                 .addComment(userId,bookId, comment, checkSum, AppProperty.token)
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<SimpleResponse>() {
                     @Override
                     public void accept(SimpleResponse response) throws Exception {

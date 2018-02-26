@@ -117,13 +117,28 @@ public class TYApplication extends Application {
     };
 
 
-    public DisplayImageOptions getOptions() {
-        return options;
+    public DisplayImageOptions getOptionsHeader() {
+        return optionsHeader;
     }
 
-    DisplayImageOptions options;
+    public DisplayImageOptions getOptionsBook() {
+        return optionsBook;
+    }
+
+    DisplayImageOptions optionsHeader;
+    DisplayImageOptions optionsBook;
     private void initImageOptions(){
-        options = new DisplayImageOptions.Builder()
+        optionsBook = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.book) //设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.book)//设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.book)  //设置图片加载/解码过程中错误时候显示的图片
+                .cacheInMemory(true)//设置下载的图片是否缓存在内存中
+                .cacheOnDisc(true)//设置下载的图片是否缓存在SD卡中
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
+                .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型//
+                .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
+                .build();//构建完成
+        optionsHeader = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.user_header) //设置图片在下载期间显示的图片
                 .showImageForEmptyUri(R.drawable.user_header)//设置图片Uri为空或是错误的时候显示的图片
                 .showImageOnFail(R.drawable.user_header)  //设置图片加载/解码过程中错误时候显示的图片
@@ -134,5 +149,6 @@ public class TYApplication extends Application {
                 .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
                 .build();//构建完成
     }
+
 
 }

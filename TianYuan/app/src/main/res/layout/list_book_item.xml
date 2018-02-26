@@ -8,7 +8,7 @@
         android:id="@+id/book_img"
         android:layout_width="@dimen/x140"
         android:layout_height="@dimen/y160"
-        android:src="@drawable/auth_id_card"
+        android:src="@drawable/book"
         android:layout_centerHorizontal="true"
         />
     <TextView

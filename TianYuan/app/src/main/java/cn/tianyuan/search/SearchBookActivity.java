@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import cn.tianyuan.R;
 import cn.tianyuan.bookmodel.response.BookBeen;
 import cn.tianyuan.bookmodel.response.TypeListResponse;
 import cn.tianyuan.common.view.picker.PickerUtils;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by chenbin on 2018/1/27.
@@ -85,6 +88,14 @@ public class SearchBookActivity extends BaseActivity implements ISearchUI {
         mAdapter.setData(books);
     }
 
+    @Override
+    public void onError(String msg) {
+        Observable.just(msg)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(t -> {
+                    Toast.makeText(getApplicationContext(), t, Toast.LENGTH_SHORT).show();
+                });
+    }
 
     private List<String> typeNames;
     private List<TypeListResponse.Type> types;

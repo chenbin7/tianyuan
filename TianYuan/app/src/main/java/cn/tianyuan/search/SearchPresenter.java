@@ -40,7 +40,7 @@ public class SearchPresenter {
 
                             @Override
                             public void onFailed(int error, String msg) {
-
+                                mUI.onError("没有书籍");
                             }
                         });
                     });
@@ -62,7 +62,7 @@ public class SearchPresenter {
 
                         @Override
                         public void onFailed(int error, String msg) {
-
+                            mUI.onError("没有该类别的书籍");
                         }
                     });
                 });

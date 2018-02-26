@@ -61,7 +61,7 @@ public class TypeBookAdapter extends RecyclerView.Adapter<TypeBookAdapter.BookVi
         BookBeen item = mBooks.get(position);
         holder.itemView.setTag(position);
         holder.mName.setText(item.name);
-        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptionsBook());
         holder.mDesc.setText(item.descriptor);
         holder.mPrice.setText("￥" + item.price / 100 + ".00");
     }

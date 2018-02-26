@@ -90,7 +90,7 @@ public class UserActivity extends BaseActivity implements IUserUI {
         Observable.just(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    ImageLoader.getInstance().displayImage(s.trim(), mHeaderPic, TYApplication.getInstance().getOptions());
+                    ImageLoader.getInstance().displayImage(s.trim(), mHeaderPic, TYApplication.getInstance().getOptionsHeader());
                 });
     }
 

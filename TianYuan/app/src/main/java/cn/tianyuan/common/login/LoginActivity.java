@@ -197,10 +197,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
-    private final int requestMain = 1;
     private final int requestRegister = 2;
     private final int requestForgetPwd = 3;
 
@@ -215,9 +213,6 @@ public class LoginActivity extends BaseActivity {
     private void startActivityByCode(int requestCode, Class toActivity){
         Intent intent = new Intent();
         intent.setClass(this, toActivity);
-        if(requestCode != requestMain){
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        }
         doStartActivityForResult(intent, requestCode);
     }
 

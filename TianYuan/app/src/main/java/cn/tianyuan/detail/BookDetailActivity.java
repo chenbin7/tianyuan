@@ -91,7 +91,7 @@ public class BookDetailActivity extends BaseActivity {
         mContentList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAdapter = new ContentAdapter();
         mContentList.setAdapter(mAdapter);
-        ImageLoader.getInstance().displayImage(mBook.picture.trim(), mImg, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(mBook.picture.trim(), mImg, TYApplication.getInstance().getOptionsBook());
         mName.setText(mBook.name);
         mDesc.setText(mBook.descriptor);
         mPrice.setText("￥:"+mBook.price/100);

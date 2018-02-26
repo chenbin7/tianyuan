@@ -54,7 +54,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public void onBindViewHolder(BookViewHolder holder, int position) {
         BookData item = books.get(position);
         holder.itemView.setTag(position);
-        ImageLoader.getInstance().displayImage(item.picture, holder.mImage, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(item.picture, holder.mImage, TYApplication.getInstance().getOptionsBook());
         holder.mName.setText(item.name);
         holder.mType.setText(item.type);
         holder.mCount.setText(item.count+"本");

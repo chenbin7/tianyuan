@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TianYuan</string>
+    <string name="app_name">二手图书市场</string>
 
     <string name="login_by_account">账号登录</string>
     <string name="login_quickly">快速登录</string>

@@ -61,7 +61,7 @@ public class FraviteBookAdapter extends RecyclerView.Adapter<FraviteBookAdapter.
         BookBeen item = mBooks.get(position);
         holder.mDelete.setTag(position);
         holder.mName.setText(item.name);
-        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptionsBook());
         holder.mDesc.setText(item.descriptor);
         holder.mPrice.setText("￥" + item.price / 100 + ".00");
     }

@@ -69,7 +69,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         BookBeen item = mBooks.get(position);
         holder.itemView.setTag(position);
         holder.mName.setText(item.name);
-        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptions());
+        ImageLoader.getInstance().displayImage(item.picture.trim(), holder.mImg, TYApplication.getInstance().getOptionsBook());
     }
 
     @Override

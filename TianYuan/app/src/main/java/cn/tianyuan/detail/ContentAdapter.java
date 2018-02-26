@@ -17,6 +17,7 @@ import cn.tianyuan.TYApplication;
 import cn.tianyuan.bookmodel.response.CommentResponse;
 import cn.tianyuan.common.util.TimeFormatUtils;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -36,7 +37,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.BookView
             return;
         mContents = contents;
         Observable.just(0)
-                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(i -> {
                     notifyDataSetChanged();
                 });
