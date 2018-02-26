@@ -16,4 +16,6 @@ public class Const {
     public static final long PWD_VALID_DURATION = 30*24*3600*1000;//30天
     public static final int SECURITY_CODE_TIME = 60;//秒
     public static final boolean JUST_GO_SUCC = false;
+
+    public static final String url = "http://192.168.1.9:8080";
 }

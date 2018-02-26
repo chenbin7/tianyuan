@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import java.util.concurrent.TimeUnit;
 import cn.tianyuan.common.http.HttpResource;
+import cn.tianyuan.common.util.Const;
 import cn.tianyuan.map.AMapLocation;
 import cn.tianyuan.serverlib.LibService;
 import cn.tianyuan.serverlib.db.DBManager;
@@ -40,8 +41,7 @@ public class TYApplication extends Application {
         initImageLoader();
         AndroidSharedPreferences.getInstance().init(getApplicationContext());
         AMapLocation.getInstance().initAMap(getApplicationContext());
-//        HttpResource.getInstance().setUrl("http://192.168.1.5:8080");
-        HttpResource.getInstance().setUrl("http://192.168.1.9:8080");
+        HttpResource.getInstance().setUrl(Const.url);
         this.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
 
