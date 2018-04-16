@@ -21,7 +21,7 @@
     <color name="color_btn_normal">#B6E2EA</color>
     <color name="color_btn_preseed">#80B6E2EA</color>
     <color name="color_btn_unenable">#4DB6E2EA</color>
-    <color name="color_btn_text">#166575</color>
+    <color name="color_btn_text">#ff9966</color>
 
     <color name="door_info_warning">#50E3C2</color>
     <color name="user_shine_text_color">#50E3C2</color>

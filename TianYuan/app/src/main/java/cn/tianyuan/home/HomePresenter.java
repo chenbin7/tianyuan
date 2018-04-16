@@ -21,9 +21,6 @@ public class HomePresenter {
     }
 
     public void pullChangxiaoBooks(){
-        if(mModel.getChangxiaoBooks() != null){
-            mUI.OnChangxiaoList(mModel.getChangxiaoBooks());
-        } else {
             Observable.just(0)
                     .subscribeOn(Schedulers.io())
                     .subscribe(i -> {
@@ -41,13 +38,9 @@ public class HomePresenter {
                             }
                         });
                     });
-        }
     }
 
     public void pullTejiaBooks(){
-        if(mModel.getTejiaBooks() != null){
-            mUI.OnTehuiList(mModel.getTejiaBooks());
-        } else {
             Observable.just(0)
                     .subscribeOn(Schedulers.io())
                     .subscribe(i -> {
@@ -65,7 +58,6 @@ public class HomePresenter {
                             }
                         });
                     });
-        }
     }
 
 }

@@ -69,7 +69,7 @@ public class register extends HttpServlet {
 		System.out.println("doRegister");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "insert into user(id,name,phone,sex, passwd) VALUES(?,?,?,?)";
+			String sql = "insert into user(id,name,phone,sex, passwd) VALUES(?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        
 			statement.setString(1, UUID.getID());

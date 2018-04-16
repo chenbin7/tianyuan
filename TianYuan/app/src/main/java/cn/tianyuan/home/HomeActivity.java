@@ -6,11 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +23,9 @@ import cn.tianyuan.bookmodel.response.BookBeen;
 import cn.tianyuan.search.SearchBookActivity;
 import cn.tianyuan.shopcar.ShopCarActivity;
 import cn.tianyuan.user.UserActivity;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/1/25.
@@ -45,6 +51,9 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @BindView(R.id.tejia)
     RecyclerView mTejia;
+
+    @BindView(R.id.ad)
+    ImageView mAd;
 
     BookAdapter mChangxiaoAdapter;
     BookAdapter mTejiaAdapter;
@@ -76,11 +85,39 @@ public class HomeActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mPresenter = new HomePresenter(this);
     }
 
+    Timer timer;
+    int timerCount = 0;
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         mPresenter.pullChangxiaoBooks();
         mPresenter.pullTejiaBooks();
+        timer = new Timer();
+        timerCount = 0;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                    ++timerCount;
+                    int imgsrc = R.drawable.ad1;
+                    switch (timerCount % 3){
+                        case 0: imgsrc = R.drawable.ad1;break;
+                        case 1: imgsrc = R.drawable.ad2;break;
+                        case 2: imgsrc = R.drawable.ad3;break;
+                    }
+                    Observable.just(imgsrc)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(id -> {
+                                mAd.setImageResource(id);
+                            });
+                }
+        }, 1000, 3000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timer.cancel();
     }
 
     @Override
