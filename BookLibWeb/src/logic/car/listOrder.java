@@ -64,7 +64,7 @@ public class listOrder extends HttpServlet {
 		System.out.println("doGetAllOrders XX");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select orderbook.id, orderbook.name, orderbook.phone, orderbook.totalprice, orderbook.ordertime, addr.fulladdr from orderbook, addr where addr.id=orderbook.addrid and orderbook.userid=?";
+			String sql = "select orderbook.id, orderbook.name, orderbook.phone, orderbook.totalprice, orderbook.ordertime, addr.fulladdr, intentbook.orderid from intentbook, orderbook, addr where addr.id=orderbook.addrid and orderbook.userid=? and orderbook.id in (select orderid from intentbook) and intentbook.orderid = orderbook.id group by orderbook.id";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 			statement.setString(1, userId);
 	        ResultSet set = statement.executeQuery();

@@ -71,7 +71,7 @@ public class fraviteBooks extends HttpServlet {
 		System.out.println("doGetBooksByType X");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, favorite.id as fid from book, favorite where book.id in (select bookid from favorite where userid=?)";
+			String sql = "select book.id, book.userid, book.typeid, book.name, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, favorite.id as fid from book, favorite where book.id in (select bookid from favorite where userid=?) and favorite.bookid = book.id";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 	        statement.setObject(1, userId);
 			ResultSet set = statement.executeQuery();

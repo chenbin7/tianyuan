@@ -68,22 +68,13 @@ public class listIntents extends HttpServlet {
 		System.out.println("doGetAllIntents XX");
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id in (select bookid from intentbook where userid=?)";
+			String sql = "select book.id, book.userid, book.name as bname, book.descriptor, book.price, book.sellsum, book.storesum, book.addtime, book.picture, intentbook.id as intentid, intentbook.count, intentbook.orderid, type.name as tname from book, intentbook, type where book.typeid = type.id and book.id in (select bookid from intentbook where userid=?) and intentbook.bookid = book.id and intentbook.orderid is null";
 			PreparedStatement statement = connection.prepareStatement(sql);		
 			statement.setString(1, userId);
 	        ResultSet set = statement.executeQuery();
 	        System.out.println("result X= "+set);
 	        JSONArray jsonArray = new JSONArray();
-	        while(set.next()) {
-	        	try {
-					String orderId = set.getString("orderid");
-					if(orderId != null && orderId.length() > 0) {
-						System.out.println("orderid:"+orderId);
-						continue;
-					}
-	        	} catch (Exception e) {
-					// TODO: handle exception
-				}
+	        while(set.next()) {     
 	        	JSONObject json = new JSONObject(); 
 	        	json.put("id", set.getString("id"));
 	        	json.put("userid", set.getString("userid"));
