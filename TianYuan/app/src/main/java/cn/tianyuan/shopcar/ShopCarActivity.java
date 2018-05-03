@@ -194,23 +194,22 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     private void doDelete() {
         Log.d(TAG, "doDelete: ");
         List<BookData> toBeDeleteChilds = new ArrayList<BookData>();//待删除的子元素
-        for (int j = 0; j < books.size(); j++) {
-            BookData book = books.get(j);
+        for (int i = books.size() -1; i >=0; i--) {
+            BookData book = books.get(i);
+            Log.d(TAG, "doDelete: "+book.isChoosed +"   "+book.name+"   "+i+"  "+books.size());
             if (book.isChoosed) {
                 toBeDeleteChilds.add(book);
-                if(book.isChoosed){
-                    mModel.deleteIntentBook(book, new HttpResultListener() {
-                        @Override
-                        public void onSucc() {
-                            Log.d(TAG, "doDeleteIntent  onSucc: "+book.toString());
-                        }
+                mModel.deleteIntentBook(book, new HttpResultListener() {
+                    @Override
+                    public void onSucc() {
+                        Log.d(TAG, "doDeleteIntent  onSucc: "+book.toString());
+                    }
 
-                        @Override
-                        public void onFailed(int error, String msg) {
+                    @Override
+                    public void onFailed(int error, String msg) {
 
-                        }
-                    });
-                }
+                    }
+                });
             }
         }
         books.removeAll(toBeDeleteChilds);
@@ -246,6 +245,8 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
             shareInfo.setVisibility(View.GONE);
             actionBarEdit.setText("编辑");
         }
+        setCartNum();
+        calulate();
     }
 
     @OnClick({R.id.all_checkBox, R.id.go_pay, R.id.share_goods, R.id.collect_goods, R.id.del_goods, R.id.actionBar_edit})

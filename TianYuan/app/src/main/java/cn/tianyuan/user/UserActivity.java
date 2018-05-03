@@ -45,8 +45,13 @@ public class UserActivity extends BaseActivity implements IUserUI {
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
         mPresenter = new UserPresenter(this);
-        mPresenter.pullUserData();
         initToolabr(getString(R.string.user_center));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.pullUserData();
     }
 
     public void goUserAccount(View v){

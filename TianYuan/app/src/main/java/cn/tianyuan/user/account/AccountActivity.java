@@ -85,7 +85,26 @@ public class AccountActivity extends BaseActivity implements IAccountUI {
         Intent intent = new Intent();
         intent.putExtra("userdata", mUserData);
         intent.setClass(AccountActivity.this, ModifyInfoActivity.class);
-        doStartActivity(intent);
+        doStartActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK && data != null){
+            String name = data.getStringExtra("name");
+            String phone = data.getStringExtra("phone");
+            String sex = data.getStringExtra("sex");
+            if(name != null){
+                mUserData.userName = name;
+            }
+            if(phone != null){
+                mUserData.telephone = phone;
+            }
+            if(mUserData.sex != null){
+                mUserData.sex = sex;
+            }
+        }
     }
 
     PermissionUtils permissionUtils;

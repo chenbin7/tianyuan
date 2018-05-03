@@ -117,6 +117,7 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.BooksHol
         BookData book = books.get(position);
         book.isChoosed = checked;
         notifyDataSetChanged();
+        Log.d(TAG, "doCheckItem: "+checked+"  "+position+"   "+book.name);
         if(mOnItemClickListener != null){
             mOnItemClickListener.onCheckedChange(book, position);
         }

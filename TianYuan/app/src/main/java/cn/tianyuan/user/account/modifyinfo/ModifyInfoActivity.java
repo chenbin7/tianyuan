@@ -1,5 +1,6 @@
 package cn.tianyuan.user.account.modifyinfo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -119,7 +120,11 @@ public class ModifyInfoActivity extends BaseActivity {
                                     .delay(2000, TimeUnit.MILLISECONDS)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(i -> {
-                                        doFinish(RESULT_OK);
+                                        Intent intent = new Intent();
+                                        intent.putExtra("name",  mName.getText().toString());
+                                        intent.putExtra("phone",  mPhone.getText().toString());
+                                        intent.putExtra("sex",  sex);
+                                        doFinish(RESULT_OK, intent);
                                     });
                         }
 
