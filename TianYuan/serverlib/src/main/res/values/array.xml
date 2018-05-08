@@ -1,15 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="book_type">
-        <item>小说</item>
-        <item>经管</item>
-        <item>历史</item>
-        <item>英语</item>
-        <item>科技</item>
-        <item>IT</item>
-        <item>报刊</item>
-        <item>人文</item>
-        <item>艺术</item>
-        <item>其他</item>
-    </array>
-</resources>
+<resources></resources>

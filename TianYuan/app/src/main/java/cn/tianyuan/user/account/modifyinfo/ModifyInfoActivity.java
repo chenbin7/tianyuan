@@ -62,7 +62,7 @@ public class ModifyInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
         mUserData = getIntent().getParcelableExtra("userdata");
         if(mUserData.sex != null) {
-            if (mUserData.sex.trim().equals("女")) {
+            if (mUserData.sex.trim().equals("w")) {
                 mSexRadio.check(R.id.woman);
             }
         }
@@ -72,9 +72,9 @@ public class ModifyInfoActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if(checkedId == R.id.man){
-                    sex = "男";
+                    sex = "m";
                 } else {
-                    sex = "女";
+                    sex = "w";
                 }
             }
         });
