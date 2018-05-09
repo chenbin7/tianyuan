@@ -113,6 +113,12 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setEmpty(boolean empty){
+        if(empty) {
+            List<BookData> books = mModel.getIntentBooks();
+            if(books != null && books.size() > 0){
+                empty = false;
+            }
+        }
         Observable.just(empty)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b -> {
