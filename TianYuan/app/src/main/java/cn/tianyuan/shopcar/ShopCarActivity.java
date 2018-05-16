@@ -86,6 +86,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart: ");
         mModel.pullIntentsList(new HttpResultListener() {
             @Override
             public void onSucc() {
@@ -107,6 +108,10 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
                         .subscribe(i -> {
                             Toast.makeText(getApplicationContext(), "您的购物车是空的", Toast.LENGTH_LONG).show();
                         });
+                if(books != null){
+                    books.clear();
+                    adapter.setData(books);
+                }
                 setEmpty(true);
             }
         });
@@ -174,6 +179,7 @@ public class ShopCarActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume: ");
         setCartNum();
     }
 
