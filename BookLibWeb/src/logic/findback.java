@@ -66,14 +66,12 @@ public class findback extends HttpServlet {
 	}
 	
 	private void doFindBack(String phone, String passwd, HttpServletResponse response) {
-		System.out.println("doFindBack");
+		System.out.println("doFindBack  "+passwd);
 		try {
 			Connection connection = (Connection) JdbcUtil.getConnect();	
-			String sql = "update user set passwd=? where phone=?";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, phone);		
-			statement.setObject(2, passwd);
-	        int result = statement.executeUpdate();
+			String sql = "update user set passwd='"+passwd+"' where phone='"+phone+"'";
+			Statement statement = connection.createStatement();
+	        int result = statement.executeUpdate(sql);
 	        System.out.println("result = "+result);
 	        if(result > 0) {
 	        	response.getWriter().append(CheckUtil.getResponseBody(CheckUtil.SUCC).toString());
